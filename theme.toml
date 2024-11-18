@@ -1,8 +1,8 @@
 name = "repogo"
 license = "MIT"
-licenselink = "https://github.com/brtrdkeller/repogo/blob/master/LICENSE"
+licenselink = "https://github.com/lowdit/repogo/blob/master/LICENSE"
 description = "Publish a PDF style export with PageJS"
-homepage = "https://github.com/brtrdkeller/repogo"
+homepage = "https://github.com/lowdit/repogo"
 tags = ["report"]
 features = ["PDF export", "Assessment"]
 [author]
