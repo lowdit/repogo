@@ -1,0 +1,10 @@
+name = "repogo"
+license = "MIT"
+licenselink = "https://github.com/brtrdkeller/repogo/blob/master/LICENSE"
+description = "Publish a PDF style export with PageJS"
+homepage = "https://github.com/brtrdkeller/repogo"
+tags = ["report"]
+features = ["PDF export", "Assessment"]
+[author]
+    name = "Bertrand Keller"
+    homepage = "https://bertrandkeller.info"

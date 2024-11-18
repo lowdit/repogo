@@ -1,0 +1,24 @@
+[module]
+  [module.hugoVersion]
+    extended = true
+    min = "0.128.0"
+
+[markup.goldmark.renderer]
+  unsafe = true
+
+[build]
+[frontmatter]
+  _merge = 'deep'
+[outputformats]
+  _merge = 'deep'
+[outputs]
+  _merge = 'deep'
+[cascade]
+  _merge = 'deep'
+ 
+[outputFormats.print]
+  baseName = "print"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
