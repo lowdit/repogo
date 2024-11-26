@@ -1,3 +1,3 @@
 module github.com/lowdit/repogo
 
-go 1.2
+go 1.20

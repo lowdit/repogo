@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="ie=edge">
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=robots content="index, follow">
+<title>{{ .Title }} | Handicap International</title>
+<meta name=description content>
+<meta name=author content>
+<link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs.css").Permalink }}" media="screen">
+<link rel="preload" href="{{ $.Site.BaseURL | default "/" }}css/fonts.css" as="style">
+<link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}css/fonts.css"/>
+<script type=text/javascript src="{{ (resources.Get "js/pagejs/paged.polyfill.js").Permalink }}"></script>
+<script type=text/javascript src="{{ (resources.Get "js/pagejs/createToc.js").Permalink }}"></script>
+<script type=text/javascript src="{{ (resources.Get "js/pagejs/main.js").Permalink }}"></script>
+
+<body>
+    <div id=content>
+        <main>
+            {{ $filter := images.GaussianBlur 2 }}
+            <div id=cover aria-hidden=true>
+                <img src={{ (((resources.Get "/images/cover.jpg").Resize "600x") | images.Filter $filter).Permalink }}>
+                <header>
+                    {{ with .Params.authors }}<p class=author>{{ delimit . "," }}</p>{{ end }}
+                    <h1>{{ .Title }}</h1>
+                    <img src="/images/logo.svg" alt="" width="100px" />
+                </header>
+            </div>
+            <section id="toc" class=toc>
+                <h3 class="toc-title">Table des matières</h3>
+                <div id=toc-list></div>
+            </section>
+            <section class=chapter>
+                <h2 id="introduction">Introduction</h2>
+                {{ .Content }}
+            </section>
+            {{- range $id, $value := (.Paginate .RegularPagesRecursive).Pages }}
+            <section class=chapter>
+                <h2 id="{{ anchorize .Title }}">
+                    {{ add $id 1 }} - {{ .Title }}
+                </h2>
+                {{- partialCached "content.html" .Content .Content -}}
+            </section>
+            {{ end }}
+        </main>
+    </div>
+</body>
+<script>
+    const appendPageNumberToAnchor = (e, t) => {
+        const n = document.createElement("span");
+        n.textContent = t, e.append(n)
+    };
+    class handlers extends Paged.Handler {
+        constructor(e, t, n) {
+            super(e, t, n)
+        }
+        beforeParsed(e) {
+            createToc({
+                content: e,
+                tocElement: "#toc-list",
+                titleElements: [".chapter h2", ".chapter h3"]
+            })
+        }
+        afterPageLayout(e) {
+            const s = e.dataset.pageNumber,
+                o = e.querySelectorAll(".title-element");
+            o.forEach(e => {
+                const t = document.querySelectorAll(`.toc-element a[href="#${e.id}"]`);
+                t.forEach(e => {
+                    appendPageNumberToAnchor(e, s)
+                })
+            })
+        }
+    }
+    Paged.registerHandlers(handlers);
+    const anchorTags = document.getElementsByTagName("a");
+    for (let e = anchorTags.length - 1; e >= 0; e--) {
+        const t = anchorTags[e],
+            n = document.createElement("note");
+        n.textContent = t.getAttribute("href"), t.append(n)
+    }
+</script>
+
+</html>
