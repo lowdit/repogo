@@ -1,47 +1,67 @@
 <!doctype html>
-<html>
+<html lang="{{ .Lang }}">
 <meta charset=utf-8>
 <meta http-equiv=x-ua-compatible content="ie=edge">
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=robots content="index, follow">
-<title>{{ .Title }} | Handicap International</title>
-<meta name=description content>
-<meta name=author content>
+<title>{{ .Title }} {{ with .Params.company }}| {{ . }}{{ end }}</title>
+{{ with .Description }}<meta name=description content="{{ . }}">{{ end }}
+{{ with .Params.authors }}<meta name=author content="{{ delimit . "," }}">{{ end }}
+<link rel="schema.DC" href="http://purl.org/DC/elements/1.0/">
+<meta name="DC.Title" content="{{ .Title }}">
+{{ with .Params.authors }}<meta name = "DC.Creator" content = "{{ delimit . ","}}">{{ end }}
+<meta name="DC.Type" content="">
+<meta name="DC.Format" content="text/html">
+<meta name="DC.Language" content="{{ .Lang }}">
 <link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs.css").Permalink }}" media="screen">
-<link rel="preload" href="{{ $.Site.BaseURL | default "/" }}css/fonts.css" as="style">
-<link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}css/fonts.css"/>
+<link rel="preload" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css" as="style">
+<link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css"/>
+<link rel="stylesheet" href="/css/vendors/admonitions.css">
 <script type=text/javascript src="{{ (resources.Get "js/pagejs/paged.polyfill.js").Permalink }}"></script>
 <script type=text/javascript src="{{ (resources.Get "js/pagejs/createToc.js").Permalink }}"></script>
 <script type=text/javascript src="{{ (resources.Get "js/pagejs/main.js").Permalink }}"></script>
 
 <body>
-    <div id=content>
+    <div id="content">
         <main>
             {{ $filter := images.GaussianBlur 2 }}
             <div id=cover aria-hidden=true>
-                <img src={{ (((resources.Get "/images/cover.jpg").Resize "600x") | images.Filter $filter).Permalink }}>
+                <style>
+                    .pagedjs_first_page {
+                        background: #742067;
+                        background: linear-gradient(90deg,rgba(116, 32, 103, 1) 0%, rgba(204, 18, 49, 1) 50%, rgba(226, 72, 21, 1) 100%);
+                    }
+                    [data-id="cover"] header {
+                        background: transparent;
+                    }
+                </style>
                 <header>
                     {{ with .Params.authors }}<p class=author>{{ delimit . "," }}</p>{{ end }}
                     <h1>{{ .Title }}</h1>
-                    <img src="/images/logo.svg" alt="" width="100px" />
+                    {{ if .Params.logo }}<img src="{{ .Params.logo }}" alt="{{ .Title }}" width="500px" />{{ end }}
                 </header>
             </div>
             <section id="toc" class=toc>
                 <h3 class="toc-title">Table des matières</h3>
                 <div id=toc-list></div>
             </section>
+            {{ with .Content }}
             <section class=chapter>
-                <h2 id="introduction">Introduction</h2>
-                {{ .Content }}
+                {{ partialCached "content.html" . . }}
             </section>
-            {{- range $id, $value := (.Paginate .RegularPagesRecursive).Pages }}
+            {{ end -}}
+            {{ if eq .Kind "section" }}
+            {{ with (.Paginate .RegularPagesRecursive).Pages }}
+            {{- range $id, $value := . }}
             <section class=chapter>
                 <h2 id="{{ anchorize .Title }}">
                     {{ add $id 1 }} - {{ .Title }}
                 </h2>
-                {{- partialCached "content.html" .Content .Content -}}
+                {{ .Content }}
             </section>
-            {{ end }}
+            {{ end -}}
+            {{ end -}}
+            {{ end -}}
         </main>
     </div>
 </body>
@@ -80,5 +100,4 @@
         n.textContent = t.getAttribute("href"), t.append(n)
     }
 </script>
-
 </html>

@@ -20,6 +20,30 @@
    // display: none;
 }
 
+pre {
+  font-size: 1rem;
+  line-height: 1.6rem;
+  overflow-x: auto;
+}
+
+code {
+  overflow-x: scroll;
+}
+
+pre:not([style]) {
+  // If no highlighting is applied already
+  background-color:#272822;
+  color:#f8f8f2;
+  padding: 20px;
+}
+
+p > code, li > code {
+  background-color: rgb(242, 242, 242);
+  font-size: 1rem;
+  color: rgb(162, 17, 17);
+  padding: 2px 5px;
+  border-radius: 5px;
+}
 
 /* To define how the book look on the screen: */
 @media screen {
@@ -118,8 +142,8 @@
 
 
 :root {
-    --serif:"Georgia","Times New Roman", serif;
-    --sans-serif:'TT Norms Pro',"NHaasGroteskTXStd-55Rg", "Neue Haas Grotesk Text Std", "Arial", sans-serif;
+    --serif:'atkinson',"Georgia","Times New Roman", serif;
+    --sans-serif:'atkinson',"Helvetica", "Neue Haas Grotesk Text Std", "Arial", sans-serif;
     --baseline:8px;
     --baseline-color:cyan;
     --baseline-position:0;
@@ -397,7 +421,7 @@ blockquote {
   
   blockquote p, blockquote li {
     font-size: 90%;
-    font-weight: 600;
+    font-weight: bold;
     line-height: 1.4;
   }
   blockquote li {
@@ -429,6 +453,7 @@ table {
     border-spacing: 0;
     width: 100%;
     margin-top: 25px;
+    margin-bottom: 25px;
     break-inside: avoid;
 }
 table td,
@@ -616,7 +641,7 @@ aside > p > img {
 }
 p ~ ul,
 aside > p ~ ul {
-    margin-top: calc(var(--baseline) * -3);
+   /* margin-top: calc(var(--baseline) * -3); */
 }
 aside[data-split-original],
 aside[data-split-original][data-split-from] {
