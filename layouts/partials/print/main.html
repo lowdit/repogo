@@ -4,6 +4,7 @@
 <meta http-equiv=x-ua-compatible content="ie=edge">
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=robots content="index, follow">
+<<<<<<< HEAD
 <title>{{ .Title }} {{ with .Params.company }}| {{ . }}{{ end }}</title>
 {{ with .Description }}<meta name=description content="{{ . }}">{{ end }}
 {{ with .Params.authors }}<meta name=author content="{{ delimit . "," }}">{{ end }}
@@ -13,6 +14,11 @@
 <meta name="DC.Type" content="">
 <meta name="DC.Format" content="text/html">
 <meta name="DC.Language" content="{{ .Lang }}">
+=======
+<title>{{ .Title }} | {{ .Site.Title}}</title>
+<meta name=description content>
+<meta name=author content>
+>>>>>>> a279562 (css)
 <link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs.css").Permalink }}" media="screen">
 <link rel="preload" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css" as="style">
 <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css"/>
@@ -25,6 +31,7 @@
     <div id="content">
         <main>
             {{ $filter := images.GaussianBlur 2 }}
+<<<<<<< HEAD
             <div id=cover aria-hidden=true>
                 <style>
                     .pagedjs_first_page {
@@ -35,6 +42,10 @@
                         background: transparent;
                     }
                 </style>
+=======
+            <div id=cover aria-hidden=true style="background-color: #111 !important; color: #fff;">
+                
+>>>>>>> a279562 (css)
                 <header>
                     {{ with .Params.authors }}<p class=author>{{ delimit . "," }}</p>{{ end }}
                     <h1>{{ .Title }}</h1>
@@ -42,26 +53,37 @@
                 </header>
             </div>
             <section id="toc" class=toc>
-                <h3 class="toc-title">Table des matières</h3>
-                <div id=toc-list></div>
+                <div id="toc-list"></div>
             </section>
             {{ with .Content }}
             <section class=chapter>
+<<<<<<< HEAD
                 {{ partialCached "content.html" . . }}
             </section>
             {{ end -}}
             {{ if eq .Kind "section" }}
             {{ with (.Paginate .RegularPagesRecursive).Pages }}
             {{- range $id, $value := . }}
+=======
+                {{ .Content }}
+            </section>
+            {{ if ne .Kind "page" }}
+            {{- range $id, $value := (.Paginate .RegularPagesRecursive).Pages }}
+>>>>>>> a279562 (css)
             <section class=chapter>
                 <h2 id="{{ anchorize .Title }}">
                     {{ add $id 1 }} - {{ .Title }}
                 </h2>
                 {{ .Content }}
             </section>
+<<<<<<< HEAD
             {{ end -}}
             {{ end -}}
             {{ end -}}
+=======
+            {{ end }}
+            {{ end }}
+>>>>>>> a279562 (css)
         </main>
     </div>
 </body>
@@ -100,4 +122,8 @@
         n.textContent = t.getAttribute("href"), t.append(n)
     }
 </script>
+<<<<<<< HEAD
 </html>
+=======
+</html>
+>>>>>>> a279562 (css)
