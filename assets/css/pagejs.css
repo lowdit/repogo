@@ -15,9 +15,8 @@
     --marginbaseline: 30px;
 }
 
-
 .pagedjs_blank_page {
-   // display: none;
+   display: none;
 }
 
 pre {
@@ -197,7 +196,10 @@ h2 {
     margin-top: 0;
     counter-increment: chapters;
     string-set: title content(text);
-    break-before: page;
+}
+
+h2:not(:first-of-type) {
+  break-before: page;
 }
 
 h2:before {
