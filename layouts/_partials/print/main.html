@@ -1,3 +1,5 @@
+{{- $BaseName := (path.BaseName .Permalink) }}
+{{- $content  := .Content -}}
 <!doctype html>
 <html lang="{{ .Lang }}">
 <meta charset=utf-8>
@@ -14,32 +16,27 @@
 <meta name="DC.Format" content="text/html">
 <meta name="DC.Language" content="{{ .Lang }}">
 <link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs.css").Permalink }}" media="screen">
-{{- if (eq .Type "post") }}
+{{- if eq $BaseName "abstract" }}
 <link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs-rs.css").Permalink }}" media="screen">
-{{ else  -}}
-
 {{ end -}}
 <link rel="preload" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css" as="style">
 <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css"/>
 <link rel="stylesheet" href="/css/vendors/admonitions.css">
 <script type=text/javascript src="{{ (resources.Get "js/pagejs/paged.polyfill.js").Permalink }}"></script>
-{{- if not (eq .Type "post") }}
+{{- if ne $BaseName "abstract" }}
 <script type=text/javascript src="{{ (resources.Get "js/pagejs/createToc.js").Permalink }}"></script>
 {{ end -}}
 <script type=text/javascript src="{{ (resources.Get "js/pagejs/main.js").Permalink }}"></script>
 
-<body>
+<body class="{{ $BaseName }}">
     <div id="content">
         <main>
-            {{ $filter := images.GaussianBlur 2 }}
+            {{- $filter := images.GaussianBlur 2 -}}
             <div id=cover aria-hidden=true>
                 <style>
                     [data-id="cover"] header {
                         background: transparent;
                     }
-                    [data-id="cover"] header {
-                      color: #000;
-                  }
                 </style>
                 <header>
                     {{ with .Params.authors }}<p class=author>{{ delimit . "," }}</p>{{ end }}
@@ -50,15 +47,31 @@
                     {{ end }}
                 </header>
             </div>
-            {{ if not (eq .Type "post") }}
+            {{- if ne $BaseName "abstract" }}
             <section id="toc" class=toc>
-                <div id="toc-list"></div>
+              <h2>{{ i18n "toc-title" }}</h2>
+              <div id="toc-list"></div>
             </section>
-            {{- end -}}
             {{- with .Content }}
             <section class="chapter">
               {{ partialCached "content.html" . . }}
             </section>
+            {{- end -}}
+            {{ else }}
+            {{- with .Params.carousel }}
+            {{- if eq .type "content" }}
+              <section class="chapter">
+              {{ partialCached "content.html" $content $content }}
+              </section>
+            {{- else }}
+            {{- with .text }}
+            <section class="chapter">
+              {{ $content := . | markdownify }}
+              {{ partialCached "content.html" $content $content }}
+            </section>
+            {{ end -}}
+            {{ end }}
+            {{ end -}}
             {{ end -}}
             {{ if eq .Kind "section" }}
             {{- with (.Paginate .RegularPagesRecursive).Pages }}
@@ -84,7 +97,7 @@
         constructor(e, t, n) {
             super(e, t, n)
         }
-        {{ if not (eq .Type "post") }}
+        {{- if ne $BaseName "abstract" }}
         beforeParsed(e) {
             createToc({
                 content: e,

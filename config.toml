@@ -15,9 +15,15 @@
   _merge = 'deep'
 [cascade]
   _merge = 'deep'
- 
+
 [outputFormats.print]
   baseName = "print"
+  mediaType = "text/html"
+  notAlternative = false
+  permalinkable = true
+  isHTML = true
+[outputFormats.abstract]
+  baseName = "abstract"
   mediaType = "text/html"
   notAlternative = false
   permalinkable = true
