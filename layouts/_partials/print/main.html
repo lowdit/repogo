@@ -43,7 +43,7 @@
                     <h1>{{ .Title }}</h1>
                     {{ if .Params.logo }}<img src="{{ .Params.logo }}" alt="{{ .Title }}" width="500px" />{{ end }}
                     {{ if .Description }}
-                    <div>{{ printf "%s\n\n[eof]" .Description | markdownify | strings.TrimSuffix "<p>[eof]</p>\n" | safeHTML }}</div>
+                    {{ printf "%s\n\n[eof]" .Description | markdownify | strings.TrimSuffix "<p>[eof]</p>" | safeHTML }}
                     {{ end }}
                 </header>
             </div>
