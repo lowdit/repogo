@@ -7,9 +7,8 @@
     <!-- input.gsub!(%r!n°\s*(\d)!, 'n<sup>o</sup>&#8239;\1') -->
     {{- $content = $content | replaceRE "n°\\s*(\\d)" "n<sup>o</sup>&#8239;$1" -}}
 
-    
     <!-- # French Guillemets -->
-    {{ $content = $content | replaceRE "(&rdquo;|”|»)&lt;a " "«&nbsp;&lt;a " }}
+    {{- $content = $content | replaceRE "(&rdquo;|”|»)&lt;a " "«&nbsp;&lt;a " }}
     {{- $content = $content | replaceRE "(&ldquo;|“|«)(^&#8239;)(\\s|&nbsp;| )*" "«&#8239;" -}}
     <!-- # ?! not existing in go. Should find an other way -->
     {{- $content = $content | replaceRE "(\\s|&nbsp;| )*(\\?C!&nbsp;)(&rdquo;|”|»)" "&#8239;»" -}}

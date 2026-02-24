@@ -2,31 +2,34 @@
 {{- $content  := .Content -}}
 <!doctype html>
 <html lang="{{ .Lang }}">
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="ie=edge">
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=robots content="index, follow">
-<title>{{ .Title }} {{ with .Params.company }}| {{ . }}{{ end }}</title>
-{{ with .Description }}<meta name=description content="{{ . }}">{{ end }}
-{{ with .Params.authors }}<meta name=author content="{{ delimit . "," }}">{{ end }}
-<link rel="schema.DC" href="http://purl.org/DC/elements/1.0/">
-<meta name="DC.Title" content="{{ .Title }}">
-{{ with .Params.authors }}<meta name = "DC.Creator" content = "{{ delimit . ","}}">{{ end }}
-<meta name="DC.Type" content="">
-<meta name="DC.Format" content="text/html">
-<meta name="DC.Language" content="{{ .Lang }}">
-<link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs.css").Permalink }}" media="screen">
-{{- if eq $BaseName "abstract" }}
-<link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs-rs.css").Permalink }}" media="screen">
-{{ end -}}
-<link rel="preload" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css" as="style">
-<link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css"/>
-<link rel="stylesheet" href="/css/vendors/admonitions.css">
-<script type=text/javascript src="{{ (resources.Get "js/pagejs/paged.polyfill.js").Permalink }}"></script>
-{{- if ne $BaseName "abstract" }}
-<script type=text/javascript src="{{ (resources.Get "js/pagejs/createToc.js").Permalink }}"></script>
-{{ end -}}
-<script type=text/javascript src="{{ (resources.Get "js/pagejs/main.js").Permalink }}"></script>
+<head>
+  <meta charset=utf-8>
+  <meta http-equiv=x-ua-compatible content="ie=edge">
+  <meta name=viewport content="width=device-width,initial-scale=1">
+  <meta name=robots content="index, follow">
+  <title>{{ .Title }} {{ with .Params.company }}| {{ . }}{{ end }}{{ with $BaseName }}| {{ humanize . }}{{ end }} </title>
+  {{- with .Description }}<meta name=description content="{{ . }}">{{ end }}
+  {{- with .Params.authors }}<meta name=author content="{{ delimit . "," }}">{{ end }}
+  <link rel="canonical" href="{{ .Permalink }}">
+  <link rel="schema.DC" href="http://purl.org/DC/elements/1.0/">
+  <meta name="DC.Title" content="{{ .Title }}">
+  {{ with .Params.authors }}<meta name = "DC.Creator" content = "{{ delimit . ","}}">{{ end }}
+  <meta name="DC.Type" content="">
+  <meta name="DC.Format" content="text/html">
+  <meta name="DC.Language" content="{{ .Lang }}">
+  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs.css").Permalink }}" media="screen">
+  {{- if eq $BaseName "abstract" }}
+  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs-rs.css").Permalink }}" media="screen">
+  {{ end -}}
+  <link rel="preload" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css" as="style">
+  <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css"/>
+  <link rel="stylesheet" href="/css/vendors/admonitions.css">
+  <script type=text/javascript src="{{ (resources.Get "js/pagejs/paged.polyfill.js").Permalink }}"></script>
+  {{- if ne $BaseName "abstract" }}
+  <script type=text/javascript src="{{ (resources.Get "js/pagejs/createToc.js").Permalink }}"></script>
+  {{ end -}}
+  <script type=text/javascript src="{{ (resources.Get "js/pagejs/main.js").Permalink }}"></script>
+</head>
 
 <body class="{{ $BaseName }}">
     <div id="content">
@@ -40,11 +43,12 @@
                 </style>
                 <header>
                     {{ with .Params.authors }}<p class=author>{{ delimit . "," }}</p>{{ end }}
-                    <h1>{{ .Title }}</h1>
-                    {{ if .Params.logo }}<img src="{{ .Params.logo }}" alt="{{ .Title }}" width="500px" />{{ end }}
-                    {{ if .Description }}
-                    {{ printf "%s\n\n[eof]" .Description | markdownify | strings.TrimSuffix "<p>[eof]</p>" | safeHTML }}
-                    {{ end }}
+                    {{- $TitleWordCount := cond (gt (.Title | strings.Count "") 60 ) " smaller" "" -}}
+                    <h1 class="{{- $TitleWordCount -}}">{{ .Title }}</h1>
+                    {{- if .Params.logo }}<img src="{{ .Params.logo }}" alt="{{ .Title }}" width="500px" />{{ end }}
+                    {{- if and .Description (ne $BaseName "abstract" ) }}
+                    {{ .Description | .RenderString }}
+                    {{ end -}}
                 </header>
             </div>
             {{- if ne $BaseName "abstract" }}

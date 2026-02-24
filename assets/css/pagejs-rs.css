@@ -96,6 +96,10 @@ h2 {
   break-before: page;
 }
 
+.smaller {
+  font-size: 5rem;
+}
+
 h3 {
   font-size: 3.5rem !important;
 }
@@ -106,6 +110,14 @@ p {
 
 ul {
   font-size: 3rem !important;
+}
+
+ul>li {
+  padding-left: 2rem;
+}
+
+ul>li strong {
+  font-size: 4rem;
 }
 
 strong {

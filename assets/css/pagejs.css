@@ -442,7 +442,7 @@ blockquote:after {
 	left: -1.5em;
 	transform: rotate(5deg) scale(1.15);
 	background:
-		radial-gradient(circle at 1.75em 3em, var(--c2) 1.5em, #fff0 calc(1.5em + 1px)), 
+		radial-gradient(circle at 1.75em 3em, var(--c2) 1.5em, #fff0 calc(1.5em + 1px)),
 		radial-gradient(circle at 3.5em 1.5em, #fff0 2em, var(--c2) calc(2em + 1px) calc(4em + 1px), #fff0 calc(4em + 2px));
 	filter: drop-shadow(3.5em -0.5em 0px var(--c2));
 	border-radius: 100%;
@@ -550,6 +550,7 @@ h3.toc-title, #toc-list {
     break-inside: auto;
 }
 #toc li {
+    position: relative;
     padding-left: 0;
     padding-right: 2.5rem;
 }
@@ -560,9 +561,15 @@ h3.toc-title, #toc-list {
 #toc li:last-child {
    // display: none;
 }
+#toc li a {
+  max-width: 85%;
+}
+
 #toc li a::after {
     content: target-counter(attr(href), page);
     float: right;
+    position: absolute;
+    right: 0;
 }
 /* set the style for the list numbering to none */
 #list-toc-generated {
