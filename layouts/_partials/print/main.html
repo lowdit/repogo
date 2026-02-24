@@ -6,7 +6,7 @@
   <meta charset=utf-8>
   <meta http-equiv=x-ua-compatible content="ie=edge">
   <meta name=viewport content="width=device-width,initial-scale=1">
-  <meta name=robots content="index, follow">
+  <meta name="robots" content="nofollow">
   <title>{{ .Title }} {{ with .Params.company }}| {{ . }}{{ end }}{{ with $BaseName }}| {{ humanize . }}{{ end }} </title>
   {{- with .Description }}<meta name=description content="{{ . }}">{{ end }}
   {{- with .Params.authors }}<meta name=author content="{{ delimit . "," }}">{{ end }}
@@ -23,7 +23,23 @@
   {{ end -}}
   <link rel="preload" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css" as="style">
   <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css"/>
-  <link rel="stylesheet" href="/css/vendors/admonitions.css">
+  {{- /* Transpile Sass to CSS and render the link element once per page. */}}
+  {{- with resources.Get "sass/vendors/_admonitions.scss" }}
+    {{- $opts := dict
+      "enableSourceMap" (not hugo.IsProduction)
+      "outputStyle" (cond hugo.IsProduction "compressed" "expanded")
+      "targetPath" "css/vendors/admonitions.css"
+    }}
+  {{- with . | toCSS $opts }}
+    {{- if hugo.IsProduction }}
+      {{- with . | fingerprint }}
+        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+      {{- end }}
+    {{- else }}
+      <link rel="stylesheet" href="{{ .RelPermalink }}">
+    {{- end }}
+  {{- end }}
+  {{- end }}
   <script type=text/javascript src="{{ (resources.Get "js/pagejs/paged.polyfill.js").Permalink }}"></script>
   {{- if ne $BaseName "abstract" }}
   <script type=text/javascript src="{{ (resources.Get "js/pagejs/createToc.js").Permalink }}"></script>
