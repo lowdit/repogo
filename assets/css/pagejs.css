@@ -154,7 +154,7 @@ p > code, li > code {
     --text-lg:1.25rem;   /* 20px */
     --text-xl:1.5rem;    /* 24px */
     --text-2xl:2.25rem;  /* 36px */
-    --text-3xl:3.375rem; /* 54px */
+    --text-3xl:4.375rem; /* 54px */
 }
 body {
     font-family: var(--serif);
@@ -193,21 +193,26 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 + *, h2 + *, h3 + *, h4 + *, h5 + *, h6 + * {
-  break-before: avoid;
+    break-before: avoid;
 }
 
 h1 {
-    font-size: var(--text-3xl);
-    line-height: calc(var(--baseline) * 7);
+    font-size: 6.5rem;
+    line-height: 1.1;
     margin-top: 0;
     break-before: unset;
     break-after: unset;
 }
 
+h1.smaller {
+  font-size: var(--text-3xl);
+}
+
 h2 {
     font-size: var(--text-2xl);
     line-height: calc(var(--baseline) * 5);
-    margin-top: 0;
+    margin-top: calc(var(--baseline) * 3);
+    margin-bottom: var(--baseline);
     counter-increment: chapters;
     string-set: title content(text);
 }
@@ -231,14 +236,13 @@ h2:before {
 h3 {
     font-size: var(--text-xl);
     line-height: calc(var(--baseline) * 4);
+    margin-top: calc(var(--baseline) * 2);
     margin-bottom: 23px;
 }
 figure + h3 {
     margin-top: 32px;
 }
-h3 + p {
-    margin-top: 23px;
-}
+
 h4 {
     font-size: var(--text-lg);
     line-height: calc(var(--baseline) * 3);
@@ -277,6 +281,11 @@ hr {
 }
 
 /* Texte et listes */
+main p {
+  margin-top: 0;
+  margin-bottom: var(--baseline);
+}
+
 p, ul, ol, small {
     line-height: calc(var(--baseline) * 3);
     margin: calc(var(--baseline) * 3) 0;
