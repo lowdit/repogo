@@ -66,13 +66,23 @@
                     }
                     .header-background {
                       position: absolute;
-                      left: -50%;
-                      bottom: 0;
-                      trasnform:translate(50%,50%);
+                      left: 50%;
+                      bottom: -100pt;
+                      transform: translate(-50%,-50%);
                     }
                 </style>
                 <header>
-                    {{ with .Params.authors }}<p class=author>{{ delimit . "," }}</p>{{ end }}
+                    {{ $date := "" }}
+                    {{- if not .PublishDate.IsZero -}}
+                      {{- $date = printf " / %s" (.PublishDate.Format "Jan 2, 2006") -}}
+                    {{- else -}}
+                      {{ with .Date }}{{ $date = printf " / %s" (.Format "Jan 2, 2006") -}}{{- end -}}
+                    {{- end -}}
+                    {{- if .Params.authors }}
+                      <p class=author>{{ delimit .Params.authors "," }}{{ $date }}</p>
+                    {{- else if (and site.Params.author.name (eq .Section "posts")) }}
+                      <p class=author>{{ site.Params.author.name }}{{ $date }}</p>
+                    {{ end -}}
                     {{- $TitleWordCount := cond (gt (.Title | strings.Count "") 55 ) " smaller" "" -}}
                     <h1 class="{{- $TitleWordCount -}}">{{ .Title }}</h1>
                     {{- if .Params.logo }}<img src="{{ .Params.logo }}" alt="{{ .Title }}" width="500px" />{{ end }}

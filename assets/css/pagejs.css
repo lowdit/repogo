@@ -432,12 +432,13 @@ a {
 /* Citations */
 blockquote {
 	position: relative;
-	padding: 0.5rem 5rem 0.5rem 3rem;
-	margin: 2rem 1rem;
+	padding: 1.5rem 1.5rem 1.5rem 2rem;
+	margin: 2rem 2rem 2rem 1rem;
   min-height: 5rem;
 	font-size: 1.2rem;
 	color: var(--c2);
-	background: conic-gradient(from 180deg at 100% calc(100% - 3px), var(--c2) 0 25%, #fff0 0 100%), conic-gradient(from 180deg at 5px 35%, var(--c2) 0 25%, #fff0 0 100%), conic-gradient(from 0deg at calc(100% - 5px) 65%, var(--c2) 0 25%, #fff0 0 100%), conic-gradient(from 0deg at 0rem 3px, var(--c2) 0 25%, #fff0 0 100%);
+  background: none;
+  border-left: 8px solid; 
 }
 
 blockquote:before,
@@ -445,24 +446,16 @@ blockquote:after {
 	content: "";
 	position: absolute;
   font-size: 30%;
-	width: 3.5em;
-	height: 4.5em;
-	top: 3.2em;
-	left: -1.5em;
+	width: 1.5em;
+	height: 1.5em; 
+	top: 1.2em;
+	left: 1.2em;
 	transform: rotate(5deg) scale(1.15);
 	background:
-		radial-gradient(circle at 1.75em 3em, var(--c2) 1.5em, #fff0 calc(1.5em + 1px)),
-		radial-gradient(circle at 3.5em 1.5em, #fff0 2em, var(--c2) calc(2em + 1px) calc(4em + 1px), #fff0 calc(4em + 2px));
-	filter: drop-shadow(3.5em -0.5em 0px var(--c2));
+		radial-gradient(circle at .9em 1.3em, var(--c2) 0.75em, #fff0 calc(0.75em + 1px)),
+		radial-gradient(circle at 1.75em .55em, #fff0 1em, var(--c2) calc(1em + 1px) calc(1em + 1px), #fff0 calc(2em + 2px));
+	filter: drop-shadow(2em -0.25em 0px var(--c2));
 	border-radius: 100%;
-}
-
-blockquote:after {
-	top: inherit;
-	bottom: 3em;
-	transform: rotate(195deg) scale(1.15);
-	right: -1rem;
-	left: inherit;
 }
 
 blockquote p, blockquote li {
@@ -472,6 +465,10 @@ blockquote p, blockquote li {
 
 blockquote li {
   font-size: 85%;
+  list-style: disc;
+}
+blockquote ul > li::before {
+  display: none;
 }
 
 blockquote > footer {
