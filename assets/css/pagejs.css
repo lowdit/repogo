@@ -1020,6 +1020,7 @@ note::after {
     /* Format Digest */
     margin-top: 48px;
     margin-bottom: 64px;
+    margin: 15mm 12.5mm 10mm;
     /*bleed: 6mm;
         marks: crop cross;*/
   }
