@@ -1,5 +1,6 @@
 {{- $BaseName := (path.BaseName .Permalink) }}
 {{- $content  := .Content -}}
+{{- if ne .Type "blank" }}
 <!doctype html>
 <html lang="{{ .Lang }}">
 <head>
@@ -177,3 +178,4 @@
     }
 </script>
 </html>
+{{- end -}}
