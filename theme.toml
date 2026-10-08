@@ -1,10 +1,10 @@
 name = "repogo"
 license = "MIT"
 licenselink = "https://github.com/lowdit/repogo/blob/master/LICENSE"
-description = "Publish a PDF style export with PageJS"
+description = "Lowdit print theme: reports, letters, books, audits — Paged.js PDF export"
 homepage = "https://github.com/lowdit/repogo"
-tags = ["report"]
-features = ["PDF export", "Assessment"]
+tags = ["report", "print", "lowdit"]
+features = ["PDF export", "Paged.js", "multi-document types"]
 [author]
     name = "Bertrand Keller"
     homepage = "https://bertrandkeller.info"

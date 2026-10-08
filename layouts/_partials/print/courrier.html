@@ -1,0 +1,61 @@
+{{- $orgID := .Params.org -}}
+{{- $org := dict -}}
+{{- with index site.Data.orgs $orgID }}{{ $org = . }}{{ end -}}
+{{- $logo := resources.Get (printf "images/courrier/%s/logo.png" $orgID) -}}
+{{- $vosRefs := or .Params.vos_refs .Params.refs -}}
+{{- $raw := .RawContent -}}
+{{- $body := $raw -}}
+{{- if in $raw "## Corps" -}}
+  {{- $body = index (split $raw "## Corps") 1 -}}
+  {{- $body = replaceRE "(?s)^[^\n]*\n+" "" $body -}}
+  {{- $body = replaceRE "(?s)^\\s*Monsieur[^\\n]+,\\s*" "" $body -}}
+  {{- $body = replaceRE "(?s)\\nNous vous prions d.agréer[\\s\\S]*$" "\n" $body -}}
+{{- end -}}
+<article class="courrier-sheet">
+  <header class="courrier-top">
+    {{- with $logo }}
+    <p class="courrier-logo"><img src="{{ .RelPermalink }}" alt="{{ or $org.name $orgID }}" width="120" height="112"></p>
+    {{- end }}
+    {{- with .Params.lieu }}
+    <p class="courrier-lieu">{{ . }}{{- with $.Params.date_courrier }}, le {{ . }}{{- end }}</p>
+    {{- end }}
+  </header>
+  {{- with .Params.destinataire }}
+  <div class="courrier-to">{{ . | $.RenderString }}</div>
+  {{- end }}
+  <dl class="courrier-champs">
+    {{- with .Params.objet }}
+    <div><dt>Objet&nbsp;:</dt><dd>{{ . }}</dd></div>
+    {{- end }}
+    {{- with .Params.ref_courrier }}
+    <div><dt>Réf. Courrier&nbsp;:</dt><dd>{{ . }}</dd></div>
+    {{- end }}
+    {{- with $vosRefs }}
+    <div><dt>Vos réf.&nbsp;:</dt><dd>{{ . }}</dd></div>
+    {{- end }}
+    {{- with $.Params.cc }}
+    <div><dt>CC&nbsp;:</dt><dd>{{ . }}</dd></div>
+    {{- end }}
+    {{- with $.Params.pj }}
+    <div><dt>PJ&nbsp;:</dt><dd>{{ . }}</dd></div>
+    {{- end }}
+  </dl>
+  {{- with .Params.appel }}
+  <p class="courrier-appel">{{ . }}</p>
+  {{- end }}
+  {{- with $body }}
+  <div class="courrier-body">
+    {{- if not .Params.destinataire }}
+      <h1>{{ .Title }}</h1>
+    {{- end }}
+    {{ $html := . | $.RenderString }}
+    {{ partial "content.html" $html }}
+  </div>
+  {{- end }}
+  <div class="courrier-close">
+    {{- with .Params.cloture }}
+    <p>{{ . }}</p>
+    {{- end }}
+    {{- with .Params.destinataire }}<p class="courrier-sign">{{ or .Params.signature $org.sign $org.name }}</p>{{ end }}
+  </div>
+</article>

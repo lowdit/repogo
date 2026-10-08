@@ -1,0 +1,208 @@
+/* Courrier : pas de couverture. L’adresse d’org va dans @bottom (peau org). */
+
+:root {
+  --ink: #222;
+  --sans: Atkinson, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html,
+body.courrier {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 11pt;
+  line-height: 1.45;
+}
+
+@page {
+  size: A4;
+  margin: 16mm 18mm 26mm 18mm;
+}
+
+@media screen {
+  body.courrier {
+    background: #e7e9e9;
+  }
+
+  .pagedjs_pages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12mm;
+    padding: 12mm 0;
+  }
+
+  .pagedjs_page {
+    background: #fff;
+    box-shadow: 0 0 0 1px #c7ccce, 0 5px 22px rgba(0, 0, 0, 0.12);
+  }
+}
+
+body.courrier h1,
+body.courrier h2,
+body.courrier h3,
+body.courrier h4 {
+  color: inherit;
+  font-family: var(--sans);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+body.courrier h1 {
+  max-width: none;
+  margin: 0 0 4mm;
+  font-size: 13pt;
+}
+
+body.courrier h2 {
+  display: block;
+  margin: 5mm 0 2mm;
+  padding: 0;
+  border: none;
+  font-size: 11.5pt;
+}
+
+body.courrier h2::before {
+  content: none;
+  display: none;
+}
+
+body.courrier h3 {
+  margin: 4mm 0 2mm;
+  border: none;
+  padding: 0;
+  font-size: 11pt;
+}
+
+body.courrier p {
+  margin: 0 0 0.7em;
+  orphans: 3;
+  widows: 3;
+}
+
+/* Paged.js ignore break-after: avoid sur les titres. On enveloppe titre + bloc suivant. */
+body.courrier .keep-with-next {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+/* Forcer un saut de page dans le markdown : <hr class="saut-page"> */
+body.courrier hr.saut-page {
+  break-before: page;
+  page-break-before: always;
+  border: none;
+  margin: 0;
+  height: 0;
+}
+
+body.courrier hr {
+  break-before: auto;
+}
+
+body.courrier table {
+  width: 100%;
+  margin: 5mm 0 6mm;
+  border-collapse: collapse;
+  font-size: 8.5pt;
+  line-height: 1.3;
+  break-inside: avoid;
+}
+
+body.courrier th,
+body.courrier td {
+  border: 0.4pt solid #444;
+  padding: 1.6mm 2.2mm;
+  vertical-align: top;
+  text-align: left;
+}
+
+body.courrier th {
+  background: #f2f2f2;
+  font-weight: 700;
+}
+
+body.courrier th[align="right"],
+body.courrier td[align="right"] {
+  text-align: right;
+}
+
+body.courrier th[align="center"],
+body.courrier td[align="center"] {
+  text-align: center;
+}
+
+body.courrier caption {
+  caption-side: bottom;
+  margin-top: 1.5mm;
+  font-size: 8pt;
+  text-align: left;
+}
+
+.courrier-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: start;
+  margin-bottom: 4mm;
+}
+
+.courrier-logo {
+  margin: 0;
+}
+
+.courrier-logo img {
+  display: block;
+  width: 28mm;
+  height: auto;
+}
+
+.courrier-lieu {
+  margin: 8mm 0 0;
+  text-align: right;
+  font-size: 10.5pt;
+}
+
+.courrier-to {
+  width: 78mm;
+  margin: 8mm 0 10mm auto;
+  font-size: 10.5pt;
+}
+
+.courrier-to p {
+  margin: 0 0 0.2em;
+}
+
+.courrier-champs {
+  margin: 0 0 10mm;
+}
+
+.courrier-champs > div {
+  display: grid;
+  grid-template-columns: 32mm 1fr;
+  gap: 2mm;
+  margin: 0 0 1mm;
+}
+
+.courrier-champs dt {
+  margin: 0;
+  font-weight: 700;
+}
+
+.courrier-champs dd {
+  margin: 0;
+}
+
+.courrier-appel {
+  margin: 8mm 0;
+}
+
+.courrier-close {
+  width: 90mm;
+  margin: 12mm 0 0 auto;
+}
+
+.courrier-sign {
+  margin-top: 8mm;
+  font-weight: 700;
+}

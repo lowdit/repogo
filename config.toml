@@ -6,15 +6,8 @@
 [markup.goldmark.renderer]
   unsafe = true
 
-[build]
-[frontmatter]
-  _merge = 'deep'
-[outputformats]
-  _merge = 'deep'
 [outputs]
-  _merge = 'deep'
-[cascade]
-  _merge = 'deep'
+  page = ["HTML", "print", "abstract"]
 
 [outputFormats.print]
   baseName = "print"
@@ -22,6 +15,7 @@
   notAlternative = false
   permalinkable = true
   isHTML = true
+
 [outputFormats.abstract]
   baseName = "abstract"
   mediaType = "text/html"
