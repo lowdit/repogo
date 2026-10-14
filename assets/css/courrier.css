@@ -53,7 +53,7 @@ body.courrier h4 {
 body.courrier h1 {
   max-width: none;
   margin: 0 0 4mm;
-  font-size: 13pt;
+  font-size: 28pt;
 }
 
 body.courrier h2 {
@@ -61,7 +61,7 @@ body.courrier h2 {
   margin: 5mm 0 2mm;
   padding: 0;
   border: none;
-  font-size: 11.5pt;
+  font-size: 15pt;
 }
 
 body.courrier h2::before {
@@ -80,6 +80,22 @@ body.courrier p {
   margin: 0 0 0.7em;
   orphans: 3;
   widows: 3;
+}
+
+body.courrier dl {
+  margin-bottom: 1.5em;
+}
+
+body.courrier dt {
+  font-weight: bold;
+}
+
+body.courrier dd {
+  margin-left: 0;
+}
+
+dd + dt {
+  margin-top: 1em;
 }
 
 /* Paged.js ignore break-after: avoid sur les titres. On enveloppe titre + bloc suivant. */

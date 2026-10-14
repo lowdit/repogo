@@ -6,6 +6,8 @@ Repogo est le **thème Hugo d’impression** de l’écosystème Lowdit : il pro
 
 **Composition site** (Sligo seul, cours Repogo+Sligo, hub AO, accueils non uniformes) : [`lowdit-brand/docs/UNIVERS-COMPOSITION-SITES.md`](../../lowdit-brand/docs/UNIVERS-COMPOSITION-SITES.md).
 
+**Implémentation print et séparation thème / site org** : [`PRINT.md`](PRINT.md) · [`lowdit-brand/docs/COUCHES-SITE-PRINT.md`](../../lowdit-brand/docs/COUCHES-SITE-PRINT.md).
+
 ## Rôle dans l’écosystème
 
 | Composant | Rôle |
@@ -34,9 +36,10 @@ Signal principal proposé : **`document`** (ou `type` Hugo dédié si besoin).
 
 | `document` | Usage | Partial cible (évolution) | CSS |
 |------------|--------|---------------------------|-----|
-| `report` | Compte rendu, CR de réunion, note | `print/report.html` | `pagejs.css` (+ variante org optionnelle) |
-| `book` | Livre, rapport long multi-chapitres | `print/main.html` (section / chapitres) | `pagejs.css` |
-| `letter` | Courrier administratif (destinataire, objet, PJ) | `print/letter.html` | `letter.css` + `orgs/{id}.css` |
+| `report` / *(absent)* | Rapport, dossier, livre (couverture + TOC) | `print/main.html` (branche rapport) | `pagejs.css` + peau site `print/{org}.css` |
+| `compte_rendu` / `cr` / `record` | CR de réunion, note sans couverture | `print/record.html` | `courrier.css` + `record.css` + peau `courrier/{org}.css` |
+| `book` | Alias sémantique rapport long | idem `report` | idem |
+| `letter` | Courrier administratif | `print/courrier.html` *(→ `letter.html`)* | `courrier.css` + peau `courrier/{org}.css` |
 | `dossier` | Dossier argumentaire (sections + annexes) | `print/dossier.html` | à définir |
 | `audit` | Rapport d’audit (gravité, findings, preuves) | `print/audit.html` | à définir |
 | `brief` | Synthèse pilotage (1–3 pages, executive summary) | `print/brief.html` | à définir |
@@ -46,44 +49,50 @@ Signal principal proposé : **`document`** (ou `type` Hugo dédié si besoin).
 | `exam` | Sujet d’examen (QCM + questions ouvertes, durée, consignes) | `print/exam.html` | `exam.css` |
 | `exam_key` | Corrigé / barème (sortie séparée, accès restreint côté site) | `print/exam-key.html` | `exam.css` |
 
-État actuel : le flux **report/book** passe surtout par `print/main.html` ; le courrier est amorcé via `print/courrier.html` et des params plats — à converger vers **`document: letter`** et un bloc **`letter:`** structuré (voir ci-dessous).
+État actuel (`print/main.html`, URL `…/print.html`) :
+
+| `document` (ou signal) | Rendu | CSS |
+|------------------------|--------|-----|
+| *(absent)* ou `report` | Rapport : couverture, TOC, chapitres | `pagejs.css` + `assets/css/print/{org}.css` (site) |
+| `letter`, `courrier: true`, ou `destinataire` | Courrier | `courrier.css` + `assets/css/courrier/{org}.css` (site) |
+| `compte_rendu`, `cr`, ou `record` | Compte rendu (sans couverture/TOC) | `courrier.css` + `record.css` + peau org courrier |
+
+Logo org : `static/images/courrier/{org}/logo.png` sur le site. `org` (page ou `site.Params.org`) ajoute la classe `org-{id}` et charge les peaux CSS du site.
 
 ## Front matter cible (exemples)
 
-### Compte rendu (`document: report`)
+### Compte rendu (`document: compte_rendu`)
 
 ```yaml
 title: "CODERST — 8 octobre 2026"
-document: report
+document: compte_rendu   # alias : cr, record
 date: 2026-10-08
 authors: ["Bertrand Keller"]
-# org: fne-ain   # optionnel : en-tête / pied de page org sur le site
+org: fne-ain
 outputs: ["HTML", "print"]
 ```
 
 ### Courrier (`document: letter`)
 
+**Aujourd’hui** : params **plats** (voir [`PRINT.md`](PRINT.md)). **Cible** : bloc `letter:` structuré avec rétrocompat.
+
 ```yaml
 title: "Courrier — demande d’audience"
 document: letter
 org: fne-ain
-letter:
-  lieu: Bourg-en-Bresse
-  date: 2026-10-08
-  destinataire: |
-    Monsieur le Préfet, …
-  objet: "…"
-  ref: "…"
-  vos_refs: "…"
-  cc: "…"
-  pj: "…"
-  appel: "Monsieur le Préfet,"
-  cloture: "Nous vous prions d’agréer…"
-  signature: "FNE Ain"
+lieu: Bourg-en-Bresse
+date_courrier: 2026-10-08
+destinataire: |
+  Monsieur le Préfet, …
+objet: "…"
+ref_courrier: "…"
+vos_refs: "…"
+cloture: "Nous vous prions d’agréer…"
+signature: "FNE Ain"
 outputs: ["HTML", "print"]
 ```
 
-Le corps Markdown = **corps du courrier** (sans dupliquer l’appel/clôture si déjà dans `letter:`).
+Corps Markdown = texte du courrier, ou section `## Corps` pour extraction automatique.
 
 ### Dossier / audit / brief
 
@@ -148,9 +157,14 @@ En **Sligo**, la même question peut vivre dans une slide `quiz` (choix + `expla
 
 ## Organismes (`org`)
 
-- **`data/orgs/{id}.yaml`** : nom, adresse, signataire par défaut, URLs, etc.
-- **Assets site** : `assets/css/orgs/{id}.css` ou `assets/css/letter/{id}.css`, logos `static/images/letter/{id}/` (ou `resources` sous `assets/images/`).
-- Repogo ne référence que des **chemins conventionnels** documentés ; le site fournit les fichiers.
+Convention **site** (Repogo ne contient aucun `{id}` org) :
+
+- **`data/orgs/{id}.yaml`** — nom, signataire (`sign`), URLs, couleurs.
+- **`assets/css/courrier/{id}.css`** — pied de page / `@page` courrier et CR.
+- **`assets/css/print/{id}.css`** — accents rapport (`--repogo-*`).
+- **`static/images/courrier/{id}/logo.png`** — logo en-tête.
+
+Détail et checklists : [`COUCHES-SITE-PRINT.md`](../../lowdit-brand/docs/COUCHES-SITE-PRINT.md).
 
 Multi-organisme : un même repo (ex. blog perso, association) peut mélanger `org: fne-ain`, `org: a11y-france`, etc.
 
@@ -159,19 +173,19 @@ Multi-organisme : un même repo (ex. blog perso, association) peut mélanger `or
 - **Repogo** : `document: letter` + bloc `letter:` = courrier administratif PDF.
 - **Resugo** : pages candidature « lettre de motivation » → param **`motivation_letter: true`** (liste Resugo) et contenu **`motivation:`** (déjà en place). Ne plus utiliser `letter:` dans le front matter Resugo pour éviter la collision sémantique.
 
-## Routage print (évolution de `print/main.html`)
+## Routage print (`print/main.html`)
 
-Logique cible en tête de partial :
+**En production** (détail : [`PRINT.md`](PRINT.md)) :
 
 ```text
-document letter  → partial print/letter.html (+ CSS org)
-document brief   → partial print/brief.html
-document audit   → partial print/audit.html
-document course / workbook / exam / exam_key → partials print dédiés (+ CSS exam/workbook)
-default / report / book → couverture + TOC + chapitres (comportement actuel)
+letter / courrier / destinataire  → print/courrier.html
+compte_rendu / cr / record        → print/record.html
+default / report / book           → couverture + TOC + chapitres
 ```
 
-Les sites peuvent surcharger un partial dans `layouts/_partials/print/` sans fork Repogo.
+**À venir** : `brief`, `audit`, `course`, `workbook`, `exam` → partials dédiés.
+
+Surcharge ponctuelle : `layouts/_partials/print/` sur le **site** (éviter de fork `main.html` pour une org).
 
 ## Formats de sortie Hugo
 
@@ -190,7 +204,7 @@ Extensions possibles : `print-a4` / `print-us` via `outputFormats` si besoin de 
 4. **Archetypes site** — `archetypes/coderst.md`, `archetypes/letter.md` avec `org` et outputs print.
 5. **Types audit / brief / dossier** — partials et CSS incrementaux, réutilisation TOC et couverture.
 6. **Formation Sligo** — spec `formation` + `questions` / QCM ; partials `exam`, `workbook` ; exemples miroir d’une présentation Sligo existante (`quiz` → print).
-7. **Documentation utilisateur** — une page par type + checklist « nouvel organisme » + checklist « nouvelle formation (Sligo + print) ».
+7. **Documentation utilisateur** — [`PRINT.md`](PRINT.md) + [`COUCHES-SITE-PRINT.md`](../../lowdit-brand/docs/COUCHES-SITE-PRINT.md) ; compléter types audit/exam quand implémentés.
 8. **Tests visuels** — pages fixture dans `repogo/content/` ou site demo Lowdit (dont un mini-examen QCM).
 
 ## Critères de design

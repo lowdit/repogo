@@ -3,14 +3,23 @@
    ========================================================= */
 
 :root {
-  --ink: #26343d;
-  --navy: #142b3d;
-  --blue: #0775a4;
-  --orange: #c47b4a;
-  --light-blue: #edf3f5;
+  /* Surchargeables par css/print/{org}.css sur le site */
+  --repogo-ink: #26343d;
+  --repogo-navy: #142b3d;
+  --repogo-link: #0775a4;
+  --repogo-accent: #c47b4a;
+  --repogo-surface: #edf3f5;
+  --repogo-muted: #78858b;
+  --repogo-line: #d8dfe2;
+
+  --ink: var(--repogo-ink);
+  --navy: var(--repogo-navy);
+  --blue: var(--repogo-link);
+  --orange: var(--repogo-accent);
+  --light-blue: var(--repogo-surface);
   --light-grey: #f5f6f6;
-  --medium-grey: #78858b;
-  --line: #d8dfe2;
+  --medium-grey: var(--repogo-muted);
+  --line: var(--repogo-line);
   --paper: #ffffff;
 
   --serif: "Georgia", "Times New Roman", serif;

@@ -1,7 +1,8 @@
-{{- $orgID := .Params.org -}}
+{{- $orgID := or .Params.org site.Params.org -}}
 {{- $org := dict -}}
-{{- with index site.Data.orgs $orgID }}{{ $org = . }}{{ end -}}
-{{- $logo := resources.Get (printf "images/courrier/%s/logo.png" $orgID) -}}
+{{- with $orgID }}{{ with index hugo.Data.orgs . }}{{ $org = . }}{{ end }}{{ end -}}
+{{- $page := . -}}
+{{- $logoPath := printf "/images/courrier/%s/logo.png" $orgID -}}
 {{- $vosRefs := or .Params.vos_refs .Params.refs -}}
 {{- $raw := .RawContent -}}
 {{- $body := $raw -}}
@@ -13,8 +14,8 @@
 {{- end -}}
 <article class="courrier-sheet">
   <header class="courrier-top">
-    {{- with $logo }}
-    <p class="courrier-logo"><img src="{{ .RelPermalink }}" alt="{{ or $org.name $orgID }}" width="120" height="112"></p>
+    {{- with $orgID }}
+    <p class="courrier-logo"><img src="{{ $logoPath | relURL }}" alt="{{ or $org.name $orgID }}" width="120" height="112"></p>
     {{- end }}
     {{- with .Params.lieu }}
     <p class="courrier-lieu">{{ . }}{{- with $.Params.date_courrier }}, le {{ . }}{{- end }}</p>
@@ -24,38 +25,25 @@
   <div class="courrier-to">{{ . | $.RenderString }}</div>
   {{- end }}
   <dl class="courrier-champs">
-    {{- with .Params.objet }}
-    <div><dt>Objet&nbsp;:</dt><dd>{{ . }}</dd></div>
-    {{- end }}
-    {{- with .Params.ref_courrier }}
-    <div><dt>Réf. Courrier&nbsp;:</dt><dd>{{ . }}</dd></div>
-    {{- end }}
-    {{- with $vosRefs }}
-    <div><dt>Vos réf.&nbsp;:</dt><dd>{{ . }}</dd></div>
-    {{- end }}
-    {{- with $.Params.cc }}
-    <div><dt>CC&nbsp;:</dt><dd>{{ . }}</dd></div>
-    {{- end }}
-    {{- with $.Params.pj }}
-    <div><dt>PJ&nbsp;:</dt><dd>{{ . }}</dd></div>
-    {{- end }}
+    {{- with .Params.objet }}<div><dt>Objet&nbsp;:</dt><dd>{{ . }}</dd></div>{{ end }}
+    {{- with .Params.ref_courrier }}<div><dt>Réf. Courrier&nbsp;:</dt><dd>{{ . }}</dd></div>{{ end }}
+    {{- with $vosRefs }}<div><dt>Vos réf.&nbsp;:</dt><dd>{{ . }}</dd></div>{{ end }}
+    {{- with $.Params.cc }}<div><dt>CC&nbsp;:</dt><dd>{{ . }}</dd></div>{{ end }}
+    {{- with $.Params.pj }}<div><dt>PJ&nbsp;:</dt><dd>{{ . }}</dd></div>{{ end }}
   </dl>
-  {{- with .Params.appel }}
-  <p class="courrier-appel">{{ . }}</p>
-  {{- end }}
-  {{- with $body }}
+  {{- with .Params.appel }}<p class="courrier-appel">{{ . }}</p>{{ end }}
+  {{- if $body }}
   <div class="courrier-body">
-    {{- if not .Params.destinataire }}
-      <h1>{{ .Title }}</h1>
+    {{- if not $page.Params.destinataire }}
+      <h1>{{ $page.Title }}</h1>
     {{- end }}
-    {{ $html := . | $.RenderString }}
-    {{ partial "content.html" $html }}
+    {{ partial "content.html" ($body | $.RenderString) }}
   </div>
   {{- end }}
   <div class="courrier-close">
-    {{- with .Params.cloture }}
-    <p>{{ . }}</p>
+    {{- with $page.Params.cloture }}<p>{{ . }}</p>{{ end }}
+    {{- with $page.Params.destinataire }}
+    <p class="courrier-sign">{{ or $page.Params.signature $org.sign $org.name }}</p>
     {{- end }}
-    {{- with .Params.destinataire }}<p class="courrier-sign">{{ or .Params.signature $org.sign $org.name }}</p>{{ end }}
   </div>
 </article>

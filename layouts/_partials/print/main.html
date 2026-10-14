@@ -1,185 +1,148 @@
 {{- $BaseName := (path.BaseName .Permalink) }}
 {{- $content  := .Content -}}
+{{- $isPrint := eq $BaseName "print" }}
+{{- $doc := .Params.document | default "" }}
+{{- $isLetter := and $isPrint (or (eq $doc "letter") .Params.courrier (isset .Params "destinataire")) }}
+{{- $isCompteRendu := and $isPrint (not $isLetter) (or (eq $doc "compte_rendu") (eq $doc "cr") (eq $doc "record")) }}
+{{- $isReport := and $isPrint (not $isLetter) (not $isCompteRendu) }}
+{{- $printOrg := or .Params.org site.Params.org }}
 {{- if ne .Type "blank" }}
 <!doctype html>
 <html lang="{{ .Lang }}">
 <head>
   <meta charset=utf-8>
   <meta http-equiv=x-ua-compatible content="ie=edge">
-  <meta name=viewport content="width=device-width,initial-scale=1">
+  <meta name=viewport content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
-  <title>{{ .Title }} {{ with .Params.company }}| {{ . }}{{ end }}{{ with $BaseName }}| {{ humanize . }}{{ end }} </title>
+  <title>{{ .Title }}{{ with .Params.company }} | {{ . }}{{ end }}{{ with $BaseName }} | {{ humanize . }}{{ end }}</title>
   {{- with .Description }}<meta name=description content="{{ . }}">{{ end }}
   {{- with .Params.authors }}<meta name=author content="{{ delimit . "," }}">{{ end }}
   <link rel="canonical" href="{{ .Permalink }}">
   <link rel="schema.DC" href="http://purl.org/DC/elements/1.0/">
   <meta name="DC.Title" content="{{ .Title }}">
-  {{ with .Params.authors }}<meta name = "DC.Creator" content = "{{ delimit . ","}}">{{ end }}
-  <meta name="DC.Type" content="">
+  {{- with .Params.authors }}<meta name="DC.Creator" content="{{ delimit . "," }}">{{ end }}
   <meta name="DC.Format" content="text/html">
   <meta name="DC.Language" content="{{ .Lang }}">
-  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs.css").Permalink }}" media="screen">
+  {{- if or $isLetter $isCompteRendu }}
+  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/courrier.css").RelPermalink }}" media="screen">
+  {{- if $isCompteRendu }}
+  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/record.css").RelPermalink }}" media="screen">
+  {{- end }}
+  {{- with $printOrg }}
+  {{- with resources.Get (printf "css/courrier/%s.css" .) }}
+  <link rel=stylesheet type=text/css href="{{ .RelPermalink }}" media="screen">
+  {{- end }}
+  {{- end }}
+  {{- else if $isReport }}
+  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs.css").RelPermalink }}" media="screen">
   {{- if eq $BaseName "abstract" }}
-  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs-rs.css").Permalink }}" media="screen">
-  {{ end -}}
+  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs-rs.css").RelPermalink }}" media="screen">
+  {{- end }}
+  {{- with $printOrg }}
+  {{- with resources.Get (printf "css/print/%s.css" .) }}
+  <link rel=stylesheet type=text/css href="{{ .RelPermalink }}" media="screen">
+  {{- end }}
+  {{- end }}
+  {{- end }}
   <link rel="preload" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css" as="style">
   <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css"/>
-  {{- /* Transpile Sass to CSS and render the link element once per page. */}}
   {{- with resources.Get "sass/vendors/_admonitions.scss" }}
-    {{- $opts := dict
-      "enableSourceMap" (not hugo.IsProduction)
-      "outputStyle" (cond hugo.IsProduction "compressed" "expanded")
-      "targetPath" "css/vendors/admonitions.css"
-    }}
-  {{- with . | toCSS $opts }}
-    {{- if hugo.IsProduction }}
-      {{- with . | fingerprint }}
-        <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
-      {{- end }}
-    {{- else }}
-      <link rel="stylesheet" href="{{ .RelPermalink }}">
+    {{- $opts := dict "enableSourceMap" (not hugo.IsProduction) "outputStyle" (cond hugo.IsProduction "compressed" "expanded") "targetPath" "css/vendors/admonitions.css" }}
+    {{- with . | toCSS $opts }}
+      {{- if hugo.IsProduction }}{{- with . | fingerprint }}<link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">{{- end }}
+      {{- else }}<link rel="stylesheet" href="{{ .RelPermalink }}">{{- end }}
     {{- end }}
   {{- end }}
-  {{- end }}
   <script type=text/javascript src="{{ (resources.Get "js/pagejs/paged.polyfill.js").Permalink }}"></script>
-  {{- if ne $BaseName "abstract" }}
+  {{- if $isReport }}
   <script type=text/javascript src="{{ (resources.Get "js/pagejs/createToc.js").Permalink }}"></script>
-  {{ end -}}
+  {{- end }}
   <script type=text/javascript src="{{ (resources.Get "js/pagejs/main.js").Permalink }}"></script>
 </head>
-
-<body class="{{ $BaseName }}">
-    <div id="content">
-        <main>
-            {{- $filter := images.GaussianBlur 2 -}}
-            <div id=cover aria-hidden=true>
-                <style>
-                    div.pagedjs_sheet:has([data-id="cover"]) {
-                        //background: #000;
-                        position: relative;
-                    }
-                    div.pagedjs_sheet:has([data-id="cover"]) .pagedjs_margin-bottom {
-                      display: none;
-                    }
-                    [data-id="cover"] header {
-                        position: unset;
-                        background: transparent;
-                    }
-                    .header-background {
-                      position: absolute;
-                      left: 50%;
-                      bottom: 0pt;
-                      transform: translate(-50%,-10%);
-                    }
-                </style>
-                <header>
-                    {{- if eq $BaseName "print" }}
-                    {{- $date := "" }}
-                    <div class="metadata">
-                      {{- if not .PublishDate.IsZero -}}
-                        {{- $date = printf " / %s" (.PublishDate.Format "Jan 2, 2006") -}}
-                      {{- else -}}
-                        {{ with .Date }}{{ $date = printf " / %s" (.Format "Jan 2, 2006") -}}{{- end -}}
-                      {{- end -}}
-                      {{- if .Params.authors }}
-                        <p class=author>{{ delimit .Params.authors ", " }}{{ $date }}</p>
-                      {{- else if (and site.Params.author.name (eq .Section "posts")) }}
-                        <p class=author>{{ site.Params.author.name }}{{ $date }}</p>
-                      {{ end -}}
-                    {{ end -}}
-                    </div>
-                    {{- $TitleWordCount := cond (gt (.Title | strings.Count "") 45 ) " smaller" "" -}}
-                    <h1 class="{{- $TitleWordCount -}}">{{ .Title }}</h1>
-                    {{- if .Params.logo }}<img src="{{ .Params.logo }}" alt="{{ .Title }}" width="500px" />{{ end }}
-                    {{- if and .Description (ne $BaseName "abstract" ) }}
-                    <footer>
-                    {{ .Description | .RenderString }}
-                    </footer>
-                    {{ end -}}
-                    {{/*- if eq $BaseName "print" }}
-                    <div class="header-background">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 322.411 68.912" height="260.456" width="1218.561"><g fill="none"><path d="M.227 4.08C16.456-1.046 25.247 17.8 48.279 17.823c9.531.01 20.309-4.033 27.879 3.483 7.307 7.255 18.48 15.718 28.774 14.415 15.586-1.974 32.082-16.964 53.28-18.203 13.743-.804 25.343 7.666 40.114 7.944 15.85.298 30.538-8.457 46.685-8.946 18.253-.553 34.102 10.007 50.531 12.418 8.787 1.29 19.682-5.254 26.869-4.807v0" stroke="#000" stroke-width=".926"/><path d="M1.133 12.248c17.816 4.394 14.822 19.626 41.253 24.397 18.524 3.344 39.889-21.05 50.544-20.543 14.334.682 27.321 16.851 37.614 15.548 15.586-1.974 41.829-8.125 63.027-9.364 13.743-.803 27.157 12.653 41.927 12.931 15.85.298 19.96-27.058 32.86-17.333 4.428 3.34 8.715 7.741 13.811 9.246 4.933 1.456 15.067-8.02 24.343-11.055 6.742-2.207 13.327 1.073 16.352 1.261l-.453 6.791" stroke="#000" stroke-width=".265"/><path d="M0 36.677c17.816 4.393 33.86 20.295 60.292 25.066 18.525 3.344 46.462-6.317 57.118-5.81 14.334.682 14.174 3.705 24.467 2.402 15.586-1.974 19.163-9.485 40.361-10.724 13.743-.803 28.743 9.934 43.514 10.211 15.85.298 54.28-16.358 69.804-11.893 14.627 4.207 21.41 6.381 26.506 7.886" stroke="#000" stroke-width=".265"/><path d="M0 36.677c17.816 4.393 33.86 20.295 60.292 25.066 18.525 3.344 46.462-6.317 57.118-5.81 14.334.682 14.174 3.705 24.467 2.402 15.586-1.974 19.163-9.485 40.361-10.724 13.743-.803 28.743 9.934 43.514 10.211 15.85.298 54.28-16.358 69.804-11.893 14.627 4.207 21.41 6.381 26.506 7.886" stroke="#000" stroke-width=".265"/><path d="M0 36.677c17.816 4.393 33.86 20.295 60.292 25.066 18.525 3.344 46.462-6.317 57.118-5.81 14.334.682 14.174 3.705 24.467 2.402 15.586-1.974 19.163-9.485 40.361-10.724 13.743-.803 28.743 9.934 43.514 10.211 15.85.298 54.28-16.358 69.804-11.893 14.627 4.207 21.41 6.381 26.506 7.886" stroke="#000" stroke-width="1.323"/><path d="M0 36.677c17.816 4.393 33.86 20.295 60.292 25.066 18.525 3.344 46.462-6.317 57.118-5.81 14.334.682 14.174 3.705 24.467 2.402 15.586-1.974 19.163-9.485 40.361-10.724 13.743-.803 28.743 9.934 43.514 10.211 15.85.298 54.28-16.358 69.804-11.893 14.627 4.207 21.41 6.381 26.506 7.886"/><path d="M0 61.547c17.816 4.394 14.595-4.637 41.026.135 18.525 3.343 14.277 6.149 24.932 6.656 14.334.682 18.935-18.734 29.227-20.038 15.586-1.974 32.74 16.096 53.96 15.343 16.237-.577 50.277-14.093 65.047-13.816 15.85.298 56.773 13.334 71.845 9.64 14.781-3.623 31.155-30.791 36.251-29.287" stroke="#000" stroke-width=".132"/><path d="M0 18.316c16.23-5.126 23.888-2.703 30.6-1.547 9.392 1.617 45.551 30.719 67.09 31.135 19.128.37 78.52-15.205 89.293-14.598 20.86 1.176 35.028 11.822 55.547 14.436 13.655 1.74 65.235-21.12 80.232-12.002" stroke="#000" stroke-width=".529"/></g></svg>
-                    </div>
-                    {{ end -*/}}
-                </header>
-            </div>
-            {{- if ne $BaseName "abstract" }}
-            <section id="toc" class=toc>
-              <h2>{{ i18n "toc-title" }}</h2>
-              <div id="toc-list"></div>
-            </section>
-            {{- with .Content }}
-            <section class="chapter">
-              {{ partialCached "content.html" . . }}
-            </section>
-            {{- end -}}
-            {{ else }}
-            {{- with .Params.carousel }}
-            {{- if eq .type "content" }}
-              <section class="chapter">
-              {{ partialCached "content.html" $content $content }}
-              </section>
-            {{- else }}
-            {{- with .text }}
-            <section class="chapter">
-              {{ $content := . | markdownify }}
-              {{ partialCached "content.html" $content $content }}
-            </section>
-            {{ end -}}
-            {{ end }}
-            {{ end -}}
-            {{ end -}}
-            {{ if eq .Kind "section" }}
-            {{- with (.Paginate .RegularPagesRecursive).Pages }}
-            {{- range $id, $value := . }}
-            <section class="chapter">
-                <h2 id="{{ anchorize .Title }}">
-                    {{ add $id 1 }} - {{ .Title }}
-                </h2>
-                {{ .Content }}
-            </section>
-            {{ end -}}
-            {{ end -}}
-            {{ end -}}
-        </main>
+<body class="{{ if $isLetter }}courrier{{ else if $isCompteRendu }}courrier record{{ else }}{{ $BaseName }}{{ end }}{{ with $printOrg }} org-{{ . }}{{ end }}">
+<div id="content"><main>
+{{- if $isLetter }}
+{{ partial "print/courrier.html" . }}
+{{- else if $isCompteRendu }}
+{{ partial "print/record.html" . }}
+{{- else if $isReport }}
+<div id=cover aria-hidden=true>
+  <header>
+    {{- if eq $BaseName "print" }}
+    <div class="metadata">
+      {{- $date := "" }}
+      {{- if not .PublishDate.IsZero }}{{ $date = printf " / %s" (.PublishDate.Format "Jan 2, 2006") }}{{ else }}{{ with .Date }}{{ $date = printf " / %s" (.Format "Jan 2, 2006") }}{{ end }}{{ end }}
+      {{- if .Params.authors }}<p class=author>{{ delimit .Params.authors ", " }}{{ $date }}</p>
+      {{- else if and site.Params.author.name (eq .Section "posts") }}<p class=author>{{ site.Params.author.name }}{{ $date }}</p>{{ end }}
     </div>
-</body>
+    {{- end }}
+    {{- $TitleWordCount := cond (gt (.Title | strings.Count "") 45 ) " smaller" "" -}}
+    <h1 class="{{ $TitleWordCount }}">{{ .Title }}</h1>
+    {{- with .Params.logo }}<img src="{{ . }}" alt="{{ $.Title }}" width="500">{{ end }}
+    {{- if and .Description (ne $BaseName "abstract") }}<footer>{{ .Description | .RenderString }}</footer>{{ end }}
+  </header>
+</div>
+{{- if ne $BaseName "abstract" }}
+<section id="toc" class=toc><h2>{{ i18n "toc-title" }}</h2><div id=toc-list></div></section>
+{{- with .Content }}<section class="chapter">{{ partialCached "content.html" . . }}</section>{{ end }}
+{{- else }}
+{{- with .Params.carousel }}
+  {{- if eq .type "content" }}
+  <section class="chapter">{{ partialCached "content.html" $content $content }}</section>
+  {{- else }}
+  {{- with .text }}
+  <section class="chapter">
+    {{- $carouselContent := . | markdownify }}
+    {{ partialCached "content.html" $carouselContent $carouselContent }}
+  </section>
+  {{- end }}
+  {{- end }}
+{{- end }}
+{{- end }}
+{{- if eq .Kind "section" }}
+{{- range $id, $p := (.Paginate .RegularPagesRecursive).Pages }}
+<section class="chapter"><h2 id="{{ anchorize $p.Title }}">{{ add $id 1 }} - {{ $p.Title }}</h2>{{ $p.Content }}</section>
+{{- end }}
+{{- end }}
+{{- end }}
+</main></div>
 <script>
-    const appendPageNumberToAnchor = (e, t) => {
-        const n = document.createElement("span");
-        n.textContent = t, e.append(n)
-    };
-    class handlers extends Paged.Handler {
-        constructor(e, t, n) {
-            super(e, t, n)
-        }
-        {{- if ne $BaseName "abstract" }}
-        beforeParsed(e) {
-            createToc({
-                content: e,
-                tocElement: "#toc-list",
-                titleElements: [".chapter h2", ".chapter h3"]
-            })
-        }
-        afterPageLayout(e) {
-            const s = e.dataset.pageNumber,
-                o = e.querySelectorAll(".title-element");
-            o.forEach(e => {
-                const t = document.querySelectorAll(`.toc-element a[href="#${e.id}"]`);
-                t.forEach(e => {
-                    appendPageNumberToAnchor(e, s)
-                })
-            })
-        }
-        {{ end }}
-    }
-    Paged.registerHandlers(handlers);
-    const anchorTags = document.getElementsByTagName("a");
-    for (let e = anchorTags.length - 1; e >= 0; e--) {
-        const t = anchorTags[e],
-            n = document.createElement("note");
-        n.textContent = t.getAttribute("href"), t.append(n)
-    }
+const appendPageNumberToAnchor = (el, pageNum) => {
+  const span = document.createElement("span");
+  span.textContent = pageNum;
+  el.append(span);
+};
+class handlers extends Paged.Handler {
+  beforeParsed(content) {
+    {{- if or $isLetter $isCompteRendu }}
+    const root = content.querySelector(".courrier-body") || content;
+    root.querySelectorAll("h2, h3, h4").forEach((h) => {
+      const next = h.nextElementSibling;
+      if (!next || next.classList.contains("keep-with-next")) return;
+      const wrap = document.createElement("div");
+      wrap.className = "keep-with-next";
+      h.parentNode.insertBefore(wrap, h);
+      wrap.appendChild(h);
+      wrap.appendChild(next);
+    });
+    {{- else if $isReport }}
+    {{- if ne $BaseName "abstract" }}
+    createToc({ content, tocElement: "#toc-list", titleElements: [".chapter h2", ".chapter h3"] });
+    {{- end }}
+    {{- end }}
+  }
+  {{- if and $isReport (ne $BaseName "abstract") }}
+  afterPageLayout(pageEl) {
+    const pageNum = pageEl.dataset.pageNumber;
+    pageEl.querySelectorAll(".title-element").forEach((titleEl) => {
+      document.querySelectorAll(`.toc-element a[href="#${titleEl.id}"]`).forEach((link) => {
+        appendPageNumberToAnchor(link, pageNum);
+      });
+    });
+  }
+  {{- end }}
+}
+Paged.registerHandlers(handlers);
 </script>
 </html>
 {{- end -}}

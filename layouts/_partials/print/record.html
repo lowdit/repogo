@@ -1,0 +1,25 @@
+{{- $page := . -}}
+{{- $orgID := or .Params.org site.Params.org -}}
+{{- $org := dict -}}
+{{- with $orgID }}{{ with index hugo.Data.orgs . }}{{ $org = . }}{{ end }}{{ end -}}
+{{- $logoPath := printf "/images/courrier/%s/logo.png" $orgID -}}
+<article class="courrier-sheet record-sheet">
+  <header class="courrier-top record-top">
+    {{- with $orgID }}
+    <p class="courrier-logo"><img src="{{ $logoPath | relURL }}" alt="{{ or $org.name $orgID }}" width="120" height="112"></p>
+    {{- end }}
+    <div class="record-meta">
+      {{- with $page.Date }}
+      <p class="record-date"><time datetime="{{ .Format "2006-01-02" }}">{{ . | time.Format "2 January 2006" }}</time></p>
+      {{- end }}
+      {{- with $page.Params.authors }}
+      <p class="record-authors">{{ delimit . ", " }}</p>
+      {{- end }}
+    </div>
+  </header>
+  <div class="courrier-body record-body">
+    <h1 class="record-title">{{ $page.Title }}</h1>
+    {{- with $page.Description }}<p class="record-lead">{{ . }}</p>{{ end }}
+    {{ partial "content.html" $page.Content }}
+  </div>
+</article>
