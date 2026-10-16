@@ -1,0 +1,28 @@
+{{ define "main" }}
+<article class="repogo-article">
+  {{- with .Pages.ByWeight -}}
+  <nav class="repogo-toc" aria-labelledby="repogo-toc-heading">
+    <h2 id="repogo-toc-heading">{{ i18n "repogo-chapters" | default "Chapitres" }}</h2>
+    <ol>
+      {{- range . -}}
+        <li><a href="{{ .RelPermalink }}"{{ if $.IsMenuCurrent "main" . }} aria-current="page"{{ end }}>{{ .LinkTitle }}</a></li>
+      {{- end -}}
+    </ol>
+  </nav>
+  {{- end -}}
+  <div class="repogo-article__body">
+  <header class="minigo-page-header">
+    <p class="minigo-hero__eyebrow">{{ with .Params.authors }}{{ delimit . " · " }}{{ end }}</p>
+    <h1>{{ .Title }}</h1>
+    {{ with .Description }}<p class="minigo-desc">{{ . }}</p>{{ end }}
+    {{ if site.Params.lowdit.showDate | default true }}
+      {{- with partial "lowdit/page-date.html" . -}}<p class="minigo-desc">{{ . }}</p>{{- end -}}
+    {{ end }}
+  </header>
+  {{ partial "exports/links.html" . }}
+  <div class="minigo-body">
+    {{ .Content }}
+  </div>
+  </div>
+</article>
+{{ end }}

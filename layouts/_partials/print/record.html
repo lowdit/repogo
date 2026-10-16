@@ -9,8 +9,8 @@
     <p class="courrier-logo"><img src="{{ $logoPath | relURL }}" alt="{{ or $org.name $orgID }}" width="120" height="112"></p>
     {{- end }}
     <div class="record-meta">
-      {{- with $page.Date }}
-      <p class="record-date"><time datetime="{{ .Format "2006-01-02" }}">{{ . | time.Format "2 January 2006" }}</time></p>
+      {{- with partial "lowdit/page-date.html" $page }}
+      <p class="record-date">{{ . }}</p>
       {{- end }}
       {{- with $page.Params.authors }}
       <p class="record-authors">{{ delimit . ", " }}</p>
