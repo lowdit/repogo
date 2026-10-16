@@ -4,13 +4,13 @@
 
 :root {
   /* Surchargeables par css/print/{org}.css sur le site */
-  --repogo-ink: #26343d;
-  --repogo-navy: #142b3d;
-  --repogo-link: #0775a4;
-  --repogo-accent: #c47b4a;
-  --repogo-surface: #edf3f5;
-  --repogo-muted: #78858b;
-  --repogo-line: #d8dfe2;
+  --repogo-ink: #0B2545;
+  --repogo-navy: #0B2545;
+  --repogo-link: #2F6BFF;
+  --repogo-accent: #2F6BFF;
+  --repogo-surface: #F7F6F2;
+  --repogo-muted: #687280;
+  --repogo-line: #E4E1DA;
 
   --ink: var(--repogo-ink);
   --navy: var(--repogo-navy);
@@ -63,7 +63,7 @@
 @media screen {
   body {
     margin: 0;
-    background: #e7e9e9;
+    background: var(--repogo-surface);
   }
 
   .pagedjs_pages {
@@ -249,16 +249,16 @@ hr {
   justify-content: space-between;
   margin: 0;
   padding: 28mm 24mm 20mm 31mm;
-  border-left: 9mm solid #142b3d;
+  border-left: 9mm solid var(--navy);
   background:
     linear-gradient(
       135deg,
       #ffffff 0%,
       #ffffff 68%,
-      #edf3f5 68%,
-      #edf3f5 100%
+      var(--light-blue) 68%,
+      var(--light-blue) 100%
     );
-  color: #26343d;
+  color: var(--ink);
   break-after: page;
 }
 
@@ -269,8 +269,8 @@ hr {
   right: 0;
   width: 42mm;
   height: 42mm;
-  border-bottom: 3px solid #c47b4a;
-  border-left: 3px solid #c47b4a;
+  border-bottom: 3px solid var(--orange);
+  border-left: 3px solid var(--orange);
   content: "";
 }
 
@@ -280,7 +280,7 @@ hr {
   bottom: 24mm;
   width: 28mm;
   height: 2px;
-  background: #c47b4a;
+  background: var(--orange);
   content: "";
 }
 
@@ -294,7 +294,7 @@ hr {
 
 #cover .eyebrow {
   margin-bottom: 18mm;
-  color: #426b7d;
+  color: var(--blue);
   font-family: var(--sans-serif);
   font-size: 8pt;
   font-weight: 700;
@@ -305,7 +305,7 @@ hr {
 #cover h1 {
   max-width: 150mm;
   margin: 0 0 9mm;
-  color: #142b3d;
+  color: var(--navy);
   font-family: var(--sans-serif);
   font-size: 37pt;
   font-weight: 700;
@@ -318,7 +318,7 @@ hr {
   margin: 0;
   border: 0;
   padding: 0;
-  color: #697780;
+  color: var(--medium-grey);
   font-family: var(--sans-serif);
   font-size: 15pt;
   font-weight: 400;
@@ -333,7 +333,7 @@ hr {
   display: grid;
   grid-template-columns: 1fr;
   margin-top: 24mm;
-  border-top: 1px solid #d8dfe2;
+  border-top: 1px solid var(--line);
   padding-top: 5mm;
   font-family: var(--sans-serif)
   font-size: 8pt;
@@ -342,23 +342,23 @@ hr {
 #cover .metadata strong {
   display: block;
   margin-bottom: 1.5mm;
-  color: #426b7d;
+  color: var(--blue);
   font-size: 7pt;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
 #cover .metadata span {
-  color: #26343d;
+  color: var(--ink);
 }
 
 #cover footer {
   position: relative;
   z-index: 1;
   margin: 0;
-  border-top: 1px solid #d8dfe2;
+  border-top: 1px solid var(--line);
   padding-top: 4mm;
-  color: #697780;
+  color: var(--medium-grey);
   font-family: var(--sans-serif);
   font-size: 14pt;
 }
@@ -452,7 +452,7 @@ aside p:last-child {
 
 .question {
   border-top-color: var(--orange);
-  background: #faf2ed;
+  background: var(--light-blue);
 }
 
 .question::before {

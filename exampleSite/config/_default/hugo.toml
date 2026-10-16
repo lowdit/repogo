@@ -1,0 +1,40 @@
+baseURL = ""
+title = "Lowdit Press"
+defaultContentLanguage = "fr"
+
+# Dev/`hugo server` : thèmes résolus en local via `themes/` (symlinks).
+# La prod utilise `config/production/hugo.toml` (modules GitHub).
+# Repogo d'abord : ses gabarits écran (TOC + corps d'article) priment,
+# Minigo fournit la coque et le reste des layouts.
+theme = ["repogo", "minigo"]
+
+[outputs]
+  home = ["HTML"]
+  section = ["HTML"]
+  page = ["HTML", "print", "abstract"]
+
+[params.lowdit]
+  logo = "logos/repogo.png"
+  faviconDir = "favicons/repogo"
+  siteProfile = "publisher"
+  view = "publisher"
+  homeEyebrow = "Repogo · édition"
+  featuredBook = "/reports/etude-marche-editeurs-libres/"
+  pinned = ["/reports/appel-offre-refonte-portail-services/", "/reports/plateforme-tests-hybrides-wcag/", "/reports/strategie-accessibilite-numerique/"]
+  showPrintLink = true
+
+[[menus.main]]
+  name = "Accueil"
+  url = "/"
+  weight = 1
+[[menus.main]]
+  name = "Installation"
+  url = "/installation/"
+  weight = 2
+[[menus.main]]
+  name = "Catalogue"
+  url = "/reports/"
+  weight = 3
+
+[markup.goldmark.renderer]
+  unsafe = true

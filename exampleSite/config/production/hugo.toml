@@ -1,0 +1,2 @@
+# Production / CI : thèmes tirés comme modules Hugo depuis GitHub.
+theme = ["github.com/lowdit/repogo", "github.com/lowdit/minigo"]
