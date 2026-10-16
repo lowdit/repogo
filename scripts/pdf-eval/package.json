@@ -1,0 +1,11 @@
+{
+  "name": "repogo-pdf-eval",
+  "private": true,
+  "description": "Harness POC dompdf.js — not published, not part of Hugo theme",
+  "scripts": {
+    "serve": "npx --yes serve . -p 4173"
+  },
+  "devDependencies": {
+    "dompdf.js": "2.0.7"
+  }
+}

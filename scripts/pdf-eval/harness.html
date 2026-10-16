@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Repogo — harness dompdf.js</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 1rem; max-width: 40rem; }
+    button { margin: 0.5rem 0.5rem 0.5rem 0; padding: 0.5rem 1rem; }
+    #status { font-size: 0.875rem; color: #333; }
+  </style>
+</head>
+<body>
+  <h1>Évaluation dompdf.js (hors Repogo prod)</h1>
+  <p>
+    <a href="fixtures/book-corpus.html" target="_blank" rel="noopener">Ouvrir le corpus</a>
+    · Exporter le nœud <code>#book-corpus</code> via dompdf.js 2.x
+  </p>
+  <button type="button" id="export">Générer PDF (dompdf.js)</button>
+  <p id="status" role="status"></p>
+  <p><small>Voir <code>repogo/docs/PDF-MOTEURS-EVALUATION.md</code> — texte sélectionnable ≠ PDF accessible.</small></p>
+  <script type="module">
+    import dompdf from "./node_modules/dompdf.js/dist/esm/dompdf.esm.js";
+
+    const status = document.getElementById("status");
+    document.getElementById("export").addEventListener("click", async () => {
+      status.textContent = "Chargement du corpus…";
+      const frame = document.createElement("iframe");
+      frame.style.cssText = "position:absolute;width:0;height:0;border:0;visibility:hidden";
+      frame.src = "fixtures/book-corpus.html";
+      document.body.appendChild(frame);
+      await new Promise((resolve, reject) => {
+        frame.onload = resolve;
+        frame.onerror = reject;
+      });
+      const doc = frame.contentDocument;
+      const root = doc.getElementById("book-corpus");
+      if (!root) {
+        status.textContent = "Erreur : #book-corpus introuvable.";
+        return;
+      }
+      status.textContent = "Export WASM en cours…";
+      try {
+        const blob = await dompdf(root, {
+          format: "a4",
+          pagination: true,
+          compress: true,
+          metadata: {
+            title: "Corpus POC Repogo",
+            author: "Lowdit eval",
+            subject: "dompdf.js evaluation — not for publication",
+          },
+        });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "repogo-corpus-dompdfjs.pdf";
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(url), 30_000);
+        status.textContent = "PDF téléchargé. Archiver et lancer veraPDF / comparer à Paged.js.";
+      } catch (err) {
+        status.textContent = "Échec export : " + (err && err.message ? err.message : String(err));
+      } finally {
+        frame.remove();
+      }
+    });
+  </script>
+</body>
+</html>

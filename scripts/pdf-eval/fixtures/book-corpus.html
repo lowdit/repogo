@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Corpus POC — fascicule technique accessibilité</title>
+  <style>
+    :root { --baseline: 1.45rem; font-size: 11pt; }
+    body { font-family: "Atkinson Hyperlegible", system-ui, sans-serif; line-height: var(--baseline); max-width: 42rem; margin: 2rem auto; color: #0b2545; }
+    h1, h2, h3 { line-height: 1.2; }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+    th, td { border: 1px solid #ccc; padding: 0.35rem 0.5rem; text-align: left; }
+    th { background: #f0f0eb; }
+    figure { margin: 1rem 0; }
+    figcaption { font-size: 0.9em; color: #444; }
+    pre { background: #f5f5f0; padding: 0.75rem; overflow-x: auto; font-size: 0.85em; }
+    aside.admonition { border-left: 4px solid #2f6bff; padding: 0.5rem 1rem; background: #f7f6f2; margin: 1rem 0; }
+    .page-break { break-before: page; }
+    [data-avoid-break] { break-inside: avoid; }
+    a { color: #2f6bff; }
+    .fn-ref { vertical-align: super; font-size: 0.75em; }
+  </style>
+</head>
+<body>
+  <article id="book-corpus">
+    <header class="page-break">
+      <p><strong>Fascicule POC Repogo</strong> · édition 0.1 · langue fr</p>
+      <h1>Associer labels et champs sans piéger le clavier</h1>
+      <p>Bertrand Keller · Lowdit Press (fixture)</p>
+    </header>
+
+    <nav aria-labelledby="toc-h">
+      <h2 id="toc-h">Table des matières</h2>
+      <ol>
+        <li><a href="#ch1">Chapitre 1 — Labels</a></li>
+        <li><a href="#ch2">Chapitre 2 — Tableaux</a></li>
+        <li><a href="#annexe">Annexe — Multilingue</a></li>
+      </ol>
+    </nav>
+
+    <section id="ch1" class="page-break">
+      <h2>Chapitre 1 — Labels</h2>
+      <p>
+        Un formulaire accessible commence par un nom perceptible pour chaque champ.
+        Référence interne : <a href="#fig-label">figure&nbsp;1</a>.
+        Lien externe : <a href="https://www.w3.org/WAI/WCAG22/Understanding/labels-or-instructions.html">WCAG — Labels or Instructions</a>.
+      </p>
+      <aside class="admonition" data-avoid-break>
+        <p><strong>Encadré.</strong> Ne remplacez jamais un label visible par seul <code>placeholder</code>.</p>
+      </aside>
+      <figure id="fig-label">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='120'%3E%3Crect fill='%232563eb' width='320' height='120'/%3E%3Ctext x='20' y='70' fill='white' font-size='20' font-family='sans-serif'%3ELabel + input%3C/text%3E%3C/svg%3E"
+             width="320" height="120"
+             alt="Schéma : label « Courriel » au-dessus d’un champ de saisie relié par for/id.">
+        <figcaption>Figure 1 — Label visible et programmatically associated.</figcaption>
+      </figure>
+      <p>
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Ccircle fill='%23ccc' cx='4' cy='4' r='4'/%3E%3C/svg%3E"
+             alt="" role="presentation" width="8" height="8">
+        Motif décoratif (aucune information).
+      </p>
+      <pre><code>&lt;label for="email"&gt;Courriel&lt;/label&gt;
+&lt;input id="email" name="email" type="email" autocomplete="email"&gt;</code></pre>
+      <p>
+        Texte long pour stress pagination : répéter les exigences clavier, focus visible,
+        contraste AA, cibles suffisantes. Lorem ipsum éditorial remplacé par contenu réel
+        sur les parcours RGAA et tests manuels — paragraphe étendu pour dépasser une page A4
+        lorsque les marges sont réduites. Café crème façade nuit répogo minigo publisher vue
+        catalogue dense filets typographie Atkinson hyperlegible accents é à è ï ü ö ä ñ.
+        <span class="fn-ref"><a id="fnref-1" href="#fn-1">1</a></span>
+      </p>
+      <blockquote cite="https://accessibilite.numerique.gouv.fr/">
+        <p>« Chaque champ de formulaire a-t-il une étiquette ? » — formulation pédagogique, pas verdict d’audit.</p>
+      </blockquote>
+    </section>
+
+    <section id="ch2" class="page-break">
+      <h2>Chapitre 2 — Tableaux</h2>
+      <p>Tableau de synthèse (stress multipage si lignes dupliquées).</p>
+      <table>
+        <caption>Tableau 1 — Techniques de nom accessible</caption>
+        <thead>
+          <tr>
+            <th scope="col">Technique</th>
+            <th scope="col">Usage</th>
+            <th scope="col">Risque</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>&lt;label&gt;</code></td><td>Champ visible</td><td>Label absent</td></tr>
+          <tr><td><code>aria-label</code></td><td>Icône seule</td><td>Sur-utilisation</td></tr>
+          <tr><td><code>aria-labelledby</code></td><td>Titre proche</td><td>Référence cassée</td></tr>
+          <tr><td><code>title</code></td><td>Infobulle</td><td>Pas un nom fiable</td></tr>
+          <tr><td><code>placeholder</code></td><td>Indication</td><td>Confusion label</td></tr>
+          <tr><td>Texte adjacent</td><td>Custom widgets</td><td>Ordre DOM</td></tr>
+          <tr><td><code>fieldset/legend</code></td><td>Groupes radio</td><td>Legend vide</td></tr>
+          <tr><td><code>aria-describedby</code></td><td>Aide</td><td>Ne remplace pas le nom</td></tr>
+          <tr><td>Visually hidden</td><td>Label masqué CSS</td><td>Clip incorrect</td></tr>
+          <tr><td>Native HTML</td><td>button</td><td>Texte bouton vague</td></tr>
+          <tr><td>Composite</td><td>Autocomplete</td><td>AT divergents</td></tr>
+          <tr><td>Table header</td><td>Grilles data</td><td>th scope manquant</td></tr>
+          <tr><td>Dialog label</td><td>Modales</td><td>Focus piégé</td></tr>
+          <tr><td>Stepper</td><td>Wizard</td><td>Étapes non annoncées</td></tr>
+          <tr><td>File input</td><td>Upload</td><td>Bouton natif masqué</td></tr>
+        </tbody>
+      </table>
+      <div data-avoid-break>
+        <h3>Bloc protégé contre coupure</h3>
+        <p>Signature ou encadré critique — à comparer avec <code>divisionDisable</code> dompdf.js.</p>
+      </div>
+    </section>
+
+    <section id="annexe" class="page-break">
+      <h2>Annexe — Multilingue</h2>
+      <p lang="en">This paragraph is in English to verify font subsetting and line breaking.</p>
+      <p lang="fr">Retour au français : décret, RGAA, fascicule numérique.</p>
+    </section>
+
+    <footer>
+      <h2>Notes</h2>
+      <ol>
+        <li id="fn-1">Note de bas de page POC — lien retour <a href="#fnref-1">↑</a></li>
+      </ol>
+      <h2>Références</h2>
+      <ul>
+        <li>W3C WCAG 2.2 — Labels or Instructions</li>
+        <li>RGAA 4.1 — critères formulaires (référence pédagogique)</li>
+      </ul>
+    </footer>
+  </article>
+</body>
+</html>
