@@ -51,7 +51,7 @@ Alias recommandés aujourd’hui :
 
 Accents CR : `--print-accent` ou `--repogo-accent` dans la peau org (voir `record.css`).
 
-Polices : le site expose `/assets/css/fonts.css` (souvent via module brand).
+Polices : le site expose `/assets/css/fonts.css` (copié depuis `lowdit-brand` via `sync-brand.sh`).
 
 ---
 
@@ -159,7 +159,22 @@ Repogo fournit `i18n/fr.yaml` et `en.yaml` (`toc-title`). Empiler Higo + Repogo 
 3. Vérifier pied de page org (CSS courrier) et couleurs rapport (`--repogo-*`).
 4. Export PDF navigateur ou pipeline habituel.
 
+### PDF fichier vs HTML print
+
+| Sortie | Rôle | Accessibilité |
+|--------|------|----------------|
+| **`print.html` + Paged.js** | Prévisualisation paginée, export **Imprimer → PDF** | Par défaut **`non_verifie`** — voir [`ACCESSIBILITE-PDF.md`](ACCESSIBILITE-PDF.md) |
+| **dompdf.js** (expérimental) | Harness [`scripts/pdf-eval/`](../scripts/pdf-eval/README.md) | Texte vectoriel **≠** PDF balisé — voir [`PDF-MOTEURS-EVALUATION.md`](PDF-MOTEURS-EVALUATION.md) |
+| **Prince / autre CLI** | Pipeline release (hors thème) | Seul candidat pour viser contrôles **auto_partiel** tagged |
+
+Repogo **ne versionne pas** de binaire PDF ; il produit le HTML print.
+
+### Brand (polices et tokens)
+
+Les polices Atkinson et tokens `--lowdit-*` viennent du dépôt graphique **`github.com/lowdit/lowdit-brand`**, copiés via `sync-brand.sh` (brand **n'est pas** un module Hugo). Repogo charge `assets/css/fonts.css` depuis le **site** publié, pas depuis ce dépôt directement.
+
 ---
+
 
 ## Fichiers Repogo (ne pas mettre dans le site)
 

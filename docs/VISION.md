@@ -2,7 +2,7 @@
 
 Repogo est le **thème Hugo d’impression** de l’écosystème Lowdit : il produit des documents HTML paginés (Paged.js) prêts pour l’export PDF. Il complète **Higo** (site public) et s’appuie sur les mêmes contenus Markdown, avec une couche **print** dédiée.
 
-**Autonomie :** Repogo peut viser un site « rapports seuls » (liste + liens print), mais aujourd’hui il manque surtout layouts HTML, `i18n` et fonts embarquées — voir [`lowdit-brand/docs/ECOSYSTEME-THMES-ET-BRAND.md`](../../lowdit-brand/docs/ECOSYSTEME-THMES-ET-BRAND.md). Marque commune via module **`github.com/lowdit/brand`** (sources `lowdit-brand/shared`).
+**Autonomie :** Repogo peut viser un site « rapports seuls » (liste + liens print), mais aujourd’hui il manque surtout layouts HTML, `i18n` et fonts embarquées — voir [`lowdit-brand/docs/ECOSYSTEME-THMES-ET-BRAND.md`](../../lowdit-brand/docs/ECOSYSTEME-THMES-ET-BRAND.md). Marque commune copiée depuis **`lowdit-brand`** via `sync-brand.sh` (sources `lowdit-brand/shared`).
 
 **Composition site** (Sligo seul, cours Repogo+Sligo, hub AO, accueils non uniformes) : [`lowdit-brand/docs/UNIVERS-COMPOSITION-SITES.md`](../../lowdit-brand/docs/UNIVERS-COMPOSITION-SITES.md).
 
