@@ -1,0 +1,7 @@
+/public/
+/resources/
+exampleSite/public/
+exampleSite/resources/
+exampleSite/.hugo_build.lock
+exampleSite/themes/
+.hugo_build.lock

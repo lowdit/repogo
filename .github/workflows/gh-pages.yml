@@ -1,0 +1,62 @@
+name: Deploy Hugo site to Pages
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+    inputs:
+      site_dir:
+        description: "Répertoire Hugo (vide = auto / .github/hugo-site-dir)"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      HUGO_VERSION: "0.128.0"
+      HUGO_SITE_DIR: ${{ github.event.inputs.site_dir }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - name: Install Hugo
+        run: |
+          wget -O /tmp/hugo.deb "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb"
+          sudo dpkg -i /tmp/hugo.deb
+      - uses: actions/configure-pages@v4
+        id: pages
+      - name: Build
+        run: |
+          chmod +x scripts/hugo-pages-build.sh
+          ./scripts/hugo-pages-build.sh "${{ steps.pages.outputs.base_url }}/"
+      - name: Resolve artifact path
+        id: artifact
+        run: |
+          if [ -n "${HUGO_SITE_DIR:-}" ]; then DIR="${HUGO_SITE_DIR}"
+          elif [ -f .github/hugo-site-dir ]; then DIR="$(tr -d ' \n\r' < .github/hugo-site-dir)"
+          elif [ -f hugo.toml ] || [ -f config.toml ]; then DIR="."
+          else DIR="exampleSite"; fi
+          echo "path=${DIR}/public" >> "$GITHUB_OUTPUT"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ steps.artifact.outputs.path }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
