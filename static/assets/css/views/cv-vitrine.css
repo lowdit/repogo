@@ -1,0 +1,75 @@
+/* Vue cv-vitrine — Resugo : recrutement, retenue, profils lisibles */
+.minigo--view-cv-vitrine {
+  --view-accent: var(--lowdit-accent-sligo);
+  --view-surface-page: var(--lowdit-cream);
+  --lowdit-main-max: var(--lowdit-content-full);
+}
+
+.minigo--view-cv-vitrine .lowdit-page-bg {
+  background: linear-gradient(
+    135deg,
+    var(--lowdit-white) 0%,
+    color-mix(in srgb, var(--lowdit-accent-sligo) 12%, var(--lowdit-cream)) 100%
+  );
+}
+
+.minigo--view-cv-vitrine .lowdit-page-bg::before {
+  background: color-mix(in srgb, var(--lowdit-accent-sligo) 22%, transparent);
+  opacity: 0.1;
+}
+
+.minigo--view-cv-vitrine .lowdit-page-bg::after {
+  display: none;
+}
+
+.minigo--view-cv-vitrine .minigo-header {
+  background: transparent;
+  border-bottom: 1px solid var(--lowdit-border-subtle);
+}
+
+.minigo--view-cv-vitrine .minigo-main {
+  max-width: var(--lowdit-content-full);
+}
+
+.minigo--view-cv-vitrine .minigo-hero {
+  text-align: center;
+  border: none;
+  padding: var(--lowdit-space-8) var(--lowdit-space-4) var(--lowdit-space-5);
+}
+
+.minigo--view-cv-vitrine .minigo-hero h1,
+.minigo--view-cv-vitrine .minigo-hero__lead,
+.minigo--view-cv-vitrine .minigo-hero__intro {
+  margin-inline: auto;
+}
+
+.minigo--view-cv-vitrine .minigo-hero h1 {
+  font-size: var(--lowdit-font-size-hero);
+  max-width: 24ch;
+  letter-spacing: -0.02em;
+}
+
+.minigo--view-cv-vitrine .minigo-hero__eyebrow {
+  color: var(--lowdit-accent-sligo);
+}
+
+.minigo--view-cv-vitrine .catalog-grid {
+  grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
+  gap: var(--lowdit-grid-gap-lg);
+}
+
+.minigo--view-cv-vitrine .catalog-card {
+  border-radius: var(--lowdit-radius-md);
+  background: var(--lowdit-white);
+  border: 1px solid var(--lowdit-border-subtle);
+  transition: var(--lowdit-transition-hover);
+}
+
+.minigo--view-cv-vitrine .catalog-card:hover {
+  box-shadow: var(--lowdit-shadow-md);
+  border-color: color-mix(in srgb, var(--lowdit-accent-sligo) 30%, var(--lowdit-border-subtle));
+}
+
+.minigo--view-cv-vitrine .catalog-card__visual {
+  aspect-ratio: 3 / 2;
+}

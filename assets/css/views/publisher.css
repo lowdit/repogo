@@ -1,0 +1,447 @@
+/* Vue publisher — UI produit Repogo (catalogue + lecteur, flat éditorial) */
+.minigo--view-publisher {
+  --view-accent: var(--lowdit-accent-repogo);
+  --view-surface-page: var(--lowdit-cream);
+  --catalog-accent: var(--lowdit-accent-repogo);
+  --lowdit-main-max: var(--lowdit-content-wide);
+  --lowdit-surface-page: var(--view-surface-page);
+}
+
+.minigo--view-publisher .lowdit-page-bg::before,
+.minigo--view-publisher .lowdit-page-bg::after {
+  display: none;
+}
+
+.minigo--view-publisher .lowdit-page-bg {
+  background: var(--lowdit-cream);
+}
+
+.minigo--view-publisher .minigo-header {
+  background: var(--lowdit-night);
+  border-bottom: none;
+  box-shadow: none;
+}
+
+.minigo--view-publisher .minigo-logo,
+.minigo--view-publisher .minigo-nav a {
+  color: var(--lowdit-cream);
+}
+
+.minigo--view-publisher .minigo-nav a:hover,
+.minigo--view-publisher .minigo-nav a[aria-current="page"] {
+  color: var(--lowdit-white);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* Accueil : largeur généreuse ; pages de contenu : largeur réduite (lecture).
+   L'en-tête hérite de la même valeur via --lowdit-main-max. */
+body:has(.pub-workspace) {
+  --lowdit-main-max: var(--lowdit-content-full);
+}
+
+body:has(.repogo-article) {
+  --lowdit-main-max: var(--lowdit-content-default);
+}
+
+.minigo--view-publisher .minigo-main {
+  max-width: var(--lowdit-main-max);
+  padding-top: var(--lowdit-space-5);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .minigo--view-publisher .minigo-nav a,
+  .pub-catalog__link {
+    transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .minigo--view-publisher .minigo-nav a,
+  .pub-catalog__link {
+    transition: none;
+  }
+}
+
+/* ——— Workspace ——— */
+.pub-workspace__bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--lowdit-space-4);
+  padding: var(--lowdit-space-5) var(--lowdit-space-5) var(--lowdit-space-4);
+  margin-bottom: var(--lowdit-space-5);
+  background: var(--lowdit-white);
+  border: 1px solid var(--lowdit-border-strong);
+  border-radius: var(--lowdit-radius-lg);
+}
+
+.pub-workspace__eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--lowdit-accent-repogo);
+  margin: 0 0 var(--lowdit-space-2);
+}
+
+.pub-workspace__title {
+  font-size: clamp(1.35rem, 2.5vw, 1.75rem);
+  line-height: var(--lowdit-line-tight);
+  margin: 0;
+  color: var(--lowdit-night);
+  max-width: 28ch;
+}
+
+.pub-workspace__lead {
+  margin: var(--lowdit-space-2) 0 0;
+  color: var(--lowdit-muted);
+  max-width: 42em;
+  font-size: var(--lowdit-font-size-lead);
+}
+
+.pub-workspace__stat {
+  margin: 0;
+  font-size: var(--lowdit-font-size-sm);
+  font-weight: 600;
+  color: var(--lowdit-night);
+  padding: var(--lowdit-space-2) var(--lowdit-space-3);
+  background: color-mix(in srgb, var(--lowdit-accent-repogo) 12%, var(--lowdit-cream));
+  border-radius: var(--lowdit-radius-sm);
+}
+
+.pub-workspace__grid {
+  display: grid;
+  gap: var(--lowdit-space-5);
+  align-items: start;
+}
+
+@media (min-width: 56rem) {
+  .pub-workspace__grid {
+    grid-template-columns: minmax(16rem, 22rem) 1fr;
+  }
+}
+
+/* ——— Catalogue (liste dense) ——— */
+.pub-catalog {
+  background: var(--lowdit-white);
+  border: 1px solid var(--lowdit-border-subtle);
+  border-radius: var(--lowdit-radius-md);
+  padding: var(--lowdit-space-4);
+}
+
+.pub-catalog__heading {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 var(--lowdit-space-3);
+  color: var(--lowdit-night);
+}
+
+.pub-catalog__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.pub-catalog__item {
+  border-bottom: 1px solid var(--lowdit-border-subtle);
+}
+
+.pub-catalog__item--current .pub-catalog__link {
+  background: color-mix(in srgb, var(--lowdit-accent-repogo) 8%, var(--lowdit-white));
+  border-left: 3px solid var(--lowdit-accent-repogo);
+}
+
+.pub-catalog__link {
+  display: flex;
+  gap: var(--lowdit-space-3);
+  padding: var(--lowdit-space-3);
+  text-decoration: none;
+  color: inherit;
+  border-left: 3px solid transparent;
+}
+
+.pub-catalog__link:hover {
+  background: color-mix(in srgb, var(--lowdit-night) 4%, var(--lowdit-white));
+}
+
+.pub-catalog__link:focus-visible {
+  outline: 2px solid var(--lowdit-accent-repogo);
+  outline-offset: 2px;
+}
+
+.pub-catalog__thumb {
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 3.25rem;
+  border-radius: var(--lowdit-radius-sm);
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--pub-accent, var(--lowdit-accent-repogo)) 70%, var(--lowdit-night)),
+    var(--lowdit-night)
+  );
+  border: 1px solid var(--lowdit-border-subtle);
+}
+
+.pub-catalog__text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.pub-catalog__name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--lowdit-night);
+}
+
+.pub-catalog__date {
+  font-size: 0.8rem;
+  color: var(--lowdit-muted);
+}
+
+.pub-catalog__date time {
+  font-size: inherit;
+}
+
+.pub-catalog__desc {
+  font-size: 0.8rem;
+  color: var(--lowdit-muted);
+  line-height: 1.35;
+}
+
+.pub-catalog__foot {
+  margin: var(--lowdit-space-3) 0 0;
+  font-size: var(--lowdit-font-size-sm);
+}
+
+.pub-catalog__foot a {
+  color: var(--lowdit-accent-repogo);
+  font-weight: 600;
+}
+
+/* ——— Lecteur (dossier ouvert) ——— */
+.pub-reader {
+  position: relative;
+  background: var(--lowdit-white);
+  border: 1px solid var(--lowdit-border-strong);
+  border-radius: var(--lowdit-radius-lg);
+  padding: var(--lowdit-space-6);
+  min-height: 14rem;
+}
+
+@media (min-width: 40rem) {
+  .pub-reader {
+    padding-right: min(36%, 12rem);
+  }
+
+  .pub-reader__cover {
+    position: absolute;
+    top: var(--lowdit-space-6);
+    right: var(--lowdit-space-6);
+    width: min(10rem, 32%);
+  }
+
+  .pub-reader__cover .catalog-card__visual {
+    aspect-ratio: 2 / 3;
+    border-radius: var(--lowdit-radius-sm);
+    box-shadow: var(--lowdit-shadow-md);
+    border: 1px solid var(--lowdit-border-subtle);
+  }
+}
+
+.pub-reader__label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--lowdit-muted);
+  margin: 0 0 var(--lowdit-space-2);
+}
+
+.pub-reader__head h2 {
+  font-size: clamp(1.25rem, 2.2vw, 1.65rem);
+  margin: 0 0 var(--lowdit-space-2);
+  color: var(--lowdit-night);
+  max-width: 22ch;
+}
+
+.pub-reader__authors,
+.pub-reader__date {
+  margin: 0 0 var(--lowdit-space-1);
+  font-size: var(--lowdit-font-size-sm);
+  color: var(--lowdit-muted);
+}
+
+.pub-reader__summary {
+  margin: var(--lowdit-space-4) 0;
+  line-height: var(--lowdit-line-body);
+  max-width: 38em;
+}
+
+.pub-reader__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lowdit-space-3);
+  margin: 0;
+}
+
+.minigo--view-publisher .minigo-btn--primary {
+  background: var(--lowdit-night);
+}
+
+.minigo--view-publisher .minigo-btn--primary:hover {
+  background: var(--lowdit-accent-repogo);
+}
+
+.minigo--view-publisher .minigo-btn:focus-visible {
+  outline: 2px solid var(--lowdit-accent-repogo);
+  outline-offset: 2px;
+}
+
+/* ——— Boutons d'export (« version imprimable »…) bien visibles ——— */
+.minigo--view-publisher .minigo-exports a {
+  padding: 0.55rem 1rem;
+  background: var(--lowdit-white);
+  border: 1px solid var(--lowdit-accent-repogo);
+  color: var(--lowdit-accent-repogo);
+  font-weight: 600;
+}
+
+.minigo--view-publisher .minigo-exports a:hover {
+  background: color-mix(in srgb, var(--lowdit-accent-repogo) 12%, var(--lowdit-white));
+  border-color: var(--lowdit-accent-repogo);
+}
+
+/* Le premier export (version imprimable) en action principale, accent plein. */
+.minigo--view-publisher .minigo-exports a:first-child {
+  background: var(--lowdit-accent-repogo);
+  border-color: var(--lowdit-accent-repogo);
+  color: var(--lowdit-white);
+}
+
+.minigo--view-publisher .minigo-exports a:first-child:hover {
+  background: var(--lowdit-night);
+  border-color: var(--lowdit-night);
+}
+
+/* ——— Lecture rapport (Repogo single) ——— */
+.minigo--view-publisher .repogo-article {
+  display: grid;
+  gap: var(--lowdit-space-6);
+}
+
+@media (min-width: 56rem) {
+  .minigo--view-publisher .repogo-article:has(.repogo-toc) {
+    grid-template-columns: minmax(12rem, 16rem) 1fr;
+    align-items: start;
+  }
+
+  .minigo--view-publisher .repogo-toc {
+    position: sticky;
+    top: var(--lowdit-space-4);
+    margin: 0;
+    padding: var(--lowdit-space-4);
+    background: var(--lowdit-white);
+    border: 1px solid var(--lowdit-border-subtle);
+    border-radius: var(--lowdit-radius-md);
+  }
+}
+
+.minigo--view-publisher .repogo-toc h2 {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Lecture d'un rapport : corps sur une surface distincte de la page. */
+.minigo--view-publisher .repogo-article__body {
+  background: var(--lowdit-white);
+  border: 1px solid var(--lowdit-border-subtle);
+  border-radius: var(--lowdit-radius-lg);
+  padding: var(--lowdit-space-6);
+}
+
+.minigo--view-publisher .repogo-article__body .minigo-page-header h1 {
+  font-family: var(--lowdit-font-reading);
+  font-size: clamp(1.9rem, 3.6vw, 2.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--lowdit-space-3);
+}
+
+.pub-workspace__note {
+  margin-top: var(--lowdit-space-4);
+  font-size: var(--lowdit-font-size-sm);
+  color: var(--lowdit-muted);
+}
+
+/* ——— Épinglés : sélection dans la zone centrale (pas une liste à part) ——— */
+.pub-pinned {
+  margin-top: var(--lowdit-space-5);
+  padding: var(--lowdit-space-4);
+  background: color-mix(in srgb, var(--lowdit-accent-repogo) 6%, var(--lowdit-white));
+  border: 1px solid var(--lowdit-border-subtle);
+  border-radius: var(--lowdit-radius-md);
+}
+
+.pub-pinned__heading {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 var(--lowdit-space-3);
+  color: var(--lowdit-night);
+}
+
+.pub-pinned__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.pub-pinned__link {
+  display: block;
+  padding: 0.45rem 0.6rem;
+  border-radius: var(--lowdit-radius-sm);
+  text-decoration: none;
+  color: inherit;
+  border-left: 3px solid transparent;
+}
+
+.pub-pinned__link:hover {
+  background: color-mix(in srgb, var(--lowdit-night) 4%, var(--lowdit-white));
+  border-left-color: var(--lowdit-accent-repogo);
+}
+
+.pub-pinned__name {
+  font-weight: 600;
+  color: var(--lowdit-night);
+}
+
+.pub-pinned__desc {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--lowdit-muted);
+  line-height: 1.35;
+}
+
+/* css-doodle décoratif (galerie / couverture) — voir docs/CSS-VUES-ET-GALERIE.md */
+.catalog-card__visual .lowdit-doodle,
+.lowdit-doodle {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 8rem;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  css-doodle.lowdit-doodle,
+  .lowdit-doodle {
+    display: none !important;
+  }
+}

@@ -648,6 +648,7 @@ caption {
 }
 
 #list-toc-generated a {
+  color: var(--repogo-ink);
   text-decoration: none;
 }
 

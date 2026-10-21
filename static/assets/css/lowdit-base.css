@@ -1,0 +1,224 @@
+/* Couleurs : chargées par le partial lowdit/view-tokens.html (settings),
+   AVANT les elements — pas d'import ici (et chemin fiable quel que soit
+   l'empaquetage static/module). */
+:root {
+  /* Familles :
+     — « Optician Sans » : logo et titres très spécifiques (pas d'accents) ;
+     — « Subjectivity » : titres d'accueil, accroches ;
+     — « Atkinson Hyperlegible » : corps de texte, lisibilité. */
+  --lowdit-font-logo: "Optician Sans", "Subjectivity", ui-sans-serif, system-ui, sans-serif;
+  --lowdit-font-display: "Subjectivity", ui-sans-serif, system-ui, sans-serif;
+  --lowdit-font-expressive: "Subjectivity", ui-sans-serif, system-ui, sans-serif;
+  --lowdit-font-reading: "Atkinson Hyperlegible", ui-sans-serif, system-ui, sans-serif;
+  --lowdit-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+html {
+  color: var(--lowdit-night);
+  background: var(--lowdit-cream);
+}
+
+body {
+  margin: 0;
+  font-family: var(--lowdit-font-reading);
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--lowdit-font-display);
+  line-height: 1.05;
+}
+
+a {
+  color: var(--lowdit-violet);
+}
+
+/* ============================================================================
+   Prose — éléments de base du contenu riche (vues minigo, product, repogo).
+   Donne une rythmique commune aux titres, listes, paragraphes, code, tableaux.
+   ============================================================================ */
+.minigo-body,
+.minigo-intro,
+.lowdit-product__content,
+.minigo-hero__intro,
+.pub-workspace__note {
+  font-family: var(--lowdit-font-reading);
+  line-height: 1.62;
+  color: var(--lowdit-night);
+}
+
+.minigo-body > :first-child,
+.minigo-intro > :first-child,
+.lowdit-product__content > :first-child {
+  margin-top: 0;
+}
+
+.minigo-body :is(h2, h3, h4, h5),
+.minigo-intro :is(h2, h3, h4, h5),
+.lowdit-product__content :is(h2, h3, h4, h5) {
+  font-family: var(--lowdit-font-display);
+  line-height: 1.18;
+  color: var(--lowdit-night);
+}
+
+.minigo-body h2,
+.minigo-intro h2,
+.lowdit-product__content h2 {
+  font-size: clamp(1.4rem, 2.4vw, 1.8rem);
+  margin: 2.4rem 0 0.75rem;
+}
+
+.minigo-body h3,
+.minigo-intro h3,
+.lowdit-product__content h3 {
+  font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+  margin: 1.8rem 0 0.5rem;
+}
+
+.minigo-body h4,
+.minigo-intro h4,
+.lowdit-product__content h4 {
+  font-size: 1.05rem;
+  margin: 1.4rem 0 0.4rem;
+}
+
+.minigo-body p,
+.minigo-intro p,
+.lowdit-product__content p {
+  margin: 0 0 1.1rem;
+  max-width: 68ch;
+}
+
+.minigo-body :is(ul, ol),
+.minigo-intro :is(ul, ol),
+.lowdit-product__content :is(ul, ol) {
+  margin: 0 0 1.1rem;
+  padding-left: 1.4rem;
+  max-width: 68ch;
+}
+
+.minigo-body li,
+.minigo-intro li,
+.lowdit-product__content li {
+  margin: 0.3rem 0;
+}
+
+.minigo-body a,
+.minigo-intro a,
+.lowdit-product__content a {
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.18em;
+}
+
+.minigo-body hr,
+.minigo-intro hr,
+.lowdit-product__content hr {
+  border: 0;
+  border-top: 1px solid var(--lowdit-border-subtle, color-mix(in srgb, var(--lowdit-night) 12%, transparent));
+  margin: 2.5rem 0;
+}
+
+.minigo-body :is(img, svg, video),
+.minigo-intro :is(img, svg, video),
+.lowdit-product__content :is(img, svg, video) {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--lowdit-radius-md, 0.5rem);
+}
+
+.minigo-body blockquote,
+.minigo-intro blockquote,
+.lowdit-product__content blockquote {
+  margin: 1.4rem 0;
+  padding: 0.3rem 0 0.3rem 1.1rem;
+  border-left: 3px solid var(--lowdit-violet);
+  color: var(--lowdit-muted);
+  max-width: 66ch;
+}
+
+.minigo-body blockquote > :last-child,
+.minigo-intro blockquote > :last-child,
+.lowdit-product__content blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* Tableaux */
+.minigo-body table,
+.minigo-intro table,
+.lowdit-product__content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.4rem 0;
+  font-size: 0.95rem;
+}
+
+.minigo-body :is(th, td),
+.minigo-intro :is(th, td),
+.lowdit-product__content :is(th, td) {
+  border: 1px solid var(--lowdit-border-subtle, color-mix(in srgb, var(--lowdit-night) 12%, transparent));
+  padding: 0.5rem 0.7rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.minigo-body thead th,
+.minigo-intro thead th,
+.lowdit-product__content thead th {
+  background: color-mix(in srgb, var(--lowdit-night) 5%, transparent);
+  font-weight: 700;
+}
+
+/* Code inline */
+.minigo-body :not(pre) > code,
+.minigo-intro :not(pre) > code,
+.lowdit-product__content :not(pre) > code {
+  font-family: var(--lowdit-font-mono);
+  font-size: 0.9em;
+  background: color-mix(in srgb, var(--lowdit-night) 8%, transparent);
+  padding: 0.12em 0.4em;
+  border-radius: 0.3rem;
+}
+
+/* Blocs pré/Chroma : marge et réserve de défilement sur la zone code. */
+.minigo-body pre,
+.minigo-intro pre,
+.lowdit-product__content pre {
+  margin: 1.4rem 0;
+  padding: 1rem 1.25rem;
+  font-family: var(--lowdit-font-mono);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--lowdit-border-subtle, color-mix(in srgb, var(--lowdit-night) 12%, transparent));
+  border-radius: var(--lowdit-radius-md, 0.5rem);
+  background: color-mix(in srgb, var(--lowdit-night) 5%, transparent);
+}
+
+.minigo-body .highlight,
+.minigo-intro .highlight,
+.lowdit-product__content .highlight {
+  margin: 1.4rem 0;
+  border: 1px solid var(--lowdit-border-strong, color-mix(in srgb, var(--lowdit-night) 22%, transparent));
+  border-radius: var(--lowdit-radius-md, 0.5rem);
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.minigo-body .highlight pre,
+.minigo-intro .highlight pre,
+.lowdit-product__content .highlight pre {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border: 0;
+  border-radius: 0;
+}
+
+.minigo-body .highlight code,
+.minigo-intro .highlight code,
+.lowdit-product__content .highlight code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}

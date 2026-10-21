@@ -1,0 +1,7 @@
+:root {
+  --lowdit-shadow-sm: 0 1px 2px color-mix(in srgb, var(--lowdit-night) 8%, transparent);
+  --lowdit-shadow-md: 0 0.35rem 1.25rem color-mix(in srgb, var(--lowdit-night) 12%, transparent);
+  --lowdit-shadow-lg: 0 1rem 2.5rem color-mix(in srgb, var(--lowdit-night) 16%, transparent);
+  --lowdit-shadow-glow: 0 0 0 1px color-mix(in srgb, var(--lowdit-violet) 25%, transparent),
+    0 0.5rem 2rem color-mix(in srgb, var(--lowdit-violet) 18%, transparent);
+}

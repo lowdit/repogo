@@ -1,0 +1,58 @@
+/* Lowdit — tokens de mise en page (design system) */
+:root {
+  --lowdit-space-1: 0.25rem;
+  --lowdit-space-2: 0.5rem;
+  --lowdit-space-3: 0.75rem;
+  --lowdit-space-4: 1rem;
+  --lowdit-space-5: 1.5rem;
+  --lowdit-space-6: 2rem;
+  --lowdit-space-7: 2.5rem;
+  --lowdit-space-8: 3.5rem;
+  --lowdit-space-9: 5rem;
+
+  --lowdit-radius-sm: 4px;
+  --lowdit-radius-md: 8px;
+  --lowdit-radius-lg: 14px;
+  --lowdit-radius-xl: 22px;
+
+  --lowdit-content-narrow: 42rem;
+  --lowdit-content-default: 64rem;
+  --lowdit-content-wide: 84rem;
+  --lowdit-content-full: 96rem;
+
+  --lowdit-grid-gap: 1.25rem;
+  --lowdit-grid-gap-lg: 1.75rem;
+
+  --lowdit-font-size-sm: 0.875rem;
+  --lowdit-font-size-lead: 1.125rem;
+  --lowdit-font-size-display: clamp(2rem, 4.5vw, 3.25rem);
+  --lowdit-font-size-hero: clamp(1.75rem, 4vw, 2.75rem);
+
+  --lowdit-line-tight: 1.12;
+  --lowdit-line-body: 1.55;
+}
+
+.lowdit-container {
+  width: min(100% - 2.5rem, var(--lowdit-content-default));
+  margin-inline: auto;
+}
+
+.lowdit-container--wide {
+  width: min(100% - 2.5rem, var(--lowdit-content-wide));
+}
+
+.lowdit-container--full {
+  width: min(100% - 2rem, var(--lowdit-content-full));
+}
+
+.lowdit-grid-12 {
+  display: grid;
+  gap: var(--lowdit-grid-gap);
+  grid-template-columns: repeat(12, 1fr);
+}
+
+@media (max-width: 48rem) {
+  .lowdit-grid-12 > * {
+    grid-column: 1 / -1;
+  }
+}

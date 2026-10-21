@@ -1,0 +1,76 @@
+/* Lowdit design system — fondations (surfaces communes).
+   Les tokens (settings) sont chargés EN AMONT par le partial
+   lowdit/view-tokens.html (couleurs, layout, mouvement, élévation) :
+   pas de ré-import ici (évite le double chargement). */
+:root {
+  --lowdit-surface-page: var(--lowdit-cream);
+  --lowdit-surface-raised: var(--lowdit-white);
+  --lowdit-surface-accent: color-mix(in srgb, var(--lowdit-violet) 6%, var(--lowdit-cream));
+  --lowdit-border-subtle: color-mix(in srgb, var(--lowdit-night) 10%, transparent);
+  --lowdit-border-strong: color-mix(in srgb, var(--lowdit-night) 22%, transparent);
+  --lowdit-accent-sligo: var(--lowdit-violet);
+  --lowdit-accent-repogo: var(--lowdit-repogo);
+  --lowdit-accent-frago: var(--lowdit-coral);
+  --lowdit-accent-marque: var(--lowdit-turquoise);
+}
+
+.lowdit-surface-raised {
+  background: var(--lowdit-surface-raised);
+  border: 1px solid var(--lowdit-border-subtle);
+  border-radius: var(--lowdit-radius-md);
+}
+
+.lowdit-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0 0 var(--lowdit-space-3);
+}
+
+.lowdit-lead {
+  font-size: var(--lowdit-font-size-lead);
+  line-height: var(--lowdit-line-body);
+  color: var(--lowdit-muted);
+  max-width: 38em;
+  margin: 0 0 var(--lowdit-space-4);
+}
+
+/* Fond de page : aplats Lowdit ; orbes très discrets (désactivables par vue) */
+.lowdit-page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--lowdit-surface-page);
+}
+
+.lowdit-page-bg--plain::before,
+.lowdit-page-bg--plain::after {
+  display: none;
+}
+
+.lowdit-page-bg::before,
+.lowdit-page-bg::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(64px);
+  opacity: 0.22;
+}
+
+.lowdit-page-bg::before {
+  width: min(40vw, 20rem);
+  height: min(40vw, 20rem);
+  top: -6%;
+  right: 0;
+  background: color-mix(in srgb, var(--lowdit-violet) 35%, transparent);
+}
+
+.lowdit-page-bg::after {
+  width: min(35vw, 16rem);
+  height: min(35vw, 16rem);
+  bottom: 8%;
+  left: -4%;
+  background: color-mix(in srgb, var(--lowdit-turquoise) 30%, transparent);
+}

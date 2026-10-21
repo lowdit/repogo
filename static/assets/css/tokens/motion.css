@@ -1,0 +1,28 @@
+/* Lowdit — mouvement (respect prefers-reduced-motion) */
+:root {
+  --lowdit-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --lowdit-duration-fast: 150ms;
+  --lowdit-duration-medium: 280ms;
+  --lowdit-duration-slow: 450ms;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    --lowdit-transition-hover: transform var(--lowdit-duration-medium) var(--lowdit-ease-out),
+      box-shadow var(--lowdit-duration-medium) var(--lowdit-ease-out);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --lowdit-transition-hover: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

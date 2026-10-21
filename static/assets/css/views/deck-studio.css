@@ -1,0 +1,102 @@
+/* Vue deck-studio — Sligo : studio pro, fond clair Lowdit, affiches paysage */
+.minigo--view-deck-studio,
+.sligo-deck-studio {
+  --view-accent: var(--lowdit-accent-sligo);
+  --view-surface-page: var(--lowdit-cream);
+  --catalog-accent: var(--lowdit-accent-sligo);
+}
+
+.minigo--view-deck-studio {
+  color: var(--lowdit-night);
+  background: var(--lowdit-cream);
+}
+
+.minigo--view-deck-studio .lowdit-page-bg {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--lowdit-night) 5%, var(--lowdit-cream)) 0%,
+    var(--lowdit-cream) 35%,
+    color-mix(in srgb, var(--lowdit-accent-sligo) 10%, var(--lowdit-white)) 100%
+  );
+}
+
+.minigo--view-deck-studio .lowdit-page-bg::before {
+  background: color-mix(in srgb, var(--lowdit-accent-sligo) 40%, transparent);
+  opacity: 0.25;
+}
+
+.minigo--view-deck-studio .lowdit-page-bg::after {
+  opacity: 0.08;
+}
+
+.minigo--view-deck-studio .minigo-header {
+  border-bottom: 1px solid var(--lowdit-border-subtle);
+  background: color-mix(in srgb, var(--lowdit-white) 90%, var(--lowdit-cream));
+}
+
+.minigo--view-deck-studio .minigo-logo:hover {
+  color: var(--lowdit-accent-sligo);
+}
+
+.minigo--view-deck-studio .minigo-main {
+  max-width: var(--lowdit-content-full);
+}
+
+.minigo--view-deck-studio .minigo-hero {
+  border: none;
+  padding: var(--lowdit-space-7) 0 var(--lowdit-space-5);
+}
+
+.minigo--view-deck-studio .minigo-hero h1 {
+  font-size: var(--lowdit-font-size-display);
+  letter-spacing: -0.02em;
+  max-width: 16ch;
+}
+
+.minigo--view-deck-studio .minigo-hero__eyebrow {
+  color: var(--lowdit-accent-sligo);
+}
+
+.minigo--view-deck-studio .minigo-home-section__head h2 {
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.minigo--view-deck-studio .catalog-grid,
+.sligo-deck-studio .catalog-grid {
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: var(--lowdit-grid-gap-lg);
+}
+
+.minigo--view-deck-studio .catalog-card,
+.sligo-deck-studio .catalog-card {
+  border: 1px solid var(--lowdit-border-subtle);
+  background: var(--lowdit-white);
+  border-radius: var(--lowdit-radius-md);
+}
+
+.minigo--view-deck-studio .catalog-card__visual,
+.sligo-deck-studio .catalog-card__visual {
+  aspect-ratio: 16 / 10;
+}
+
+.minigo--view-deck-studio .catalog-card:hover,
+.sligo-deck-studio .catalog-card:hover {
+  box-shadow: var(--lowdit-shadow-md);
+  border-color: color-mix(in srgb, var(--lowdit-accent-sligo) 35%, var(--lowdit-border-subtle));
+}
+
+.sligo-deck-studio {
+  color: var(--lowdit-night);
+  background: var(--lowdit-cream);
+  min-height: 100%;
+  padding: 0;
+}
+
+.sligo-deck-studio .minigo-hero__eyebrow {
+  color: var(--lowdit-accent-sligo);
+}
+
+.sligo-deck-studio--plain {
+  /* rétrocompat wrapper Sligo */
+}

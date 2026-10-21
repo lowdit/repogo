@@ -1,0 +1,62 @@
+/* ============================================================================
+   COMPOSANT — Disclosure (panneau révélé) (Lowdit)
+   ============================================================================
+   Sémantique : bouton avec aria-expanded + région masquée/affichée
+   (pattern ARIA « disclosure »). Mapping ACL : TetraLogical ACL —
+   https://tetralogical.com/resources/accessible-components-library/disclosure/
+   (licence ISC, code ici original).
+
+   Markup attendu (partials/components/disclosure.html) :
+     <button class="lowdit-disclosure__trigger"
+             aria-expanded="false" aria-controls="panel-id">Basculer</button>
+     <div id="panel-id" class="lowdit-disclosure__panel" hidden>…</div>
+
+   Note : le basculement `aria-expanded` + `hidden` est piloté par un petit
+   script inline du partial (progressive enhancement — sans JS, le bouton
+   reste un titre non actionnable, le contenu reste accessible dans le flux).
+   ============================================================================ */
+
+.lowdit-disclosure__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--lowdit-night) 15%, transparent);
+  border-radius: 6px;
+  background: var(--lowdit-cream, #F7F6F2);
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.lowdit-disclosure__trigger:hover {
+  border-color: color-mix(in srgb, var(--lowdit-violet, #5B3DF5) 40%, transparent);
+}
+
+/* Focus clavier visible (WCAG 2.4.7) */
+.lowdit-disclosure__trigger:focus-visible {
+  outline: 2px solid var(--lowdit-violet, #5B3DF5);
+  outline-offset: 2px;
+}
+
+/* Chevron décoratif piloté par aria-expanded */
+.lowdit-disclosure__trigger::after {
+  content: "\25B8"; /* triangle vers la droite */
+  color: var(--lowdit-violet, #5B3DF5);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+}
+
+.lowdit-disclosure__trigger[aria-expanded="true"]::after {
+  transform: rotate(90deg);
+}
+
+.lowdit-disclosure__panel {
+  padding: 1rem;
+  border: 1px solid color-mix(in srgb, var(--lowdit-night) 15%, transparent);
+  border-top: 0;
+  border-radius: 0 0 6px 6px;
+  line-height: 1.55;
+}

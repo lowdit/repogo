@@ -1,0 +1,80 @@
+/* ============================================================================
+   COMPOSANT — Accordion (Lowdit)
+   ============================================================================
+   Sémantique : éléments natifs <details>/<summary> (clavier + lecteurs d'écran
+   sans JavaScript). Mapping ACL : TetraLogical Accessible Components Library —
+   https://tetralogical.com/resources/accessible-components-library/accordion/
+   (licence ISC, code ici original — requirements/test-steps ACL en référence).
+
+   Markup attendu (partials/components/accordion.html) :
+     <details class="lowdit-accordion__item">
+       <summary class="lowdit-accordion__summary">
+         <h3 class="lowdit-accordion__heading">Titre</h3>
+       </summary>
+       <div class="lowdit-accordion__panel">…contenu…</div>
+     </details>
+   ============================================================================ */
+
+.lowdit-accordion__item {
+  border: 1px solid color-mix(in srgb, var(--lowdit-night) 15%, transparent);
+  border-radius: 6px;
+  background: var(--lowdit-cream, #F7F6F2);
+  margin-bottom: 0.5rem;
+}
+
+.lowdit-accordion__item[open] {
+  border-color: color-mix(in srgb, var(--lowdit-violet, #5B3DF5) 40%, transparent);
+}
+
+/* summary : on retire la flèche native pour une flèche CSS contrôlée */
+.lowdit-accordion__heading {
+  margin: 0;
+  font: inherit;
+  font-weight: 600;
+}
+
+.lowdit-accordion__summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.lowdit-accordion__summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Indicateur d'état ouvert/fermé — purement décoratif (aria géré par
+   <details> natif) */
+.lowdit-accordion__summary::after {
+  content: "+";
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1;
+  color: var(--lowdit-violet, #5B3DF5);
+  flex-shrink: 0;
+}
+
+.lowdit-accordion__item[open] > .lowdit-accordion__summary::after {
+  content: "\2212"; /* signe moins */
+}
+
+/* Focus clavier visible (règle WCAG 2.4.7) */
+.lowdit-accordion__summary:focus-visible {
+  outline: 2px solid var(--lowdit-violet, #5B3DF5);
+  outline-offset: -2px;
+  border-radius: 6px;
+}
+
+.lowdit-accordion__panel {
+  padding: 0 1rem 1rem;
+  line-height: 1.55;
+}
+
+.lowdit-accordion__panel > :last-child {
+  margin-bottom: 0;
+}
