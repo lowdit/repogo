@@ -1,4 +1,6 @@
 github.com/lowdit/minigo v0.0.0-20261014143458-c28e7feba60c h1:rCO/6koSBWnRGBPuVeQAmNYeNKTncqOAdqTKogr0oWs=
 github.com/lowdit/minigo v0.0.0-20261014143458-c28e7feba60c/go.mod h1:7c9i8OJIV56ikakPxqYadI+Mxzw1hsclrzFFjwAvL6I=
+github.com/lowdit/minigo v0.0.0-20261016093447-a21481dbf537 h1:pO5NyH+LRtXeRZAivbaYXbhjtPqBAYWEsSiEFdBxFUE=
+github.com/lowdit/minigo v0.0.0-20261016093447-a21481dbf537/go.mod h1:8RcWRRABsp6yo/7qgU4FKgArE76nRoiU+Bbe9PbBYnU=
 github.com/lowdit/repogo v0.5.0 h1:lz2z32YaSCa2wRbTR3fnBlFi00Tjyu34jfL1mJbjH/E=
 github.com/lowdit/repogo v0.5.0/go.mod h1:gl/sktaKV4a0ePGfGVBaVwbz/e/J/ZgQCX9y4Lp0cPE=

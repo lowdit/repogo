@@ -35,4 +35,6 @@ Puis `hugo server` : vos rapports se construisent depuis `content/reports/`.
 
 ## GitHub Pages (votre site)
 
+**Base URL org Lowdit (cible)** : `https://lowdit.github.io/repogo/` — voir `docs/GITHUB-PAGES.md` à la racine du dépôt Repogo.
+
 Le workflow construit `exampleSite/` par défaut ; passez à `.` dans `.github/hugo-site-dir` si votre `content/` est à la racine.

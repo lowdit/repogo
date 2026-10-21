@@ -1,0 +1,4 @@
+{{/* Délégation demo exampleSite — canon Minigo : layouts/shortcodes/mermaid.html */}}
+<figure class="lowdit-diagram">
+  <pre class="mermaid">{{ .Inner | strings.TrimSpace | safeHTML }}</pre>
+</figure>
