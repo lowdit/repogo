@@ -1,0 +1,30 @@
+{{- /* Gazette : hebdo décideurs. Masthead A4, rubriques Markdown, sans TOC.
+     Params : gazette.{nom,motto,surtitle,translations}, numero, authors, date. */ -}}
+{{- $brand := partial "print/gazette-brand.html" . -}}
+{{- $lang := .Language.Lang | default "fr" -}}
+{{- $byline := cond (eq $lang "en") "Edited by" "Rédaction" -}}
+{{- $dateline := slice -}}
+{{- with .Params.authors }}{{ $dateline = $dateline | append (printf "%s · %s" $byline (delimit . " · ")) }}{{ end -}}
+{{- if not .PublishDate.IsZero }}{{ $dateline = $dateline | append (.PublishDate | time.Format ":date_long") }}{{ end -}}
+<article class="gazette-sheet">
+  <p class="gazette-runhead">{{ $brand }}{{ with .Params.numero }} · {{ . }}{{ end }}</p>
+  <header class="gazette-masthead">
+    {{ partial "print/gazette-marque.html" . }}
+    {{- with .Params.fil_serial }}<p class="gazette-serial">Série · {{ . }}</p>{{ end }}
+    <h1>{{ .Title }}</h1>
+    {{- with .Description }}<p class="gazette-lede">{{ . }}</p>{{ end }}
+    {{- with $dateline }}
+    <p class="gazette-dateline">{{ delimit . " · " }}</p>
+    {{- end }}
+  </header>
+  {{- with .Params.terme_semaine }}
+  <aside class="gazette-en-avant" aria-label="Terme de la semaine">
+    <p class="gazette-en-avant-label">Terme de la semaine</p>
+    <p class="gazette-en-avant-mot">{{ . }}</p>
+    {{- with $.Params.terme_semaine_def }}<p class="gazette-en-avant-def">{{ . }}</p>{{ end }}
+  </aside>
+  {{- end }}
+  <div class="gazette-body">
+    {{ .Content }}
+  </div>
+</article>

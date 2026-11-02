@@ -2,35 +2,43 @@
    AVANT les elements — pas d'import ici (et chemin fiable quel que soit
    l'empaquetage static/module). */
 :root {
-  /* Familles :
-     — « Optician Sans » : logo et titres très spécifiques (pas d'accents) ;
-     — « Subjectivity » : titres d'accueil, accroches ;
-     — « Atkinson Hyperlegible » : corps de texte, lisibilité. */
-  --lowdit-font-logo: "Optician Sans", "Subjectivity", ui-sans-serif, system-ui, sans-serif;
-  --lowdit-font-display: "Subjectivity", ui-sans-serif, system-ui, sans-serif;
+  /* Familles — politique « une seule famille » (webperf, 2026-10-21) :
+     — « Atkinson Hyperlegible » sert PARTOUT par défaut (corps, titres,
+       interface, titre du site) : zéro police d'affichage additionnelle,
+       un seul swap de police au chargement, et la police la plus lisible
+       (dessinée pour la basse vision) — cohérent pour une marque
+       accessibilité. Page typique : ~31 Ko de polices au lieu de ~59 Ko ;
+     — « Subjectivity » (police expressive de titrage, sans empattement) reste le rôle expressif :
+       activable par site via css/site-overrides.css (exampleSites des
+       moteurs repogo/sligo/fromago/resugo, slides) — jamais active par
+       défaut ;
+     — « Optician Sans » (111 glyphes ASCII, 0 accent) n'est plus utilisée
+       dans le rendu : le wordmark est un PNG. Voir brand/TYPOGRAPHIE.md. */
+  --lowdit-font-logo: "Atkinson Hyperlegible", ui-sans-serif, system-ui, sans-serif;
+  --lowdit-font-display: "Atkinson Hyperlegible", ui-sans-serif, system-ui, sans-serif;
   --lowdit-font-expressive: "Subjectivity", ui-sans-serif, system-ui, sans-serif;
   --lowdit-font-reading: "Atkinson Hyperlegible", ui-sans-serif, system-ui, sans-serif;
   --lowdit-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 }
 
 html {
-  color: var(--lowdit-night);
-  background: var(--lowdit-cream);
+  color: var(--lowdit-color-text, var(--lowdit-night));
+  background: var(--lowdit-color-background, var(--lowdit-cream));
 }
 
 body {
   margin: 0;
   font-family: var(--lowdit-font-reading);
-  line-height: 1.5;
+  line-height: var(--lowdit-line-body, 1.55);
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--lowdit-font-display);
-  line-height: 1.05;
+  line-height: var(--lowdit-line-tight, 1.2);
 }
 
 a {
-  color: var(--lowdit-violet);
+  color: var(--lowdit-color-link, var(--lowdit-violet));
 }
 
 /* ============================================================================
@@ -44,7 +52,7 @@ a {
 .pub-workspace__note {
   font-family: var(--lowdit-font-reading);
   line-height: 1.62;
-  color: var(--lowdit-night);
+  color: var(--lowdit-color-text, var(--lowdit-night));
 }
 
 .minigo-body > :first-child,
@@ -58,7 +66,7 @@ a {
 .lowdit-product__content :is(h2, h3, h4, h5) {
   font-family: var(--lowdit-font-display);
   line-height: 1.18;
-  color: var(--lowdit-night);
+  color: var(--lowdit-color-text, var(--lowdit-night));
 }
 
 .minigo-body h2,
@@ -111,11 +119,18 @@ a {
   text-underline-offset: 0.18em;
 }
 
+/* Liens stylés en bouton : pas de soulignement prose (spécificité > règle ci-dessus). */
+.minigo-body a.minigo-btn,
+.minigo-intro a.minigo-btn,
+.lowdit-product__content a.minigo-btn {
+  text-decoration: none;
+}
+
 .minigo-body hr,
 .minigo-intro hr,
 .lowdit-product__content hr {
   border: 0;
-  border-top: 1px solid var(--lowdit-border-subtle, color-mix(in srgb, var(--lowdit-night) 12%, transparent));
+  border-top: 1px solid var(--lowdit-border-subtle, var(--lowdit-color-border, #d8d4ca));
   margin: 2.5rem 0;
 }
 
@@ -133,7 +148,7 @@ a {
   margin: 1.4rem 0;
   padding: 0.3rem 0 0.3rem 1.1rem;
   border-left: 3px solid var(--lowdit-violet);
-  color: var(--lowdit-muted);
+  color: var(--lowdit-color-text-muted, var(--lowdit-muted));
   max-width: 66ch;
 }
 
@@ -156,7 +171,7 @@ a {
 .minigo-body :is(th, td),
 .minigo-intro :is(th, td),
 .lowdit-product__content :is(th, td) {
-  border: 1px solid var(--lowdit-border-subtle, color-mix(in srgb, var(--lowdit-night) 12%, transparent));
+  border: 1px solid var(--lowdit-border-subtle, var(--lowdit-color-border, #d8d4ca));
   padding: 0.5rem 0.7rem;
   text-align: left;
   vertical-align: top;
@@ -165,7 +180,7 @@ a {
 .minigo-body thead th,
 .minigo-intro thead th,
 .lowdit-product__content thead th {
-  background: color-mix(in srgb, var(--lowdit-night) 5%, transparent);
+  background: color-mix(in srgb, var(--lowdit-color-text, var(--lowdit-night)) 5%, transparent);
   font-weight: 700;
 }
 
@@ -175,7 +190,7 @@ a {
 .lowdit-product__content :not(pre) > code {
   font-family: var(--lowdit-font-mono);
   font-size: 0.9em;
-  background: color-mix(in srgb, var(--lowdit-night) 8%, transparent);
+  background: color-mix(in srgb, var(--lowdit-color-text, var(--lowdit-night)) 8%, transparent);
   padding: 0.12em 0.4em;
   border-radius: 0.3rem;
 }
@@ -191,16 +206,16 @@ a {
   line-height: 1.55;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
-  border: 1px solid var(--lowdit-border-subtle, color-mix(in srgb, var(--lowdit-night) 12%, transparent));
+  border: 1px solid var(--lowdit-border-subtle, var(--lowdit-color-border, #d8d4ca));
   border-radius: var(--lowdit-radius-md, 0.5rem);
-  background: color-mix(in srgb, var(--lowdit-night) 5%, transparent);
+  background: color-mix(in srgb, var(--lowdit-color-text, var(--lowdit-night)) 5%, transparent);
 }
 
 .minigo-body .highlight,
 .minigo-intro .highlight,
 .lowdit-product__content .highlight {
   margin: 1.4rem 0;
-  border: 1px solid var(--lowdit-border-strong, color-mix(in srgb, var(--lowdit-night) 22%, transparent));
+  border: 1px solid var(--lowdit-border-strong, var(--lowdit-color-border, #d8d4ca));
   border-radius: var(--lowdit-radius-md, 0.5rem);
   overflow: hidden;
   max-width: 100%;

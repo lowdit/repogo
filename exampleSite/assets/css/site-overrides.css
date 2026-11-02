@@ -1,0 +1,9 @@
+/* Point d'extension du baseof minigo (chargé en dernier, voir
+   minigo/layouts/_default/baseof.html) — exampleSite repogo.
+   Titrage en « Subjectivity » : la police expressive de marque, choix
+   délibéré du moteur repogo pour ses titres. Sans cet override, le
+   défaut minigo est Atkinson Hyperlegible partout (politique webperf
+   « une seule famille »). Voir brand/TYPOGRAPHIE.md. */
+:root {
+  --lowdit-font-display: "Subjectivity", ui-sans-serif, system-ui, sans-serif;
+}

@@ -1,0 +1,982 @@
+/* Gazette : hebdo décideurs, A4 paginé par Paged.js. build: 2026-10-29-v6
+   Colonne unique par conception : les colonnes CSS multiplient les cas de
+   rupture non traités côté Paged.js ; une variante deux colonnes demanderait
+   d'abord un protocole navigateur dédié.
+   Sans table des matières : lecture courte, rubriques en titres.
+   Aération : marges de page franches, échelle de corps remontée, ouverture
+   typographique en haut de page, hiérarchie h2 > h3 > h4 variée, citation
+   décollée (blockquote). Passer par un serveur HTTP (hugo server ou le site
+   publié) : un fichier:// ne résout pas les URL racine et reste brut. */
+
+:root {
+  /* Surchargeables par css/print/{org}.css sur le site, comme pagejs.css */
+  --repogo-ink: #0B2545;
+  --repogo-navy: #0B2545;
+  --repogo-accent: #2F6BFF;
+  --repogo-surface: #EDECE7;
+  --repogo-muted: #687280;
+  /* Texte secondaire corps : ≥ 4,5:1 sur blanc (leads, fils) — #687280 ≈ 4,88:1, un peu juste en petit italique */
+  --gazette-text-secondary: #4a5568;
+  --repogo-line: #E4E1DA;
+
+  --ink: var(--repogo-ink);
+  --navy: var(--repogo-navy);
+  --medium-grey: var(--repogo-muted);
+  --line: var(--repogo-line);
+  --paper: #ffffff;
+  /* Papier institutionnel : ton chaud discret (print + aperçu) */
+  --gazette-page-bg: #f9f8f6;
+  --gazette-ink-muted: #3d4f63;
+
+  --serif: "Atkinson", Georgia, "Times New Roman", serif;
+  --sans: "Atkinson", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* Nameplate : empattements, distinct du corps Atkinson */
+  --gazette-display: Georgia, "Times New Roman", Times, serif;
+}
+
+* { box-sizing: border-box; }
+
+/* ---------------------------------------------------------
+   Format des pages
+   --------------------------------------------------------- */
+
+@page {
+  size: A4;
+  background-color: #f9f8f6;
+  /* Corps large ; marge haute franche pour reprise après coupure */
+  margin: 12mm 10mm 16mm 10mm;
+
+  @top-left {
+    content: element(gazetteRunhead);
+    vertical-align: bottom;
+    padding-bottom: 2mm;
+    border-bottom: 0.35pt solid var(--line);
+    width: 100%;
+  }
+
+  @top-right {
+    content: counter(page);
+    vertical-align: bottom;
+    padding-bottom: 2mm;
+    border-bottom: 0.35pt solid var(--line);
+    font-family: var(--sans);
+    font-size: 8pt;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    color: var(--gazette-text-secondary);
+  }
+
+  @bottom-center {
+    content: none;
+  }
+}
+
+@page :first {
+  margin-top: 7mm;
+
+  @top-left {
+    content: none;
+    border-bottom: none;
+  }
+
+  @top-right {
+    content: none;
+    border-bottom: none;
+  }
+}
+
+/* ---------------------------------------------------------
+   Écran : aperçu des pages A4
+   --------------------------------------------------------- */
+
+@media screen {
+  body.gazette {
+    margin: 0;
+    padding: 10mm 12mm 30mm;
+    background: var(--repogo-surface);
+  }
+
+  .pagedjs_pages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14mm;
+    padding: 0;
+  }
+
+  .pagedjs_page {
+    box-shadow: 0 0 0 1px #c7ccce, 0 5px 22px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Avant pagination (chargement en cours, javascript désactivé) : colonne
+     lisible centrée, sans décor. Aucun fond ni ombre ici : Paged.js recrée
+     la racine du contenu sur chaque page au moment de la coupure, une
+     décoration posée sur un id s'accrocherait aux répliques. */
+  body.gazette #content {
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+}
+
+/* ---------------------------------------------------------
+   Typographie de base (échelle revue : aération)
+   --------------------------------------------------------- */
+
+html,
+body.gazette {
+  margin: 0;
+}
+
+body.gazette {
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 10.5pt;
+  line-height: 1.52;
+  hyphens: auto;
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+/* Fond feuille : pagebox (aperçu + dialogue Imprimer → PDF) */
+.pagedjs_page .pagedjs_pagebox {
+  background-color: #f9f8f6;
+  background: var(--gazette-page-bg);
+}
+
+/* Zone utile : air sous fil de coure quand le contenu reprend en haut de page */
+.pagedjs_page .pagedjs_page_content {
+  padding-top: 5mm;
+}
+
+.gazette-runhead {
+  position: running(gazetteRunhead);
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 7pt;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gazette-text-secondary);
+}
+
+/* Chaque niveau de titre porte ses marges ; aucune remise à zéro globale
+   à re-surcharger en aval */
+
+/* ---------------------------------------------------------
+   Ouverture : sur-titre, titre large, chapeau, date
+   --------------------------------------------------------- */
+
+.gazette-masthead {
+  margin: 0 0 6mm;
+  padding: 2mm 0 5mm;
+  border-bottom: 0.5pt solid var(--ink);
+}
+
+.gazette-masthead > :last-child {
+  margin-bottom: 0;
+}
+
+.gazette-kicker {
+  margin: 0 0 4mm;
+  font-family: var(--sans);
+  font-size: 9.5pt;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.gazette-kicker .gazette-numero {
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--gazette-text-secondary);
+}
+
+/* Nameplate : aligné masthead, fond discret, typo display serif */
+.gazette-nameplate {
+  margin: 0 0 5mm;
+  padding: 4mm 5mm 4.5mm;
+  text-align: left;
+  background: color-mix(in srgb, var(--ink) 3.5%, var(--gazette-page-bg));
+  border-left: 0.85pt solid var(--ink);
+}
+
+.gazette-nameplate__kicker {
+  margin: 0 0 3.5mm;
+  font-family: var(--gazette-display);
+  font-size: 7.5pt;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gazette-text-secondary);
+}
+
+.gazette-nameplate__numero {
+  letter-spacing: 0.16em;
+}
+
+.gazette-nameplate__nom {
+  margin: 0 0 3mm;
+  font-family: var(--gazette-display);
+  font-size: 29pt;
+  font-weight: 700;
+  line-height: 1.06;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.gazette-nameplate__motto {
+  margin: 0;
+  max-width: 38em;
+  font-family: var(--gazette-display);
+  font-size: 10.75pt;
+  line-height: 1.42;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--gazette-text-secondary);
+}
+
+.gazette-masthead h1 {
+  margin: 0 0 4mm;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 28pt;
+  line-height: 1.14;
+  letter-spacing: -0.025em;
+  hyphens: none;
+  color: var(--ink);
+}
+
+.gazette-lede {
+  margin: 0 0 4mm;
+  max-width: 42em;
+  font-family: var(--serif);
+  font-size: 11.5pt;
+  line-height: 1.48;
+  font-style: normal;
+  color: var(--gazette-text-secondary);
+}
+
+.gazette-serial {
+  margin: 0 0 3mm;
+  font-family: var(--sans);
+  font-size: 9pt;
+  letter-spacing: 0.06em;
+  color: var(--repogo-accent);
+}
+
+.gazette-dateline {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 8.5pt;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gazette-text-secondary);
+}
+
+/* Terme unique en tête (hors rubrique) */
+.gazette-en-avant {
+  margin: 0 0 6mm;
+  padding: 4mm 4mm 4.5mm;
+  border: 0.35pt solid var(--line);
+  border-top: none;
+  border-left: 2.5pt solid var(--repogo-accent);
+  background: color-mix(in srgb, var(--repogo-accent) 4%, #f9f8f6);
+  break-inside: avoid;
+}
+
+.gazette-en-avant-label {
+  margin: 0 0 1.5mm;
+  font-family: var(--sans);
+  font-size: 7pt;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--repogo-accent);
+}
+
+.gazette-en-avant-mot {
+  margin: 0 0 2mm;
+  font-family: var(--sans);
+  font-size: 13pt;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.gazette-en-avant-def {
+  margin: 0;
+  font-size: 10.25pt;
+  line-height: 1.48;
+  text-align: left;
+  hyphens: auto;
+  color: var(--ink);
+}
+
+/* ---------------------------------------------------------
+   Corps : aération, ouverture marquée, hiérarchie variée
+   --------------------------------------------------------- */
+
+.gazette-body p {
+  margin: 0 0 4mm;
+  text-align: justify;
+}
+
+/* Ouverture du corps : le premier paragraphe joue le rôle d'ouverture
+   marquée, sans justification, corps plus grand */
+.gazette-body > p:first-child {
+  margin: 1.5mm 0 4.5mm;
+  font-family: var(--sans);
+  font-size: 13pt;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.gazette-body h2 {
+  margin: 9mm 0 3.5mm;
+  padding: 0 0 1.2mm;
+  border-bottom: 0.45pt solid var(--line);
+  font-family: var(--sans);
+  font-size: 10.5pt;
+  line-height: 1.35;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  hyphens: none;
+  /* break-after: avoid laisse des h2 vides en bas de page (Paged.js) */
+  break-after: auto;
+  break-inside: avoid;
+}
+
+/* Fragment orphelin laissé par Paged.js quand un titre est repoussé */
+.gazette-body h2:empty {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.gazette-body h2:empty::before {
+  display: none !important;
+}
+
+/* Pas de pseudo-titre global : évite carré/filet fantôme après fragmentation Paged.js */
+.gazette-body h2::before {
+  content: none;
+  display: none;
+}
+
+/* Rubriques : repère couleur type magazine (carré + titre), pas d’aplat de fond */
+.gazette-body .gazette-part {
+  margin: 0 0 8mm;
+  padding: 0;
+  border-left: none;
+  --gazette-part-color: var(--ink);
+}
+
+.gazette-body .gazette-part--editorial { --gazette-part-color: #0b2545; }
+.gazette-body .gazette-part--tendances { --gazette-part-color: #2f6bff; }
+.gazette-body .gazette-part--risques { --gazette-part-color: #c2410c; }
+.gazette-body .gazette-part--methode { --gazette-part-color: #0d9488; }
+.gazette-body .gazette-part--organisation { --gazette-part-color: #7c3aed; }
+.gazette-body .gazette-part--sources { --gazette-part-color: #687280; }
+
+.gazette-body .gazette-part--sources,
+.gazette-body > h2#sources {
+  break-before: page;
+  margin-top: 4mm;
+}
+
+/* Titres de rubrique : couleur par id Hugo (## Titre) — pas besoin de div wrapper */
+.gazette-body .gazette-part > h2,
+.gazette-body > h2.gazette-rubrique,
+.gazette-body h2#tendances,
+.gazette-body h2#promesses-et-risques,
+.gazette-body h2#methode-et-maturite,
+.gazette-body h2#organisation,
+.gazette-body h2#sources {
+  margin: 0 0 4.5mm;
+  padding: 0 0 2mm;
+  border-bottom: 0.35pt solid color-mix(in srgb, var(--gazette-part-color, var(--ink)) 22%, var(--line));
+  border-top: none;
+  font-family: var(--sans);
+  font-size: 15pt;
+  line-height: 1.18;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--gazette-part-color, var(--ink));
+}
+
+.gazette-body h2#tendances { --gazette-part-color: #2f6bff; color: #2f6bff; }
+.gazette-body h2#promesses-et-risques { --gazette-part-color: #c2410c; color: #c2410c; }
+.gazette-body h2#methode-et-maturite { --gazette-part-color: #0d9488; color: #0d9488; }
+.gazette-body h2#organisation { --gazette-part-color: #7c3aed; color: #7c3aed; }
+.gazette-body h2#sources { --gazette-part-color: #687280; color: #687280; font-size: 12pt; }
+
+.gazette-body .gazette-part > h2::before,
+.gazette-body > h2.gazette-rubrique::before,
+.gazette-body h2#tendances::before,
+.gazette-body h2#promesses-et-risques::before,
+.gazette-body h2#methode-et-maturite::before,
+.gazette-body h2#organisation::before,
+.gazette-body h2#sources::before {
+  content: "";
+  display: block;
+  width: 3.2mm;
+  height: 3.2mm;
+  margin: 0 0 2mm;
+  background: var(--gazette-part-color, var(--ink));
+}
+
+.gazette-body .gazette-part--tendances,
+.gazette-body > h2#tendances {
+  break-before: page;
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* Éditorial : forme magazine ; saut de page = break-before sur ## Tendances */
+.gazette-body .gazette-part--editorial {
+  margin-bottom: 0;
+  padding-bottom: 5mm;
+  border-bottom: none;
+  break-inside: avoid;
+}
+
+.gazette-body .gazette-part--editorial > h2,
+.gazette-body > h2#editorial.gazette-rubrique,
+.gazette-body > h2#éditorial.gazette-rubrique,
+.gazette-body h2#editorial,
+.gazette-body h2#éditorial {
+  margin: 0 0 4mm;
+  font-family: var(--serif);
+  font-size: 17pt;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: -0.01em;
+  text-transform: none;
+  color: var(--ink);
+  border-bottom: 0.45pt solid var(--line);
+  padding-bottom: 2.5mm;
+}
+
+.gazette-body .gazette-part--editorial > h2::before,
+.gazette-body > h2#editorial.gazette-rubrique::before,
+.gazette-body > h2#éditorial.gazette-rubrique::before,
+.gazette-body h2#editorial::before,
+.gazette-body h2#éditorial::before {
+  content: none;
+  display: none;
+}
+
+.gazette-body .gazette-part--editorial p {
+  font-size: 11.25pt;
+  line-height: 1.55;
+  text-align: left;
+  hyphens: none;
+}
+
+/* En bref : grand, sans encadré (accroche de rubrique) */
+.gazette-body .gazette-part-lead {
+  margin: 0 0 5mm;
+  padding: 0;
+  font-family: var(--sans);
+  font-size: 11pt;
+  line-height: 1.48;
+  font-weight: 500;
+  color: var(--gazette-text-secondary);
+  text-align: left;
+  hyphens: none;
+  break-after: auto;
+  border: none;
+  background: none;
+}
+
+.gazette-body .gazette-part-lead p {
+  margin: 0;
+  text-align: left;
+}
+
+/* Article : bloc de lecture ; éviter titre seul en bas de page */
+.gazette-body .gazette-article {
+  margin: 0 0 5.5mm;
+  padding: 0;
+  border: none;
+  orphans: 3;
+  widows: 3;
+}
+
+.gazette-body .gazette-part > .gazette-article + .gazette-article {
+  margin-top: 5mm;
+  padding-top: 0;
+  border-top: none;
+}
+
+.gazette-body .gazette-part > h2 + .gazette-part-lead,
+.gazette-body .gazette-part > h2 + .gazette-article {
+  break-before: avoid-page;
+}
+
+/* Titre + corps : ne pas séparer (ex. Lancet) */
+.gazette-body .gazette-article-lede {
+  break-inside: avoid;
+}
+
+.gazette-body .gazette-article-lede h3 {
+  margin: 0 0 2.5mm;
+  padding: 0;
+  border: none;
+  font-size: 10.5pt;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.gazette-body .gazette-article-lede p {
+  font-size: 10.5pt;
+  line-height: 1.54;
+  text-align: left;
+}
+
+.gazette-body .gazette-article-lede p:last-child {
+  margin-bottom: 0;
+}
+
+.gazette-body .gazette-article h3 {
+  margin: 0 0 2.5mm;
+  font-family: var(--sans);
+  font-size: 10.75pt;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: 0.01em;
+  hyphens: none;
+  break-after: avoid;
+}
+
+/* Verdict collé au résumé quand l’article est paginé */
+.gazette-body .gazette-article:has(.gazette-verdict) .gazette-verdict {
+  break-before: avoid;
+}
+
+/* Reprise en tête de page : air sous le fil de coure */
+.pagedjs_page .pagedjs_page_content > .gazette-body > *:first-child,
+.pagedjs_page .pagedjs_page_content > *:first-child:is(.gazette-part, .gazette-article) {
+  margin-top: 0;
+}
+
+.pagedjs_page .pagedjs_page_content .gazette-article:first-child,
+.pagedjs_page .pagedjs_page_content .gazette-part:first-child {
+  padding-top: 2mm;
+}
+
+
+.gazette-body .gazette-thread {
+  margin: 3mm 0 0;
+  font-family: var(--sans);
+  font-size: 9.5pt;
+  line-height: 1.45;
+  color: var(--gazette-text-secondary);
+  text-align: left;
+  font-style: italic;
+  hyphens: none;
+}
+
+/* Verdict : phrase de clôture discrète (pas un bloc graphique) */
+.gazette-body .gazette-verdict {
+  margin: 2.5mm 0 0;
+  padding: 0;
+  font-family: var(--sans);
+  font-size: 9.75pt;
+  line-height: 1.48;
+  text-align: left;
+  hyphens: none;
+  break-inside: avoid;
+  border: none;
+  background: none;
+  color: var(--gazette-text-secondary);
+}
+
+.gazette-body .gazette-verdict p {
+  margin: 0;
+  text-align: left;
+}
+
+.gazette-body .gazette-verdict strong {
+  display: inline;
+  margin: 0;
+  font-size: inherit;
+  font-weight: 700;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--ink);
+}
+
+/* Format cible : markdown seul (## rubrique, ### source, > verdict) */
+.gazette-body > h3.gazette-source-title,
+.gazette-body h3.gazette-source-title {
+  margin: 5mm 0 2.5mm;
+  padding: 0;
+  font-family: var(--sans);
+  font-size: 10.75pt;
+  font-weight: 700;
+  hyphens: none;
+  break-after: avoid;
+  color: var(--ink);
+}
+
+.gazette-body h3.gazette-source-title + p {
+  margin: 0 0 2mm;
+  font-size: 10.5pt;
+  line-height: 1.54;
+  break-inside: avoid;
+}
+
+.gazette-body > h2#tendances + p,
+.gazette-body > h2#promesses-et-risques + p,
+.gazette-body > h2#methode-et-maturite + p,
+.gazette-body > h2#organisation + p {
+  margin: 0 0 5mm;
+  font-family: var(--sans);
+  font-size: 11pt;
+  line-height: 1.48;
+  font-weight: 500;
+  color: var(--gazette-text-secondary);
+}
+
+.gazette-body blockquote {
+  margin: 2.5mm 0 0;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: var(--sans);
+  font-size: 9.75pt;
+  line-height: 1.48;
+  font-style: normal;
+  color: var(--gazette-text-secondary);
+  break-inside: avoid;
+}
+
+.gazette-body blockquote p {
+  margin: 0;
+}
+
+.gazette-body blockquote strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* Fil entre sources (markdown : paragraphe italique après le verdict) */
+.gazette-body blockquote + p em,
+.gazette-body .gazette-thread {
+  font-style: italic;
+}
+
+.gazette-body blockquote + p {
+  margin: 3mm 0 5mm;
+  font-family: var(--sans);
+  font-size: 9.5pt;
+  line-height: 1.45;
+  color: var(--gazette-text-secondary);
+  hyphens: none;
+}
+
+.gazette-body .gazette-part--sources > h2 {
+  color: var(--gazette-part-color);
+}
+
+.gazette-body h3 {
+  margin: 5mm 0 2mm;
+  font-family: var(--sans);
+  font-size: 10.5pt;
+  font-weight: 700;
+  font-style: normal;
+  letter-spacing: -0.01em;
+  hyphens: none;
+  break-after: auto;
+}
+
+.gazette-body h4 {
+  margin: 5.5mm 0 2mm;
+  font-family: var(--sans);
+  font-size: 10.5pt;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  hyphens: none;
+  break-after: auto;
+}
+
+.gazette-body ul,
+.gazette-body ol {
+  margin: 0 0 4.5mm;
+  padding-left: 6mm;
+}
+
+.gazette-body li {
+  margin: 0 0 1.8mm;
+}
+
+.gazette-body ul p,
+.gazette-body ol p {
+  margin: 0;
+}
+
+.gazette-body a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.6mm;
+}
+
+/* Citation décollée : corps plus grand, filet gauche épais, pas de
+   justification. Baliser `> citation` dans le Markdown suffit. */
+.gazette-body blockquote {
+  margin: 5mm 0;
+  padding: 0 0 0 5mm;
+  border-left: 2.8pt solid var(--ink);
+  font-size: 12pt;
+  font-style: italic;
+  text-align: left;
+  break-inside: avoid;
+}
+
+.gazette-body blockquote p {
+  margin: 0 0 2.5mm;
+}
+
+.gazette-body blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+.gazette-body table {
+  width: 100%;
+  margin: 5mm 0 6mm;
+  border-collapse: collapse;
+  font-family: var(--sans);
+  font-size: 9pt;
+  line-height: 1.4;
+  break-inside: avoid;
+}
+
+.gazette-body th,
+.gazette-body td {
+  border: 0.4pt solid #444;
+  padding: 1.8mm 2.2mm;
+  vertical-align: top;
+  text-align: left;
+}
+
+.gazette-body th {
+  background: #f2f2f2;
+  font-weight: 700;
+}
+
+.gazette-body img {
+  max-width: 100%;
+  height: auto;
+  margin: 4mm 0;
+}
+
+/* Inline : attributs, pseudo-éléments (::tooltip), pas de bloc gris */
+.gazette-body :not(pre) > code,
+.gazette-en-avant-def code,
+.gazette-lede code {
+  font-family: ui-monospace, "SFMono-Regular", Consolas, Menlo, monospace;
+  font-size: 0.94em;
+  font-weight: 500;
+  font-style: normal;
+  color: var(--ink);
+  hyphens: none;
+  white-space: nowrap;
+  word-break: keep-all;
+  padding: 0.05em 0.2em;
+  background: color-mix(in srgb, var(--ink) 4%, #f9f8f6);
+  border: 0.25pt solid color-mix(in srgb, var(--ink) 12%, var(--line));
+  border-radius: 0.2mm;
+}
+
+.gazette-body pre {
+  margin: 4mm 0;
+  padding: 3mm;
+  font-family: ui-monospace, Consolas, Menlo, monospace;
+  font-size: 9pt;
+  background: #f2f2f2;
+  white-space: pre-wrap;
+  break-inside: avoid;
+  text-align: left;
+  hyphens: none;
+}
+
+.gazette-body pre code {
+  padding: 0;
+  border: none;
+  background: none;
+  white-space: inherit;
+  font-size: inherit;
+}
+
+/* Sources annexées : sans dépassé du corps, pile sans-serif, aérée */
+.gazette-body #sources ~ ul {
+  font-family: var(--sans);
+  font-size: 9pt;
+  line-height: 1.5;
+}
+
+.gazette-body #sources ~ ul li {
+  margin: 0 0 1.2mm;
+}
+
+.gazette-body #sources ~ ul a {
+  hyphens: none;
+  overflow-wrap: anywhere;
+}
+
+/* ---------------------------------------------------------
+   Aperçu écran étroit : lecture en flux continu. Les pages A4
+   restent la référence pour l'impression ; le clone mobile est
+   préfixé m- par print/main.html.
+   --------------------------------------------------------- */
+
+.repogo-mobile {
+  display: none;
+}
+
+@media screen and (max-width: 51.25rem) {
+  .pagedjs_pages.is-mobile-hidden {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    overflow-x: clip;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  body.gazette #content {
+    max-width: 42rem;
+  }
+
+  .repogo-mobile {
+    display: block;
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 1rem 1rem 3rem;
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .repogo-mobile__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--paper);
+    padding: 0.75rem 1rem;
+  }
+
+  .repogo-mobile__bar p {
+    margin: 0;
+    color: var(--medium-grey);
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .repogo-mobile__bar button {
+    min-height: 44px;
+    border: 1px solid var(--navy);
+    border-radius: 4px;
+    background: var(--navy);
+    padding: 0.5rem 0.9rem;
+    color: var(--paper);
+    font: inherit;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .repogo-mobile .gazette-masthead {
+    margin: 0 0 2.5rem;
+    padding: 0 0 2.5rem;
+    border-bottom: 1px solid var(--line);
+    box-shadow: none;
+  }
+
+  .repogo-mobile .gazette-masthead h1 {
+    font-size: 1.7rem;
+  }
+
+  .repogo-mobile .gazette-lede {
+    font-size: 1.05rem;
+  }
+
+  .repogo-mobile .gazette-body h2 {
+    margin: 2.5rem 0 1rem;
+    font-size: 1.05rem;
+  }
+
+  .repogo-mobile .gazette-body h2::before {
+    margin-bottom: 0.5rem;
+  }
+
+  .repogo-mobile .gazette-body h3 {
+    margin: 1.5rem 0 0.6rem;
+    font-size: 1rem;
+  }
+
+  .repogo-mobile .gazette-body > p:first-child {
+    font-size: 1.1rem;
+  }
+
+  .repogo-mobile .gazette-body p,
+  .repogo-mobile .gazette-body li {
+    font-size: 1rem;
+  }
+
+  .repogo-mobile .gazette-body blockquote {
+    margin: 1.5rem 0;
+    padding: 0 0 0 1rem;
+    font-size: 1.05rem;
+  }
+
+  .repogo-mobile .gazette-body img,
+  .repogo-mobile .gazette-body table {
+    max-width: 100%;
+  }
+}
+
+/* Impression depuis un écran étroit : la barre et le flux mobile
+   ne doivent jamais partir sur le papier, pas plus que le fond d'aperçu. */
+@media print {
+  .repogo-mobile {
+    display: none !important;
+  }
+
+  body.gazette {
+    padding: 0;
+    background: none;
+  }
+
+  .pagedjs_page,
+  .pagedjs_page .pagedjs_pagebox {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .pagedjs_page {
+    box-shadow: none;
+  }
+
+  .pagedjs_page .pagedjs_pagebox {
+    background-color: #f9f8f6;
+    background: var(--gazette-page-bg);
+  }
+
+  .pagedjs_sheet {
+    background-color: #f9f8f6;
+  }
+}

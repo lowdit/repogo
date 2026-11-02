@@ -1,0 +1,10 @@
+{{- $page := .Page -}}
+{{- if ne $page.Params.document "gazette" -}}
+<h{{ .Level }} id="{{ .Anchor | safeURL }}">{{ .Text | safeHTML }}</h{{ .Level }}>
+{{- else if eq .Level 2 -}}
+<h2 id="{{ .Anchor | safeURL }}" class="gazette-rubrique">{{ .Text | safeHTML }}</h2>
+{{- else if eq .Level 3 -}}
+<h3 id="{{ .Anchor | safeURL }}" class="gazette-source-title">{{ .Text | safeHTML }}</h3>
+{{- else -}}
+<h{{ .Level }} id="{{ .Anchor | safeURL }}">{{ .Text | safeHTML }}</h{{ .Level }}>
+{{- end -}}

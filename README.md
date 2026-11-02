@@ -7,6 +7,7 @@ Thème Hugo **print** (Paged.js) de l’écosystème Lowdit : rapports, comptes 
 | [`docs/PRINT.md`](docs/PRINT.md) | Routage `document`, front matter, CSS, tests |
 | [`docs/VISION.md`](docs/VISION.md) | Roadmap types (exam, Sligo, …) |
 | [`docs/EVOLUTION-EDITORIALE.md`](docs/EVOLUTION-EDITORIALE.md) | Livre/fascicule : site porteur vs moteur print |
+| [`docs/RESSOURCES-SITES-VENTE-LIVRE.md`](docs/RESSOURCES-SITES-VENTE-LIVRE.md) | Veille exemples sites vente/découverte livres (Shelf & Story, Mollat, …) |
 | [`docs/PDF-MOTEURS-EVALUATION.md`](docs/PDF-MOTEURS-EVALUATION.md) | Paged.js, dompdf.js, Prince — décision PDF |
 | [`docs/ACCESSIBILITE-PDF.md`](docs/ACCESSIBILITE-PDF.md) | Statuts de déclaration (automatisé d’abord) |
 | [`docs/TICKET-PDF-EVAL-01.md`](docs/TICKET-PDF-EVAL-01.md) | Incrément POC dompdf.js |

@@ -7,4 +7,40 @@
   --lowdit-repogo: #2F6BFF;
   --lowdit-white: #FFFFFF;
   --lowdit-muted: #687280;
+
+  /* Contrat sémantique — clair par défaut. Les couleurs de marque ci-dessus
+     restent fixes ; les éléments d'interface consomment ces rôles. */
+  color-scheme: light;
+  --lowdit-color-background: var(--lowdit-cream);
+  --lowdit-color-surface: var(--lowdit-white);
+  --lowdit-color-text: var(--lowdit-night);
+  --lowdit-color-text-muted: var(--lowdit-muted);
+  --lowdit-color-link: var(--lowdit-violet);
+  --lowdit-color-border: #D8D4CA;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --lowdit-color-background: #071A33;
+  --lowdit-color-surface: #0C2748;
+  --lowdit-color-text: #F7F6F2;
+  --lowdit-color-text-muted: #B8C5D6;
+  --lowdit-color-link: #63DED0;
+  --lowdit-color-border: #3A526F;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root[data-theme="auto"] {
+    color-scheme: dark;
+    --lowdit-color-background: #071A33;
+    --lowdit-color-surface: #0C2748;
+    --lowdit-color-text: #F7F6F2;
+    --lowdit-color-text-muted: #B8C5D6;
+    --lowdit-color-link: #63DED0;
+    --lowdit-color-border: #3A526F;
+  }
 }

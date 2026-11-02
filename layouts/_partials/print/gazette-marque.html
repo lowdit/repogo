@@ -1,0 +1,11 @@
+{{- /* Nameplate print uniquement — typo éditoriale, params .Params.gazette */ -}}
+{{- $g := .Params.gazette | default dict -}}
+{{- $nom := $g.nom | default "La Gazette accessibilité" -}}
+{{- $surtitle := $g.surtitle | default "Hebdomadaire numérique" -}}
+{{- $motto := $g.motto | default "Synthèse assistée par l'IA, relecture humaine : organiser votre veille métier sans lire tout le flux." -}}
+{{- $motto = replace $motto "\n" " " -}}
+<div class="gazette-nameplate">
+  <p class="gazette-nameplate__kicker">{{ $surtitle }}{{ with .Params.numero }}<span class="gazette-nameplate__numero"> · {{ . }}</span>{{ end }}</p>
+  <p class="gazette-nameplate__nom">{{ $nom }}</p>
+  <p class="gazette-nameplate__motto">{{ $motto }}</p>
+</div>

@@ -4,7 +4,8 @@
 {{- $doc := .Params.document | default "" }}
 {{- $isLetter := and $isPrint (or (eq $doc "letter") .Params.courrier (isset .Params "destinataire")) }}
 {{- $isCompteRendu := and $isPrint (not $isLetter) (or (eq $doc "compte_rendu") (eq $doc "cr") (eq $doc "record")) }}
-{{- $isReport := and $isPrint (not $isLetter) (not $isCompteRendu) }}
+{{- $isGazette := and $isPrint (not $isLetter) (not $isCompteRendu) (eq $doc "gazette") }}
+{{- $isReport := and $isPrint (not $isLetter) (not $isCompteRendu) (not $isGazette) }}
 {{- $printOrg := or .Params.org site.Params.org }}
 {{- if ne .Type "blank" }}
 <!doctype html>
@@ -18,6 +19,7 @@
   {{- with .Description }}<meta name=description content="{{ . }}">{{ end }}
   {{- with .Params.authors }}<meta name=author content="{{ delimit . "," }}">{{ end }}
   <link rel="canonical" href="{{ .Permalink }}">
+  {{ partial "lowdit/favicon.html" . }}
   <link rel="schema.DC" href="http://purl.org/DC/elements/1.0/">
   <meta name="DC.Title" content="{{ .Title }}">
   {{- with .Params.authors }}<meta name="DC.Creator" content="{{ delimit . "," }}">{{ end }}
@@ -33,6 +35,8 @@
   <link rel=stylesheet type=text/css href="{{ .RelPermalink }}" media="screen">
   {{- end }}
   {{- end }}
+  {{- else if $isGazette }}
+  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/gazette.css").RelPermalink }}" media="all">
   {{- else if $isReport }}
   <link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs.css").RelPermalink }}" media="screen">
   {{- if eq $BaseName "abstract" }}
@@ -53,18 +57,104 @@
       {{- else }}<link rel="stylesheet" href="{{ .RelPermalink }}">{{- end }}
     {{- end }}
   {{- end }}
+  <script>
+    /* Aperçu mobile : on garde les pages A4 générées par Paged.js pour
+       l'impression, et on prépare une lecture en flux continu pour les
+       écrans étroits. Le clone est créé avant que Paged.js ne déplace
+       #content dans ses pages. */
+    window.PagedConfig = {
+      before: function () {
+        var source = document.getElementById("content");
+        if (!source) return;
+
+        var mobile = document.createElement("div");
+        mobile.id = "repogo-mobile";
+        mobile.className = "repogo-mobile";
+        mobile.innerHTML = source.innerHTML;
+
+        mobile.querySelectorAll("[id]").forEach(function (el) {
+          el.id = "m-" + el.id;
+        });
+        mobile.querySelectorAll('a[href^="#"]').forEach(function (link) {
+          var href = link.getAttribute("href");
+          if (href.length > 1) link.setAttribute("href", "#m-" + href.slice(1));
+        });
+
+        var tocList = mobile.querySelector("#m-toc-list");
+        if (tocList) {
+          var list = document.createElement("ol");
+          list.className = "repogo-mobile__toc-list";
+          mobile.querySelectorAll(".chapter h2[id], .chapter h3[id]").forEach(function (heading) {
+            var item = document.createElement("li");
+            item.className = heading.tagName === "H2"
+              ? "repogo-mobile__toc-level-1"
+              : "repogo-mobile__toc-level-2";
+            var link = document.createElement("a");
+            link.href = "#" + heading.id;
+            link.textContent = heading.textContent;
+            item.appendChild(link);
+            list.appendChild(item);
+          });
+          tocList.appendChild(list);
+        }
+
+        var bar = document.createElement("div");
+        bar.className = "repogo-mobile__bar";
+        var note = document.createElement("p");
+        note.textContent = "Lecture mobile — l’impression conserve la mise en page A4.";
+        var printButton = document.createElement("button");
+        printButton.type = "button";
+        printButton.textContent = "Imprimer en A4";
+        printButton.addEventListener("click", function () { window.print(); });
+        bar.appendChild(note);
+        bar.appendChild(printButton);
+        mobile.prepend(bar);
+
+        document.body.appendChild(mobile);
+        window.PagedConfig.content = source;
+
+        if (window.location.hash) {
+          var target = mobile.querySelector(window.location.hash.replace(/^#/, "#m-"));
+          if (target) {
+            window.requestAnimationFrame(function () {
+              target.scrollIntoView();
+            });
+          }
+        }
+      },
+      after: function () {
+        var source = document.getElementById("content");
+        if (source) source.remove();
+
+        var preview = document.querySelector(".pagedjs_pages");
+        if (!preview) return;
+        var media = window.matchMedia("(max-width: 51.25rem)");
+        var syncPreview = function () {
+          preview.classList.toggle("is-mobile-hidden", media.matches);
+        };
+        syncPreview();
+        if (media.addEventListener) media.addEventListener("change", syncPreview);
+        window.addEventListener("beforeprint", function () {
+          preview.classList.remove("is-mobile-hidden");
+        });
+        window.addEventListener("afterprint", syncPreview);
+      }
+    };
+  </script>
   <script type=text/javascript src="{{ (resources.Get "js/pagejs/paged.polyfill.js").Permalink }}"></script>
   {{- if $isReport }}
   <script type=text/javascript src="{{ (resources.Get "js/pagejs/createToc.js").Permalink }}"></script>
   {{- end }}
   <script type=text/javascript src="{{ (resources.Get "js/pagejs/main.js").Permalink }}"></script>
 </head>
-<body class="{{ if $isLetter }}courrier{{ else if $isCompteRendu }}courrier record{{ else }}{{ $BaseName }}{{ end }}{{ with $printOrg }} org-{{ . }}{{ end }}">
+<body class="{{ if $isLetter }}courrier{{ else if $isCompteRendu }}courrier record{{ else if $isGazette }}gazette{{ else }}{{ $BaseName }}{{ end }}{{ with $printOrg }} org-{{ . }}{{ end }}">
 <div id="content"><main>
 {{- if $isLetter }}
 {{ partial "print/courrier.html" . }}
 {{- else if $isCompteRendu }}
 {{ partial "print/record.html" . }}
+{{- else if $isGazette }}
+{{ partial "print/gazette.html" . }}
 {{- else if $isReport }}
 <div id=cover aria-hidden=true>
   <header>
@@ -114,7 +204,7 @@ const appendPageNumberToAnchor = (el, pageNum) => {
 };
 class handlers extends Paged.Handler {
   beforeParsed(content) {
-    {{- if or $isLetter $isCompteRendu }}
+    {{- if or $isLetter $isCompteRendu $isGazette }}
     const root = content.querySelector(".courrier-body") || content;
     root.querySelectorAll("h2, h3, h4").forEach((h) => {
       const next = h.nextElementSibling;
@@ -131,7 +221,7 @@ class handlers extends Paged.Handler {
     {{- end }}
     {{- end }}
   }
-  {{- if and $isReport (ne $BaseName "abstract") }}
+  {{- if and (or $isReport $isGazette) (ne $BaseName "abstract") }}
   afterPageLayout(pageEl) {
     const pageNum = pageEl.dataset.pageNumber;
     pageEl.querySelectorAll(".title-element").forEach((titleEl) => {
@@ -139,6 +229,14 @@ class handlers extends Paged.Handler {
         appendPageNumberToAnchor(link, pageNum);
       });
     });
+  }
+  afterRendered() {
+    const preview = document.querySelector(".pagedjs_pages");
+    if (!preview) return;
+    preview.tabIndex = 0;
+    preview.setAttribute("role", "region");
+    preview.setAttribute("aria-label", "Aperçu du document A4");
+    preview.scrollLeft = 0;
   }
   {{- end }}
 }

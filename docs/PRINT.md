@@ -25,6 +25,7 @@ Activer sur le site :
 |-----------|--------|----------------------|
 | `document: letter`, **`courrier: true`**, ou champ **`destinataire`** | Courrier | `print/courrier.html` |
 | `document: compte_rendu`, **`cr`**, ou **`record`** | Compte rendu | `print/record.html` |
+| `document: gazette` | Gazette | `print/gazette.html` : masthead, rubriques, sans TOC |
 | *(autre / absent)* | Rapport | Couverture `#cover`, TOC, chapitres |
 
 **Important :** `org` charge la peau CSS et la classe `org-{id}` ; il **ne** bascule **pas** vers le courrier.
@@ -36,6 +37,7 @@ Alias recommandés aujourd’hui :
 | Rapport long, dossier, livre | *(omis)* ou `report` |
 | CR de réunion, note sans couverture | `compte_rendu` |
 | Courrier administratif | `letter` |
+| Gazette hebdo (décideurs) | `gazette` |
 
 ---
 
@@ -45,6 +47,7 @@ Alias recommandés aujourd’hui :
 |------|--------------------|---------------------|
 | Courrier | `courrier.css` | `assets/css/courrier/{org}.css` si présent |
 | Compte rendu | `courrier.css` + `record.css` | idem courrier |
+| Gazette | `gazette.css` | *(peau org non prévue pour le moment)* |
 | Rapport | `pagejs.css` (+ `pagejs-rs.css` si `abstract`) | `assets/css/print/{org}.css` si présent |
 
 `{org}` = `or .Params.org site.Params.org`.
@@ -52,6 +55,23 @@ Alias recommandés aujourd’hui :
 Accents CR : `--print-accent` ou `--repogo-accent` dans la peau org (voir `record.css`).
 
 Polices : le site expose `/assets/css/fonts.css` (copié depuis `lowdit-brand` via `sync-brand.sh`).
+
+---
+
+## Aperçu écran, mobile et impression
+
+- **Écran large** : Paged.js affiche les pages A4 (`210 × 297 mm`) dans `.pagedjs_pages`.
+- **Écran ≤ 51,25 rem** (820 px) : `.pagedjs_pages` est masqué après le rendu et un
+  **lecteur mobile** (`.repogo-mobile`) reprend le contenu en flux continu, sans
+  défilement horizontal ni réduction de la typographie. Les titres, le sommaire et
+  les tableaux sont adaptés au viewport ; les liens du sommaire restent à 24 px.
+- **Impression** : le lecteur mobile est masqué et les pages A4 Paged.js reprennent
+  la main. Le bouton « Imprimer en A4 » du lecteur ouvre directement la boîte
+  d'impression du navigateur.
+
+Le clone mobile est créé **avant** le déplacement de `#content` par Paged.js. Ses
+identifiants sont préfixés par `m-` pour éviter les collisions avec les ancres des
+pages A4 conservées pour l'impression.
 
 ---
 
@@ -134,6 +154,25 @@ Sections Hugo : pages enfants paginées en chapitres numérotés. Contenu page :
 
 ---
 
+## Front matter — gazette
+
+```yaml
+title: "Semaine 44 d'accessibilité"
+description: "Chapeau repris en tête de gazette"
+document: gazette
+kicker: "Gazette accessibilité"   # optionnel, rubrique en sur-titre
+numero: "Semaine 44"              # optionnel, étiquette de période
+date: 2026-10-26
+authors: ["Bertrand Keller"]
+outputs: ["HTML", "print"]
+```
+
+Masthead print : **`gazette.{surtitle,nom,motto}`** via `print/gazette-marque.html` (absent du single blog) ; fil de coure **nom · numero** ; dateline **Rédaction · authors**.
+
+Corps Markdown : **rubriques fixes** `##` (Éditorial, Tendances, Promesses et risques, Méthode et maturité, Organisation, Sources) ; **terme_semaine** en front matter (encart en avant sous le masthead), enveloppées en `div.gazette-part.gazette-part--*`. Chaque source = un `article.gazette-article` avec `###` titre et **un** encart verdict ; liens en bas (`## Sources {#sources}`). Voir [`bertrandkeller.github.io/docs/GUIDE-NEWSLETTER-EDITIONS.md`](../../bertrandkeller.github.io/docs/GUIDE-NEWSLETTER-EDITIONS.md). Pas de TOC. A4 paginé (Paged.js), pied de page numéroté.
+
+---
+
 ## Surcharges site
 
 Copier dans le site **uniquement si nécessaire** :
@@ -155,8 +194,8 @@ Repogo fournit `i18n/fr.yaml` et `en.yaml` (`toc-title`). Empiler Higo + Repogo 
 ## Tests avant publication
 
 1. `hugo --minify` sans erreur.
-2. Ouvrir `/…/print.html` pour un CR, un courrier, un rapport.
-3. Vérifier pied de page org (CSS courrier) et couleurs rapport (`--repogo-*`).
+2. Ouvrir `/…/print.html` pour un CR, un courrier, un rapport ou une gazette.
+3. Vérifier pied de page org (CSS courrier), couleurs rapport (`--repogo-*`), masthead gazette.
 4. Export PDF navigateur ou pipeline habituel.
 
 ### PDF fichier vs HTML print
@@ -183,6 +222,8 @@ Les polices Atkinson et tokens `--lowdit-*` viennent du dépôt graphique **`git
 | `layouts/_partials/print/main.html` | Routage + HTML shell |
 | `layouts/_partials/print/courrier.html` | Mise en page courrier |
 | `layouts/_partials/print/record.html` | Mise en page CR |
+| `layouts/_partials/print/gazette.html` | Mise en page gazette |
 | `assets/css/pagejs.css` | Rapport paginé |
 | `assets/css/courrier.css` | Base courrier / CR |
+| `assets/css/gazette.css` | Gazette (masthead, rubriques, lecteur mobile) |
 | `assets/css/record.css` | Typo titres CR |

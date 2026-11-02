@@ -16,6 +16,7 @@ theme = ["repogo", "minigo"]
 [params.lowdit]
   logo = "logos/repogo.png"
   faviconDir = "favicons/repogo"
+  socialImage = "/assets/social/twittercard-default.png"
   siteProfile = "publisher"
   view = "publisher"
   homeEyebrow = "Repogo · édition"

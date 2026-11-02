@@ -80,6 +80,214 @@
   }
 }
 
+/* Aperçu écran étroit : les pages A4 restent la référence d'impression,
+   mais on affiche à la place une lecture en flux continu, sans défilement
+   horizontal ni réduction de la typographie. */
+.repogo-mobile {
+  display: none;
+}
+
+@media screen and (max-width: 51.25rem) {
+  /* Masquage appliqué après le rendu Paged.js : pendant la pagination, le
+     conteneur doit rester mesurable. */
+  .pagedjs_pages.is-mobile-hidden {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    overflow-x: clip;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .repogo-mobile {
+    display: block;
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 1rem 1rem 3rem;
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .repogo-mobile__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--paper);
+    padding: 0.75rem 1rem;
+  }
+
+  .repogo-mobile__bar p {
+    margin: 0;
+    color: var(--medium-grey);
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .repogo-mobile__bar button {
+    min-height: 44px;
+    border: 1px solid var(--navy);
+    border-radius: 4px;
+    background: var(--navy);
+    padding: 0.5rem 0.9rem;
+    color: var(--paper);
+    font: inherit;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .repogo-mobile [id="m-cover"] {
+    display: block;
+    min-height: 0;
+    margin: 0 0 2rem;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    background: none;
+    padding: 0 0 1.5rem;
+    break-after: auto;
+  }
+
+  .repogo-mobile [id="m-cover"] h1 {
+    max-width: none;
+    margin: 0 0 1rem;
+    font-size: clamp(2rem, 8vw, 2.75rem);
+    line-height: 1.08;
+  }
+
+  .repogo-mobile [id="m-cover"] h1.smaller {
+    font-size: clamp(1.8rem, 7vw, 2.4rem);
+  }
+
+  .repogo-mobile [id="m-cover"] footer {
+    margin: 0;
+    border: 0;
+    padding: 0;
+    color: var(--medium-grey);
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .repogo-mobile [id="m-cover"] .metadata {
+    margin: 0 0 1rem;
+    border: 0;
+    padding: 0;
+  }
+
+  .repogo-mobile [id="m-cover"] .author {
+    font-size: 0.9rem;
+  }
+
+  .repogo-mobile [id="m-toc"] {
+    margin: 0 0 2rem;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    padding: 1rem;
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .repogo-mobile [id="m-toc"] h2 {
+    display: block;
+    margin: 0 0 0.75rem;
+    border: 0;
+    padding: 0;
+    font-size: 1.3rem;
+  }
+
+  .repogo-mobile__toc-list {
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  .repogo-mobile__toc-list li {
+    margin-bottom: 0.4rem;
+  }
+
+  .repogo-mobile__toc-list a {
+    display: inline-block;
+    min-height: 24px;
+    line-height: 24px;
+  }
+
+  .repogo-mobile__toc-level-2 {
+    margin-left: 1rem;
+    font-size: 0.95em;
+  }
+
+  .repogo-mobile .chapter {
+    display: block;
+    margin: 0 0 2.5rem;
+  }
+
+  .repogo-mobile .chapter h2 {
+    display: block;
+    margin: 2rem 0 1rem;
+    padding-bottom: 0.5rem;
+    font-size: clamp(1.45rem, 6vw, 1.9rem);
+    line-height: 1.2;
+  }
+
+  .repogo-mobile .chapter h2::before {
+    display: none;
+  }
+
+  .repogo-mobile .chapter h3 {
+    margin: 1.5rem 0 0.75rem;
+    font-size: 1.15rem;
+    line-height: 1.3;
+  }
+
+  .repogo-mobile h4 {
+    margin: 1.25rem 0 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .repogo-mobile p,
+  .repogo-mobile li {
+    font-size: 1rem;
+    line-height: 1.65;
+  }
+
+  .repogo-mobile .lead,
+  .repogo-mobile .introduction {
+    font-size: 1.1rem;
+    line-height: 1.55;
+  }
+
+  .repogo-mobile blockquote {
+    margin: 1.5rem 0;
+    padding: 1rem 1.25rem;
+    font-size: 1.05rem;
+  }
+
+  .repogo-mobile table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    font-size: 0.85rem;
+  }
+
+  .repogo-mobile th,
+  .repogo-mobile td {
+    padding: 0.5rem;
+  }
+
+  .repogo-mobile img {
+    width: 100%;
+    max-height: none;
+    height: auto;
+  }
+}
+
 /* ---------------------------------------------------------
    Base
    --------------------------------------------------------- */
