@@ -29,12 +29,12 @@ html {
 body {
   margin: 0;
   font-family: var(--lowdit-font-reading);
-  line-height: var(--lowdit-line-body, 1.55);
+  line-height: 1.5;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--lowdit-font-display);
-  line-height: var(--lowdit-line-tight, 1.2);
+  line-height: 1.05;
 }
 
 a {
@@ -119,7 +119,6 @@ a {
   text-underline-offset: 0.18em;
 }
 
-/* Liens stylés en bouton : pas de soulignement prose (spécificité > règle ci-dessus). */
 .minigo-body a.minigo-btn,
 .minigo-intro a.minigo-btn,
 .lowdit-product__content a.minigo-btn {

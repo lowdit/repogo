@@ -54,7 +54,7 @@
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.minigo--view-inquiry .minigo-card:hover {
+.minigo--view-inquiry .minigo-card:has(a):hover {
   border-color: color-mix(in srgb, var(--lowdit-accent-marque) 40%, var(--lowdit-border-subtle));
   box-shadow: 0 0.35rem 1rem color-mix(in srgb, var(--lowdit-night) 10%, transparent);
 }
