@@ -18,7 +18,9 @@
   <title>{{ .Title }}{{ with .Params.company }} | {{ . }}{{ end }}{{ with $BaseName }} | {{ humanize . }}{{ end }}</title>
   {{- with .Description }}<meta name=description content="{{ . }}">{{ end }}
   {{- with .Params.authors }}<meta name=author content="{{ delimit . "," }}">{{ end }}
+  {{- if hugo.IsProduction -}}
   <link rel="canonical" href="{{ .Permalink }}">
+  {{- end -}}
   {{ partial "lowdit/favicon.html" . }}
   <link rel="schema.DC" href="http://purl.org/DC/elements/1.0/">
   <meta name="DC.Title" content="{{ .Title }}">
@@ -37,6 +39,11 @@
   {{- end }}
   {{- else if $isGazette }}
   <link rel=stylesheet type=text/css href="{{ (resources.Get "css/gazette.css").RelPermalink }}" media="all">
+  {{- with $printOrg }}
+  {{- with resources.Get (printf "css/print/%s.css" .) }}
+  <link rel=stylesheet type=text/css href="{{ .RelPermalink }}" media="all">
+  {{- end }}
+  {{- end }}
   {{- else if $isReport }}
   <link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs.css").RelPermalink }}" media="screen">
   {{- if eq $BaseName "abstract" }}
@@ -48,8 +55,8 @@
   {{- end }}
   {{- end }}
   {{- end }}
-  <link rel="preload" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css" as="style">
-  <link rel="stylesheet" href="{{ $.Site.BaseURL | default "/" }}assets/css/fonts.css"/>
+  <link rel="preload" href="{{ "assets/css/fonts.css" | relURL }}" as="style">
+  <link rel="stylesheet" href="{{ "assets/css/fonts.css" | relURL }}"/>
   {{- with resources.Get "sass/vendors/_admonitions.scss" }}
     {{- $opts := dict "enableSourceMap" (not hugo.IsProduction) "outputStyle" (cond hugo.IsProduction "compressed" "expanded") "targetPath" "css/vendors/admonitions.css" }}
     {{- with . | toCSS $opts }}
@@ -63,9 +70,14 @@
        écrans étroits. Le clone est créé avant que Paged.js ne déplace
        #content dans ses pages. */
     window.PagedConfig = {
+      auto: false,
       before: function () {
         var source = document.getElementById("content");
         if (!source) return;
+        if (document.getElementById("repogo-mobile")) {
+          window.PagedConfig.content = source;
+          return;
+        }
 
         var mobile = document.createElement("div");
         mobile.id = "repogo-mobile";
@@ -123,11 +135,11 @@
         }
       },
       after: function () {
-        var source = document.getElementById("content");
-        if (source) source.remove();
-
         var preview = document.querySelector(".pagedjs_pages");
         if (!preview) return;
+
+        var source = document.getElementById("content");
+        if (source) source.remove();
         var media = window.matchMedia("(max-width: 51.25rem)");
         var syncPreview = function () {
           preview.classList.toggle("is-mobile-hidden", media.matches);
@@ -141,11 +153,6 @@
       }
     };
   </script>
-  <script type=text/javascript src="{{ (resources.Get "js/pagejs/paged.polyfill.js").Permalink }}"></script>
-  {{- if $isReport }}
-  <script type=text/javascript src="{{ (resources.Get "js/pagejs/createToc.js").Permalink }}"></script>
-  {{- end }}
-  <script type=text/javascript src="{{ (resources.Get "js/pagejs/main.js").Permalink }}"></script>
 </head>
 <body class="{{ if $isLetter }}courrier{{ else if $isCompteRendu }}courrier record{{ else if $isGazette }}gazette{{ else }}{{ $BaseName }}{{ end }}{{ with $printOrg }} org-{{ . }}{{ end }}">
 <div id="content"><main>
@@ -196,6 +203,11 @@
 {{- end }}
 {{- end }}
 </main></div>
+<script type=text/javascript src="{{ (resources.Get "js/pagejs/paged.polyfill.js").RelPermalink }}"></script>
+{{- if $isReport }}
+<script type=text/javascript src="{{ (resources.Get "js/pagejs/createToc.js").RelPermalink }}"></script>
+{{- end }}
+<script type=text/javascript src="{{ (resources.Get "js/pagejs/main.js").RelPermalink }}"></script>
 <script>
 const appendPageNumberToAnchor = (el, pageNum) => {
   const span = document.createElement("span");
@@ -204,7 +216,7 @@ const appendPageNumberToAnchor = (el, pageNum) => {
 };
 class handlers extends Paged.Handler {
   beforeParsed(content) {
-    {{- if or $isLetter $isCompteRendu $isGazette }}
+    {{- if or $isLetter $isCompteRendu }}
     const root = content.querySelector(".courrier-body") || content;
     root.querySelectorAll("h2, h3, h4").forEach((h) => {
       const next = h.nextElementSibling;
@@ -221,7 +233,7 @@ class handlers extends Paged.Handler {
     {{- end }}
     {{- end }}
   }
-  {{- if and (or $isReport $isGazette) (ne $BaseName "abstract") }}
+  {{- if and $isReport (ne $BaseName "abstract") }}
   afterPageLayout(pageEl) {
     const pageNum = pageEl.dataset.pageNumber;
     pageEl.querySelectorAll(".title-element").forEach((titleEl) => {
@@ -241,6 +253,32 @@ class handlers extends Paged.Handler {
   {{- end }}
 }
 Paged.registerHandlers(handlers);
+
+(function startRepogoPagedPreview() {
+  function run() {
+    if (window.__repogoPagedStarted) return;
+    window.__repogoPagedStarted = true;
+    var config = window.PagedConfig || {};
+    var previewer = new Paged.Previewer(config.settings);
+    (async function () {
+      try {
+        if (config.before) await config.before();
+        var done = await previewer.preview(config.content, config.stylesheets, config.renderTo);
+        if (config.after) await config.after(done);
+      } catch (err) {
+        console.error("Repogo Paged.js:", err);
+      }
+    })();
+  }
+  function schedule() {
+    window.setTimeout(run, 0);
+  }
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", schedule);
+  } else {
+    schedule();
+  }
+})();
 </script>
 </html>
 {{- end -}}
