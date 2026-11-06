@@ -21,7 +21,7 @@ theme = ["repogo", "minigo"]
   view = "publisher"
   homeEyebrow = "Repogo · édition"
   featuredBook = "/reports/etude-marche-editeurs-libres/"
-  pinned = ["/reports/appel-offre-refonte-portail-services/", "/reports/plateforme-tests-hybrides-wcag/", "/reports/strategie-accessibilite-numerique/"]
+  pinned = ["/reports/ca-2026-03-12-collectif-horizons/", "/reports/ag-2026-06-28-collectif-horizons/", "/reports/appel-offre-refonte-portail-services/"]
   showPrintLink = true
 
 [[menus.main]]

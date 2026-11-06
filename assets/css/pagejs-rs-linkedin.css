@@ -1,0 +1,45 @@
+/* Variante inspirée du carrousel LinkedIn (webperf) : relief/ombrage sur fond, sans casser pagejs-rs.css */
+:root {
+    --color-background: #f4f6fb;
+    --color-pageBox: #555;
+    --color-paper: #ffffff;
+    --color-main: #1a1a2e;
+    --shadow-card: 0 18px 40px rgba(0,0,0,0.12), 0 6px 12px rgba(0,0,0,0.08);
+    --shadow-soft: 0 8px 20px rgba(0,0,0,0.10);
+}
+
+.pagedjs_sheet {
+    background: linear-gradient(160deg, #f4f6fb 0%, #e9ecf5 100%);
+}
+
+.chapter {
+    background: var(--color-paper);
+    border-radius: 18px;
+    box-shadow: var(--shadow-card);
+    padding: 4rem 3.5rem;
+    margin: 2rem;
+}
+
+.chapter h2, .chapter h1 {
+    color: var(--color-main);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+}
+
+.chapter p {
+    color: #2b2b3a;
+    line-height: 1.35;
+}
+
+.chapter blockquote {
+    background: #f7f8fc;
+    border-left: 6px solid var(--color-main);
+    border-radius: 12px;
+    box-shadow: var(--shadow-soft);
+    padding: 2rem 2.5rem;
+}
+
+/* compteur de slide en coin */
+.chapter::after {
+    content: "";
+}

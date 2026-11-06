@@ -30,6 +30,12 @@
 
   --lowdit-line-tight: 1.12;
   --lowdit-line-body: 1.55;
+
+  /* Tracking — Atkinson Hyperlegible : éviter le « faux espacement » (caps > 0.1em). */
+  --lowdit-tracking-tight: -0.02em;
+  --lowdit-tracking-display: -0.015em;
+  --lowdit-tracking-eyebrow: 0.06em;
+  --lowdit-tracking-label: 0.04em;
 }
 
 .lowdit-container {

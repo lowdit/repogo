@@ -36,7 +36,7 @@
 
 .minigo--view-thinktank .minigo-hero h1 {
   font-size: var(--lowdit-font-size-display);
-  letter-spacing: -0.03em;
+  letter-spacing: var(--lowdit-tracking-tight, -0.02em);
   line-height: var(--lowdit-line-tight);
   max-width: 20ch;
   color: var(--lowdit-night);
@@ -53,7 +53,7 @@
 .minigo--view-thinktank .minigo-timeline time {
   font-variant-numeric: tabular-nums;
   font-size: 0.8125rem;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--lowdit-tracking-label, 0.04em);
   text-transform: uppercase;
 }
 

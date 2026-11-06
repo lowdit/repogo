@@ -5,7 +5,8 @@
 {{- $motto := $g.motto | default "Synthèse assistée par l'IA, relecture humaine : organiser votre veille métier sans lire tout le flux." -}}
 {{- $motto = replace $motto "\n" " " -}}
 <div class="gazette-nameplate">
-  <p class="gazette-nameplate__kicker">{{ $surtitle }}{{ with .Params.numero }}<span class="gazette-nameplate__numero"> · {{ . }}</span>{{ end }}</p>
+  {{- /* Numéro : runhead uniquement (évite Parutions · Parution 001, etc.) */ -}}
+  <p class="gazette-nameplate__kicker">{{ $surtitle }}</p>
   <p class="gazette-nameplate__nom">{{ $nom }}</p>
   <p class="gazette-nameplate__motto">{{ $motto }}</p>
 </div>

@@ -1,0 +1,43 @@
+# Contrat d'exploitation — pilote pack comptes-rendus (Repogo exampleSite)
+schema: lowdit-site-manifest
+schemaVersion: "1"
+
+pack: comptes-rendus
+siteId: repogo-example-comptes-rendus
+owner: lowdit
+purpose: "Démo publique pack comptes rendus — contenu fictif Collectif Horizons"
+
+profile:
+  siteProfile: publisher
+  view: publisher
+  note: "Vue publisher sur exampleSite ; les nouveaux sites pack CR ciblent thinktank + hub (voir template comptes-rendus)."
+
+composition:
+  coque: minigo
+  moteurs: [repogo]
+  themeOrder: ["repogo", "minigo"]
+
+modules:
+  github.com/lowdit/minigo: "v0.5.0"
+  github.com/lowdit/repogo: "v0.5.1"
+
+runtime:
+  hugo: ">=0.120.0"
+  go: ">=1.20"
+
+quality:
+  checks:
+    - id: hugo-build
+      command: "hs test repogo"
+    - id: links-local
+      command: "hugo --gc --minify -e development"
+  a11yDisclaimer: "Design system gouverné ; pas de certification RGAA sur cette démo."
+
+publish:
+  host: github-pages
+  baseURL: https://lowdit.github.io/repogo/
+  workflow: repogo/.github/workflows/pages.yml
+
+brand:
+  syncScript: lowdit-brand/scripts/sync-brand.sh
+  lastSynced: null

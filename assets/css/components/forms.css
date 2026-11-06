@@ -1,0 +1,77 @@
+/* Champs de formulaire — focus canon Minigo (ACL text-input / textarea).
+   Un seul anneau :focus-visible ; pas de double halo avec :focus. */
+
+.lowdit-form {
+  display: grid;
+  gap: var(--lowdit-space-4, 1rem);
+  max-width: var(--lowdit-content-narrow, 42rem);
+}
+
+.lowdit-form label,
+.lowdit-field label {
+  display: block;
+  font-weight: 600;
+  margin-block-end: var(--lowdit-space-2, 0.5rem);
+}
+
+.lowdit-field__hint {
+  display: block;
+  margin-block-start: var(--lowdit-space-1, 0.25rem);
+  font-size: var(--lowdit-font-size-sm, 0.875rem);
+  color: var(--lowdit-muted, #6b6459);
+}
+
+.lowdit-input,
+.lowdit-form input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+.lowdit-form textarea,
+.lowdit-form select,
+.minigo-search input {
+  width: 100%;
+  max-width: 100%;
+  padding: 0.55rem 0.75rem;
+  font: inherit;
+  line-height: var(--lowdit-line-body, 1.55);
+  color: var(--lowdit-night, #161616);
+  background: var(--lowdit-white, #fff);
+  border: 1px solid var(--lowdit-border-strong, color-mix(in srgb, #161616 22%, transparent));
+  border-radius: var(--lowdit-radius-sm, 4px);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.lowdit-input:disabled,
+.lowdit-form input:disabled,
+.lowdit-form textarea:disabled,
+.lowdit-form select:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  background: color-mix(in srgb, var(--lowdit-night, #161616) 4%, var(--lowdit-white, #fff));
+}
+
+.lowdit-input:focus,
+.lowdit-form input:focus,
+.lowdit-form textarea:focus,
+.lowdit-form select:focus,
+.minigo-search input:focus {
+  outline: none;
+}
+
+.lowdit-input:focus-visible,
+.lowdit-form input:focus-visible,
+.lowdit-form textarea:focus-visible,
+.lowdit-form select:focus-visible,
+.minigo-search input:focus-visible,
+.minigo--view-inquiry input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):focus-visible,
+.minigo--view-inquiry textarea:focus-visible,
+.minigo--view-inquiry select:focus-visible {
+  border-color: var(--lowdit-violet, #6b4fd8);
+  outline: 2px solid var(--lowdit-violet, #6b4fd8);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+.lowdit-form input:user-invalid:focus-visible,
+.lowdit-form textarea:user-invalid:focus-visible,
+.lowdit-form select:user-invalid:focus-visible {
+  border-color: var(--lowdit-coral, #ff6b5a);
+  outline-color: var(--lowdit-coral, #ff6b5a);
+}

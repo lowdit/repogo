@@ -23,7 +23,7 @@
 .lowdit-eyebrow {
   font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: var(--lowdit-tracking-eyebrow, 0.06em);
   text-transform: uppercase;
   margin: 0 0 var(--lowdit-space-3);
 }
