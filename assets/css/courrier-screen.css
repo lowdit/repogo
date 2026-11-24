@@ -1,0 +1,87 @@
+/* Extrait de courrier.css — écran uniquement, chargé en media=screen.
+   Paged.js 0.4.x retire les feuilles media=all et supprime @media screen
+   de son CSS de pagination : ces règles doivent rester hors de son périmètre. */
+
+@media screen {
+  body.courrier {
+    background: #e7e9e9;
+  }
+
+  .pagedjs_pages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12mm;
+    padding: 12mm 0;
+  }
+
+  .pagedjs_page {
+    background: #fff;
+    box-shadow: 0 0 0 1px #c7ccce, 0 5px 22px rgba(0, 0, 0, 0.12);
+  }
+}
+
+
+/* Lecture linéaire mobile (courrier / compte rendu) */
+.repogo-mobile {
+  display: none;
+}
+
+@media screen and (max-width: 51.25rem) {
+  .pagedjs_pages.is-mobile-hidden {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    overflow-x: clip;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .repogo-mobile {
+    display: block;
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 1rem 1rem 3rem;
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .repogo-mobile__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--line, #c7ccce);
+  }
+
+  .repogo-mobile__bar p {
+    margin: 0;
+    font-size: 0.85rem;
+  }
+
+  .repogo-mobile__bar button {
+    font: inherit;
+    font-size: 0.85rem;
+    padding: 0.45rem 0.8rem;
+    border: 1px solid currentColor;
+    background: transparent;
+    cursor: pointer;
+  }
+}
+
+/* Extension accessibilité — retour de note et focus du sommaire */
+.footnote-backref {
+  margin-left: 0.35em;
+  font-size: 0.85em;
+  text-decoration: none;
+}
+
+.title-element:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}

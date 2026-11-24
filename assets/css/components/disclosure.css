@@ -1,62 +1,70 @@
 /* ============================================================================
-   COMPOSANT — Disclosure (panneau révélé) (Lowdit)
+   COMPOSANT — Disclosure (Lowdit)
    ============================================================================
-   Sémantique : bouton avec aria-expanded + région masquée/affichée
-   (pattern ARIA « disclosure »). Mapping ACL : TetraLogical ACL —
-   https://tetralogical.com/resources/accessible-components-library/disclosure/
-   (licence ISC, code ici original).
+   Pattern ARIA : bouton aria-expanded + région (ACL disclosure).
+   Scoping : `.lowdit-disclosure` + structure (bouton + panneau).
 
-   Markup attendu (partials/components/disclosure.html) :
-     <button class="lowdit-disclosure__trigger"
-             aria-expanded="false" aria-controls="panel-id">Basculer</button>
-     <div id="panel-id" class="lowdit-disclosure__panel" hidden>…</div>
-
-   Note : le basculement `aria-expanded` + `hidden` est piloté par un petit
-   script inline du partial (progressive enhancement — sans JS, le bouton
-   reste un titre non actionnable, le contenu reste accessible dans le flux).
+   <div class="lowdit-disclosure">
+     <button type="button" aria-expanded="false" aria-controls="id"
+             data-lowdit-disclosure>…</button>
+     <div id="id" hidden>…</div>
+   </div>
    ============================================================================ */
 
-.lowdit-disclosure__trigger {
+.lowdit-disclosure > button {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: var(--lowdit-space-3, 0.75rem);
   width: 100%;
+  margin: 0;
   padding: 0.75rem 1rem;
-  border: 1px solid color-mix(in srgb, var(--lowdit-night) 15%, transparent);
-  border-radius: 6px;
-  background: var(--lowdit-cream, #F7F6F2);
+  font: inherit;
   font-weight: 600;
   text-align: left;
+  color: var(--lowdit-color-text);
   cursor: pointer;
+  border: 1px solid var(--lowdit-color-border-component);
+  border-radius: var(--lowdit-radius-md, 6px);
+  background: var(--lowdit-color-surface, var(--lowdit-cream, #f7f6f2));
+  transition: var(
+    --lowdit-transition-control,
+    border-color 150ms ease,
+    box-shadow 150ms ease
+  );
 }
 
-.lowdit-disclosure__trigger:hover {
-  border-color: color-mix(in srgb, var(--lowdit-violet, #5B3DF5) 40%, transparent);
+.lowdit-disclosure > button:hover {
+  border-color: var(--lowdit-color-action);
 }
 
-/* Focus clavier visible (WCAG 2.4.7) */
-.lowdit-disclosure__trigger:focus-visible {
-  outline: 2px solid var(--lowdit-violet, #5B3DF5);
+.lowdit-disclosure > button:focus-visible {
+  outline: 2px solid var(--lowdit-color-focus);
   outline-offset: 2px;
 }
 
-/* Chevron décoratif piloté par aria-expanded */
-.lowdit-disclosure__trigger::after {
-  content: "\25B8"; /* triangle vers la droite */
-  color: var(--lowdit-violet, #5B3DF5);
-  transition: transform 0.15s ease;
+/* Indicateur en tête de ligne (ordre de lecture / ACL disclosure — avant le libellé). */
+.lowdit-disclosure > button::before {
+  content: "\25b8";
+  margin-top: 0.12em;
+  color: var(--lowdit-color-link, var(--lowdit-violet, #5b3df5));
+  transition: var(--lowdit-transition-disclosure-icon, transform 150ms ease);
   flex-shrink: 0;
 }
 
-.lowdit-disclosure__trigger[aria-expanded="true"]::after {
+.lowdit-disclosure > button[aria-expanded="true"]::before {
   transform: rotate(90deg);
 }
 
-.lowdit-disclosure__panel {
+.lowdit-disclosure > div {
   padding: 1rem;
-  border: 1px solid color-mix(in srgb, var(--lowdit-night) 15%, transparent);
+  line-height: var(--lowdit-line-body, 1.55);
+  border: 1px solid var(--lowdit-color-border-component);
   border-top: 0;
-  border-radius: 0 0 6px 6px;
-  line-height: 1.55;
+  border-radius: 0 0 var(--lowdit-radius-md, 6px) var(--lowdit-radius-md, 6px);
+  background: var(--lowdit-color-surface, var(--lowdit-cream, #f7f6f2));
+}
+
+.lowdit-disclosure > button[aria-expanded="true"] {
+  border-radius: var(--lowdit-radius-md, 6px) var(--lowdit-radius-md, 6px) 0 0;
 }

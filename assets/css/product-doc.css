@@ -1,0 +1,129 @@
+/* Pages documentaires — coque blanche sur fond crème (thinktank Brand).
+   Canon : .lowdit-product > .content-hero + .with-sidebar | .doc-body | listes .lowdit-cards */
+
+.content-hero--bare {
+  margin: 0 0 2.5rem;
+  padding: 2rem 0 1.5rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--lowdit-night) 10%, transparent);
+}
+
+.lowdit-product {
+  box-sizing: border-box;
+  width: 100%;
+  padding: var(--lowdit-space-6) var(--lowdit-space-5);
+  background: var(--lowdit-color-surface, var(--lowdit-white));
+  border: 1px solid var(--lowdit-color-border, var(--lowdit-neutral-300));
+  border-radius: var(--lowdit-radius-lg, 14px);
+  box-shadow: var(--lowdit-shadow-card);
+}
+
+@media (min-width: 48rem) {
+  .lowdit-product {
+    padding: var(--lowdit-space-7) var(--lowdit-space-6);
+  }
+}
+
+.lowdit-product .with-sidebar {
+  gap: var(--lowdit-space-6, 2rem);
+  margin-top: var(--lowdit-space-5, 1.5rem);
+}
+
+@media (min-width: 52rem) {
+  .lowdit-product .with-sidebar {
+    display: grid;
+    grid-template-columns: 11.5rem minmax(0, 1fr);
+    gap: var(--lowdit-grid-gap-lg, 1.75rem);
+    align-items: start;
+  }
+
+  .lowdit-product .with-sidebar > .doc-nav {
+    position: sticky;
+    top: var(--lowdit-space-4, 1rem);
+    min-width: 0;
+    padding-inline-end: var(--lowdit-space-2, 0.5rem);
+  }
+
+  .lowdit-product .with-sidebar > .doc-body {
+    padding-inline-start: var(--lowdit-space-2, 0.5rem);
+    min-width: 0;
+  }
+}
+
+.doc-body {
+  min-width: 0;
+  max-inline-size: 100%;
+  overflow-wrap: break-word;
+  padding-inline: max(3px, var(--lowdit-space-1, 0.25rem));
+}
+
+.doc-body:has(table) {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.doc-body table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.doc-body :is(th, td) {
+  overflow-wrap: anywhere;
+  hyphens: auto;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  vertical-align: top;
+}
+
+.doc-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 2px solid var(--lowdit-border-subtle, color-mix(in srgb, var(--lowdit-night) 10%, transparent));
+}
+
+.doc-nav li {
+  margin: 0;
+}
+
+.doc-nav a {
+  display: block;
+  padding: 0.45rem 0 0.45rem 1rem;
+  margin-left: -2px;
+  border-left: 2px solid transparent;
+  color: var(--lowdit-night);
+  text-decoration: none;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.doc-nav a:hover,
+.doc-nav a[aria-current="page"] {
+  border-left-color: var(--lowdit-turquoise);
+  color: var(--lowdit-role-accent-repogo-text, var(--lowdit-repogo-700));
+}
+
+.doc-nav ul ul {
+  border-left: 0;
+  margin: 0.15rem 0 0.4rem;
+  padding-left: 0.9rem;
+}
+
+.doc-nav ul ul a {
+  font-weight: 400;
+  font-size: 0.92em;
+}
+
+.lowdit-product .content-hero {
+  margin-block-end: 0;
+  padding-bottom: var(--lowdit-space-5);
+  border-bottom: 1px solid var(--lowdit-color-border, var(--lowdit-neutral-300));
+}
+
+.lowdit-product .lowdit-cards {
+  margin-block-start: var(--lowdit-space-5);
+}
+
+.doc-body :is(h2, h3):not(:where(.lowdit-accordion *, .lowdit-disclosure *, .lowdit-demo *)) {
+  margin-top: var(--lowdit-space-6, 2rem);
+}

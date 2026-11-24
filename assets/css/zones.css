@@ -1,0 +1,173 @@
+/**
+ * Lowdit — zones à slots (vides / pleines), grilles adaptatives.
+ * Voir docs/FRAMEWORK-CSS.md et content/fondations/composition/
+ *
+ * Améliorations : :has(), :empty, color-mix() — le layout reste lisible sans :has
+ * (:empty masque les slots ; grilles mono-colonne par défaut sur étroit).
+ */
+@supports not selector(:has(*)) {
+  .zone-slots--2col,
+  .zone-slots--3col {
+    grid-template-columns: 1fr;
+  }
+
+  .zone-slots:not(:has(.zone-slot:not(:empty))) {
+    display: block;
+  }
+}
+
+.zone-slot:empty {
+  display: none;
+}
+
+/* Conteneur sans aucun slot visible */
+.zone-slots:not(:has(.zone-slot:not(:empty))) {
+  display: none;
+}
+
+.zone-slots {
+  display: grid;
+  gap: var(--lowdit-space-4, 1.5rem);
+  width: 100%;
+}
+
+/* Un seul slot non vide → une colonne pleine largeur */
+.zone-slots:has(> .zone-slot:only-child),
+.zone-slots:has(> .zone-slot:not(:empty):only-of-type) {
+  grid-template-columns: 1fr;
+}
+
+.zone-slots--2col {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr);
+  gap: var(--lowdit-grid-gap-lg, 1.75rem);
+}
+
+@media (max-width: 52rem) {
+  .zone-slots--2col {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Deux slots remplis : aside + main */
+.zone-slots--2col:has(> .zone-slot--aside:not(:empty)):has(> .zone-slot--main:not(:empty)) {
+  grid-template-columns: minmax(12rem, 0.45fr) minmax(0, 1fr);
+}
+
+.zone-slots--3col {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.zone-slots--3col:not(:has(> .zone-slot:nth-child(3):not(:empty))) {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+}
+
+.zone-slot--main {
+  min-width: 0;
+}
+
+.zone-slots--2col > .zone-slot--aside:not(:empty) {
+  padding-inline-end: var(--lowdit-space-4, 1rem);
+}
+
+.zone-slots--2col > .zone-slot--main:not(:empty) {
+  padding-inline-start: var(--lowdit-space-3, 0.75rem);
+}
+
+.zone-slots--3col > .zone-slot:not(:empty) {
+  padding-inline: var(--lowdit-space-2, 0.5rem);
+}
+
+/* Hero sans sous-titre / lead */
+.content-hero:not(:has(.lowdit-hero__lead, .lowdit-hero__lead, p)) {
+  padding-block-end: var(--lowdit-space-3, 1rem);
+}
+
+.zone-hero:empty {
+  display: none;
+}
+
+.lowdit-product:not(:has(.zone-hero:not(:empty), .content-hero:not(:empty))) .zone-slots:first-of-type {
+  margin-block-start: 0;
+}
+
+/* Corps markdown sans h2 : prose plus serrée */
+.doc-body:not(:has(h2)) {
+  --lowdit-prose-block-gap: var(--lowdit-space-3, 1rem);
+}
+
+.doc-body:not(:has(h2)) > :first-child {
+  margin-block-start: 0;
+}
+
+/* Zone qui ne contient qu'un tableau */
+.zone-slot:has(> table:only-child) {
+  overflow-x: auto;
+}
+
+/* Spotlight / carte isolée dans un slot */
+.zone-slot:has(> .lowdit-card:only-child, > .lowdit-card:only-child) {
+  display: flex;
+  justify-content: center;
+}
+
+/* Grille de cartes : densité si peu d'éléments */
+.zone-slots--cards:has(> .zone-slot:not(:empty):nth-child(1):nth-last-child(1)) {
+  grid-template-columns: 1fr;
+  max-width: 36rem;
+  margin-inline: auto;
+}
+
+.zone-slots--cards:has(> .zone-slot:not(:empty):nth-child(2):nth-last-child(1)) {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/* Bande spotlight pleine largeur (vide = masquée) */
+.zone-slots--band {
+  margin-block-end: var(--lowdit-space-4, 1.5rem);
+}
+
+.zone-slot--spotlight:not(:empty) {
+  padding: var(--lowdit-space-4, 1.5rem);
+  border-radius: var(--lowdit-radius-md, 8px);
+  background: var(--lowdit-surface-card, var(--lowdit-color-white, #fff));
+  border: 1px solid var(--lowdit-color-border, #dfe3ea);
+}
+
+/* Hero asymétrique (titre + lead vs zone visuelle optionnelle) */
+.hub-shell__hero--asymmetric {
+  display: grid;
+  gap: var(--lowdit-space-4, 1.5rem);
+  align-items: end;
+  padding-block-end: var(--lowdit-space-5, 2rem);
+  border-bottom: 1px solid var(--lowdit-color-border, #dfe3ea);
+  margin-block-end: var(--lowdit-space-4, 1.5rem);
+}
+
+@media (min-width: 48rem) {
+  .hub-shell__hero--asymmetric {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  }
+
+  .hub-shell__hero--asymmetric:not(:has(.hub-shell__hero-visual:not(:empty))) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.hub-shell__hero-visual:empty {
+  display: none;
+}
+
+.hub-shell__hero-visual {
+  min-height: 8rem;
+  border-radius: var(--lowdit-radius-md, 8px);
+  background: color-mix(in srgb, var(--lowdit-charte-accent, var(--lowdit-repogo)) 18%, var(--lowdit-surface-page, #f1efeb));
+}
+
+/* 3 colonnes : 2 slots remplis → 2 col ; 1 seul → 1 col (règles existantes + feature) */
+.zone-slots--3col:has(> .zone-slot--feature:not(:empty)):has(> .zone-slot--main:not(:empty)):not(:has(> .zone-slot--aside:not(:empty))) {
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+}
+
+.zone-slots--3col:has(> .zone-slot--aside:not(:empty)):has(> .zone-slot--main:not(:empty)):not(:has(> .zone-slot--feature:not(:empty))) {
+  grid-template-columns: minmax(12rem, 0.4fr) minmax(0, 1fr);
+}

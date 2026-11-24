@@ -1,0 +1,148 @@
+/* Carte éditoriale — canon Brand (banc polices + tuiles Minigo).
+   .lowdit-card = coque ; .lowdit-card = même coque + lien titre étendu (::after). */
+
+.lowdit-cards,
+.lowdit-cards {
+  display: grid;
+  gap: var(--lowdit-grid-gap-lg, 1.375rem);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20.5rem), 1fr));
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.lowdit-cards[data-columns="2"] {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 40rem) {
+  .lowdit-cards[data-columns="2"] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.lowdit-cards[data-columns="3"] {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 40rem) {
+  .lowdit-cards[data-columns="3"] {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 64rem) {
+  .lowdit-cards[data-columns="3"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.lowdit-cards > li,
+.lowdit-cards > li {
+  margin: 0;
+}
+
+.lowdit-card,
+.lowdit-card {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: var(--lowdit-space-3);
+  padding: var(--lowdit-space-5);
+  background: var(--lowdit-color-surface, var(--lowdit-white));
+  border: 1px solid var(--lowdit-color-border, var(--lowdit-neutral-300));
+  border-radius: var(--lowdit-radius-lg, 14px);
+  box-shadow: var(--lowdit-shadow-card);
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.lowdit-card__title,
+.lowdit-card h3 {
+  margin: 0;
+  font-size: var(--lowdit-type-lg, 1.15rem);
+  font-weight: 700;
+  letter-spacing: var(--lowdit-tracking-tight, -0.01em);
+  line-height: var(--lowdit-line-tight, 1.15);
+  color: var(--lowdit-color-text);
+}
+
+.lowdit-card__title a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.14em;
+}
+
+.lowdit-card h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.lowdit-card h3 a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.lowdit-card__meta,
+.lowdit-card__meta {
+  margin: 0;
+  font-size: var(--lowdit-type-sm, 0.8rem);
+  color: var(--lowdit-color-text-muted);
+}
+
+.lowdit-card__body,
+.lowdit-card__body {
+  margin: 0;
+  font-size: var(--lowdit-type-base);
+  line-height: var(--lowdit-line-body, 1.55);
+  color: var(--lowdit-color-text-muted);
+  max-width: 48ch;
+}
+
+.lowdit-card .lowdit-eyebrow {
+  margin-bottom: 0;
+}
+
+.lowdit-card--ref,
+.lowdit-card[data-spotlight],
+.lowdit-card[data-spotlight] {
+  border-color: var(--lowdit-turquoise);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--lowdit-turquoise) 35%, transparent),
+    var(--lowdit-shadow-card);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lowdit-card:has(h3 a):hover {
+    border-color: color-mix(in srgb, var(--lowdit-turquoise) 45%, var(--lowdit-neutral-300));
+    box-shadow: var(--lowdit-shadow-md);
+    transform: translateY(-1px);
+  }
+
+  .lowdit-card__title a:hover,
+  .lowdit-card h3 a:hover {
+    color: var(--lowdit-role-accent-repogo-text, var(--lowdit-repogo-700));
+  }
+}
+
+.lowdit-card:focus-within:has(:focus-visible) {
+  border-color: var(--lowdit-turquoise);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--lowdit-turquoise) 28%, transparent);
+}
+
+.lowdit-card h3 a:focus-visible {
+  outline: 2px solid var(--lowdit-color-focus);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lowdit-card:has(h3 a):hover {
+    transform: none;
+  }
+}

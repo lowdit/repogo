@@ -1,32 +1,36 @@
 /* Lowdit — tokens de mise en page (design system) */
 :root {
-  --lowdit-space-1: 0.25rem;
-  --lowdit-space-2: 0.5rem;
-  --lowdit-space-3: 0.75rem;
-  --lowdit-space-4: 1rem;
-  --lowdit-space-5: 1.5rem;
-  --lowdit-space-6: 2rem;
-  --lowdit-space-7: 2.5rem;
-  --lowdit-space-8: 3.5rem;
-  --lowdit-space-9: 5rem;
+  /* Unité d’espacement fluide (Utopia — pas de rupture mobile/desktop) */
+  --lowdit-space-unit: clamp(0.25rem, 0.2rem + 0.25vw, 0.3125rem);
+  --lowdit-space-1: calc(var(--lowdit-space-unit) * 1);
+  --lowdit-space-2: calc(var(--lowdit-space-unit) * 2);
+  --lowdit-space-3: calc(var(--lowdit-space-unit) * 3);
+  --lowdit-space-4: calc(var(--lowdit-space-unit) * 4);
+  --lowdit-space-5: calc(var(--lowdit-space-unit) * 6);
+  --lowdit-space-6: calc(var(--lowdit-space-unit) * 8);
+  --lowdit-space-7: calc(var(--lowdit-space-unit) * 10);
+  --lowdit-space-8: calc(var(--lowdit-space-unit) * 14);
+  --lowdit-space-9: calc(var(--lowdit-space-unit) * 20);
+
+  --lowdit-page-gutter: clamp(1rem, 0.65rem + 1.75vw, 2.5rem);
+  --lowdit-grid-gap: clamp(1rem, 0.85rem + 0.75vw, 1.25rem);
+  --lowdit-grid-gap-lg: clamp(1.25rem, 1rem + 1.1vw, 1.75rem);
 
   --lowdit-radius-sm: 4px;
   --lowdit-radius-md: 8px;
   --lowdit-radius-lg: 14px;
   --lowdit-radius-xl: 22px;
 
-  --lowdit-content-narrow: 42rem;
-  --lowdit-content-default: 64rem;
-  --lowdit-content-wide: 84rem;
-  --lowdit-content-full: 96rem;
+  --lowdit-content-narrow: clamp(20rem, 16rem + 10vw, 42rem);
+  --lowdit-content-default: clamp(36rem, 28rem + 18vw, 64rem);
+  --lowdit-content-wide: clamp(48rem, 36rem + 24vw, 84rem);
+  --lowdit-content-full: clamp(56rem, 40rem + 28vw, 96rem);
 
-  --lowdit-grid-gap: 1.25rem;
-  --lowdit-grid-gap-lg: 1.75rem;
-
-  --lowdit-font-size-sm: 0.875rem;
-  --lowdit-font-size-lead: 1.125rem;
-  --lowdit-font-size-display: clamp(2rem, 4.5vw, 3.25rem);
-  --lowdit-font-size-hero: clamp(1.75rem, 4vw, 2.75rem);
+  /* Alias historiques → échelle fluide (typography.css) */
+  --lowdit-font-size-sm: var(--lowdit-type-sm);
+  --lowdit-font-size-lead: var(--lowdit-type-md);
+  --lowdit-font-size-display: var(--lowdit-type-3xl);
+  --lowdit-font-size-hero: var(--lowdit-type-2xl);
 
   --lowdit-line-tight: 1.12;
   --lowdit-line-body: 1.55;
@@ -36,19 +40,6 @@
   --lowdit-tracking-display: -0.015em;
   --lowdit-tracking-eyebrow: 0.06em;
   --lowdit-tracking-label: 0.04em;
-}
-
-.lowdit-container {
-  width: min(100% - 2.5rem, var(--lowdit-content-default));
-  margin-inline: auto;
-}
-
-.lowdit-container--wide {
-  width: min(100% - 2.5rem, var(--lowdit-content-wide));
-}
-
-.lowdit-container--full {
-  width: min(100% - 2rem, var(--lowdit-content-full));
 }
 
 .lowdit-grid-12 {

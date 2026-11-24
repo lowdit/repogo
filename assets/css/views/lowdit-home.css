@@ -1,0 +1,261 @@
+/* Accueil DS — partial brand/lowdit-home.html */
+
+.lowdit-home .lowdit-eyebrow {
+  color: var(--lowdit-role-accent-turquoise-text);
+}
+
+.lowdit-home__spotlight .lowdit-btn--ghost {
+  border-color: color-mix(in srgb, var(--lowdit-cream) 65%, transparent);
+  background: transparent;
+  color: var(--lowdit-cream);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lowdit-home__spotlight .lowdit-btn--ghost:hover {
+    background: var(--lowdit-cream);
+    color: var(--lowdit-night);
+    border-color: var(--lowdit-cream);
+    box-shadow: none;
+    transform: translateY(-1px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lowdit--view-thinktank .lowdit-main .lowdit-btn--ghost:hover,
+  .lowdit-home__spotlight .lowdit-btn--ghost:hover {
+    transform: none;
+  }
+}
+
+/* Objet éditorial accueil — composition locale (.lowdit-home), pas BEM /cibles/. */
+.lowdit-home__spotlight-cover {
+  aspect-ratio: 2 / 3;
+  max-width: 12rem;
+  border-radius: var(--lowdit-radius-md);
+  border: 1px solid var(--lowdit-turquoise);
+  background: linear-gradient(
+    155deg,
+    var(--lowdit-cream) 0%,
+    color-mix(in srgb, var(--lowdit-turquoise) 55%, var(--lowdit-cream)) 48%,
+    color-mix(in srgb, var(--lowdit-violet) 22%, var(--lowdit-cream)) 100%
+  );
+  box-shadow: 0 12px 32px color-mix(in srgb, black 45%, transparent);
+}
+
+/* ============================================================================
+   ACCUEIL — composition éditoriale (partial brand/lowdit-home.html)
+   Réutilise patterns /cibles/ — pas grille lowdit-card générique.
+   ============================================================================ */
+
+.lowdit--home .lowdit-main {
+  max-width: var(--lowdit-content-full, 80rem);
+  padding-inline: 0;
+}
+
+/* Perf : Atkinson partout (cf. brand/TYPOGRAPHIE.md) — pas Subjectivity sur l’accueil. */
+
+/* Fonds page accueil — jeu d’aplats (base déclinable sur les vitrines). */
+.lowdit--home.lowdit--view-thinktank {
+  background: var(--lowdit-cream);
+}
+
+.lowdit--home.lowdit--view-thinktank .lowdit-page-bg {
+  background: var(--lowdit-cream);
+}
+
+.lowdit--home.lowdit--view-thinktank .lowdit-page-bg::before,
+.lowdit--home.lowdit--view-thinktank .lowdit-page-bg::after {
+  display: none;
+}
+
+/* Aplats pleine fenêtre (inspiration lowdit-site vitrine — base réutilisable). */
+.lowdit-home .lowdit-home__immersive {
+  width: 100vw;
+  max-width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  padding-inline: max(var(--lowdit-page-gutter, 1.25rem), calc(50vw - var(--lowdit-content-full, 80rem) / 2));
+  box-sizing: border-box;
+}
+
+.lowdit-home__hero.lowdit-home__immersive .lowdit-home__hero-layout,
+.lowdit-home__paths.lowdit-home__immersive .lowdit-home__paths__list,
+.lowdit-home__spotlight.lowdit-home__immersive .lowdit-home__spotlight-inner,
+.lowdit-home__explore.lowdit-home__immersive > :is(h2, ul) {
+  max-width: var(--lowdit-content-full, 80rem);
+  margin-inline: auto;
+}
+
+.lowdit-home__spotlight.lowdit-home__immersive {
+  padding-block: var(--lowdit-space-7);
+}
+
+.lowdit-home [data-surface="cream"].lowdit-home__immersive {
+  padding-block: var(--lowdit-space-7);
+  background: var(--lowdit-cream);
+  border-block-end: 1px solid var(--lowdit-color-border, var(--lowdit-neutral-300));
+}
+
+.lowdit-home [data-surface="white"].lowdit-home__immersive {
+  padding-block: var(--lowdit-space-7);
+  background: var(--lowdit-white);
+}
+
+.lowdit-home [data-surface="violet-soft"].lowdit-home__immersive,
+.lowdit-home [data-surface="cream"].lowdit-home__explore.lowdit-home__immersive {
+  padding-block: var(--lowdit-space-7);
+  background: var(--lowdit-cream);
+  border-block-start: 1px solid var(--lowdit-color-border, var(--lowdit-neutral-300));
+}
+
+.lowdit-home .lowdit-eyebrow {
+  margin: 0;
+  font-size: var(--lowdit-type-sm, 0.8125rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--lowdit-role-accent-repogo-text, var(--lowdit-violet));
+}
+
+/* Hero asymétrique */
+.lowdit-home__hero {
+  margin-block: 0;
+}
+
+.lowdit-home__hero-layout {
+  display: grid;
+  gap: var(--lowdit-grid-gap-lg);
+  align-items: center;
+}
+
+@media (min-width: 52rem) {
+  .lowdit-home__hero-layout {
+    grid-template-columns: minmax(0, 0.92fr) minmax(18rem, 1.08fr);
+    align-items: stretch;
+  }
+}
+
+.lowdit-home__hero-copy h1 {
+  margin: 0;
+  font-size: var(--lowdit-type-4xl);
+  font-family: var(--lowdit-font-reading);
+  font-weight: 700;
+  letter-spacing: var(--lowdit-tracking-tight, -0.03em);
+  line-height: 1.05;
+  color: var(--lowdit-night);
+  max-width: 11ch;
+}
+
+.lowdit-home__hero-lead {
+  margin: 0;
+  max-width: 42ch;
+  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  line-height: 1.55;
+  color: var(--lowdit-color-text-muted, var(--lowdit-muted));
+}
+
+.lowdit-home__planche {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lowdit-space-3);
+  margin: 0;
+  padding: var(--lowdit-space-4);
+  background: var(--lowdit-white);
+  border: 2px solid var(--lowdit-night);
+  border-radius: var(--lowdit-radius-lg);
+  box-shadow: 8px 8px 0 color-mix(in srgb, var(--lowdit-violet) 40%, var(--lowdit-night));
+  color: inherit;
+  text-decoration: none;
+  transition: transform var(--lowdit-duration-ui) var(--lowdit-ease-out);
+}
+
+.lowdit-home__planche img {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 12rem;
+  object-fit: contain;
+  object-position: center top;
+}
+
+.lowdit-home__planche-caption {
+  font-size: var(--lowdit-type-sm);
+  font-weight: 600;
+  color: var(--lowdit-violet);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lowdit-home__planche:hover {
+    transform: translateY(-2px);
+  }
+}
+
+/* Bande pleine largeur — spotlight publisher */
+.lowdit-home__spotlight {
+  background: var(--lowdit-night);
+  color: var(--lowdit-cream);
+}
+
+.lowdit-home__spotlight .lowdit-eyebrow {
+  color: color-mix(in srgb, var(--lowdit-turquoise, #14c6b1) 85%, white);
+}
+
+.lowdit-home__spotlight-title {
+  margin: 0;
+  font-size: clamp(1.5rem, 3.2vw, 2.1rem);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  max-width: 22ch;
+}
+
+.lowdit-home__spotlight p,
+.lowdit-home__spotlight a:not(.lowdit-btn) {
+  color: color-mix(in srgb, var(--lowdit-cream) 92%, white);
+}
+
+.lowdit-home__spotlight a:not(.lowdit-btn):hover {
+  color: var(--lowdit-turquoise);
+}
+
+.lowdit-home__spotlight-inner {
+  margin-block: 0;
+}
+
+.lowdit-home__paths .lowdit-cards,
+.lowdit-home__explore .lowdit-cards {
+  margin-block: 0;
+}
+
+.lowdit-home__explore h2 {
+  margin: 0;
+  font-size: var(--lowdit-type-xl);
+  font-weight: 600;
+  color: var(--lowdit-night);
+}
+
+@media (min-width: 48rem) {
+  .lowdit-home__explore .lowdit-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .lowdit-home__explore .lowdit-cards > [data-spotlight] {
+    grid-column: 1 / -1;
+  }
+}
+
+.lowdit-home__ref {
+  margin-block: var(--lowdit-space-7) var(--lowdit-space-5);
+  padding-top: var(--lowdit-space-5);
+  border-top: 1px solid var(--lowdit-border-subtle);
+  color: var(--lowdit-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lowdit-home__planche {
+    box-shadow: none;
+    transition: none;
+  }
+
+  .lowdit-home__planche:hover {
+    transform: none;
+  }
+}

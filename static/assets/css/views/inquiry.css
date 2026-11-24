@@ -1,51 +1,51 @@
 /* Vue inquiry — Fromago : confiance, formulaires, mesure étroite */
-.minigo--view-inquiry {
+.lowdit--view-inquiry {
   --view-accent: var(--lowdit-accent-marque);
   --view-surface-page: var(--lowdit-cream);
   --lowdit-main-max: 56rem;
   background: var(--lowdit-cream);
 }
 
-.minigo--view-inquiry .lowdit-page-bg {
+.lowdit--view-inquiry .lowdit-page-bg {
   background: var(--lowdit-cream);
 }
 
-.minigo--view-inquiry .lowdit-page-bg::before {
+.lowdit--view-inquiry .lowdit-page-bg::before {
   opacity: 0.08;
 }
 
-.minigo--view-inquiry .lowdit-page-bg::after {
+.lowdit--view-inquiry .lowdit-page-bg::after {
   display: none;
 }
 
-.minigo--view-inquiry .minigo-header {
+.lowdit--view-inquiry .lowdit-header {
   border-bottom: 1px solid var(--lowdit-border-subtle);
   background: var(--lowdit-white);
 }
 
-.minigo--view-inquiry .minigo-main {
+.lowdit--view-inquiry .lowdit-main {
   max-width: var(--lowdit-main-max);
 }
 
 /* En-tête de page : bandeau accentué */
-.minigo--view-inquiry .minigo-page-header {
+.lowdit--view-inquiry .lowdit-page-header {
   margin-block: var(--lowdit-space-6) var(--lowdit-space-4);
   border-left: 4px solid var(--lowdit-accent-marque);
   padding-left: var(--lowdit-space-4);
 }
 
-.minigo--view-inquiry .minigo-page-header h1 {
+.lowdit--view-inquiry .lowdit-page-header h1 {
   font-size: clamp(1.75rem, 3vw, 2.4rem);
   line-height: 1.1;
   letter-spacing: -0.02em;
 }
 
-.minigo--view-inquiry .minigo-page-header .minigo-desc {
+.lowdit--view-inquiry .lowdit-page-header .lowdit-desc {
   color: var(--lowdit-muted);
 }
 
 /* Cartes de sections (accueil) */
-.minigo--view-inquiry .minigo-card {
+.lowdit--view-inquiry .lowdit-card {
   border-radius: var(--lowdit-radius-md, 0.5rem);
   border: 1px solid var(--lowdit-border-subtle);
   background: var(--lowdit-white);
@@ -54,18 +54,18 @@
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-.minigo--view-inquiry .minigo-card:has(a):hover {
+.lowdit--view-inquiry .lowdit-card:has(a):hover {
   border-color: color-mix(in srgb, var(--lowdit-accent-marque) 40%, var(--lowdit-border-subtle));
   box-shadow: 0 0.35rem 1rem color-mix(in srgb, var(--lowdit-night) 10%, transparent);
 }
 
 /* Pages de contenu / formulaire : surface blanche posée sur la page crème */
-.minigo--view-inquiry .minigo-main .fg-wrapper {
+.lowdit--view-inquiry .lowdit-main .fg-wrapper {
   max-width: none;
 }
 
-.minigo--view-inquiry .single-container,
-.minigo--view-inquiry .minigo-main .fg-wrapper > .markdown {
+.lowdit--view-inquiry .single-container,
+.lowdit--view-inquiry .lowdit-main .fg-wrapper > .markdown {
   background: var(--lowdit-white);
   border: 1px solid var(--lowdit-border-subtle);
   border-radius: var(--lowdit-radius-lg, 0.75rem);
@@ -73,18 +73,18 @@
   margin-bottom: var(--lowdit-space-5, 1.5rem);
 }
 
-.minigo--view-inquiry .minigo-btn--primary {
+.lowdit--view-inquiry .lowdit-btn--primary {
   background: var(--lowdit-night);
   color: var(--lowdit-white);
 }
 
-.minigo--view-inquiry .minigo-btn--primary:hover {
+.lowdit--view-inquiry .lowdit-btn--primary:hover {
   background: var(--lowdit-accent-marque);
   color: var(--lowdit-night);
 }
 
 /* Cartes de sections : titres lisibles, description bornée. */
-.minigo--view-inquiry .minigo-card a {
+.lowdit--view-inquiry .lowdit-card a {
   display: block;
   font-size: 1.06rem;
   font-weight: 700;
@@ -93,11 +93,11 @@
   text-decoration: none;
 }
 
-.minigo--view-inquiry .minigo-card a:hover {
+.lowdit--view-inquiry .lowdit-card a:hover {
   color: var(--lowdit-accent-marque);
 }
 
-.minigo--view-inquiry .minigo-card .minigo-desc {
+.lowdit--view-inquiry .lowdit-card .lowdit-desc {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -106,19 +106,19 @@
 }
 
 /* Zone de validation : contenue et alignée, sans débordement. */
-.minigo--view-inquiry .form-submit {
+.lowdit--view-inquiry .form-submit {
   margin-top: var(--lowdit-space-5, 1.5rem);
   padding-top: var(--lowdit-space-4, 1rem);
   border-top: 1px solid var(--lowdit-border-subtle);
   text-align: left;
 }
 
-.minigo--view-inquiry .form-submit > p {
+.lowdit--view-inquiry .form-submit > p {
   max-width: none;
   margin: 0 0 var(--lowdit-space-3, 0.75rem);
   text-align: left;
 }
 
-.minigo--view-inquiry .form-submit .btn {
+.lowdit--view-inquiry .form-submit .btn {
   display: inline-block;
 }

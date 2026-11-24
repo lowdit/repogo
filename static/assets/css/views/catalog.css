@@ -1,22 +1,22 @@
 /* Vue catalog — bibliothèque neutre */
-.minigo--view-catalog {
+.lowdit--view-catalog {
   --view-accent: var(--lowdit-violet);
   --view-surface-page: var(--lowdit-cream);
 }
 
-.minigo--view-catalog .minigo-header {
+.lowdit--view-catalog .lowdit-header {
   background: var(--lowdit-white);
   border-bottom: 1px solid var(--lowdit-border-subtle);
 }
 
-.minigo--view-catalog .minigo-main {
+.lowdit--view-catalog .lowdit-main {
   max-width: var(--lowdit-content-default);
 }
 
-.minigo--view-catalog .minigo-hero {
+.lowdit--view-catalog .lowdit-hero {
   border-bottom: 1px solid var(--lowdit-border-subtle);
 }
 
-.minigo--view-catalog .minigo-hero__eyebrow {
+.lowdit--view-catalog .lowdit-hero__eyebrow {
   color: var(--lowdit-violet);
 }

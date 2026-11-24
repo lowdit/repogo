@@ -1,0 +1,104 @@
+/* Lowdit — compositions (CUBE / Every Layout)
+   La composition décrit les relations entre éléments. Elle ne connaît pas
+   les composants métier et n'impose pas de classes aux éléments HTML.
+   Couche : après elements, avant components et vues.
+
+   Source de vérité : docs/CSS-CUBE-CONVENTIONS.md et docs/CSS-COMPOSITION.md.
+   Les variantes passent par un attribut data-* peu nombreux, jamais par une
+   classe de marge. Les alias historiques `lowdit-*` sont retirés. */
+
+/* --- Empilement vertical ------------------------------------------------- */
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: var(--lowdit-space-4);
+}
+
+.stack[data-space="1"] { gap: var(--lowdit-space-2); }
+.stack[data-space="2"] { gap: var(--lowdit-space-3); }
+.stack[data-space="3"] { gap: var(--lowdit-space-6); }
+
+.stack > :where(*) { margin-block: 0; }
+
+/* --- Ligne avec retour --------------------------------------------------- */
+
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--lowdit-space-3);
+}
+
+.cluster[data-space="1"] { gap: var(--lowdit-space-2); }
+.cluster[data-space="2"] { gap: var(--lowdit-space-4); }
+
+/* --- Grille adaptative --------------------------------------------------- */
+
+.grid {
+  display: grid;
+  gap: var(--lowdit-grid-gap);
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+}
+
+.grid[data-fit="dense"] {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 12rem), 1fr));
+}
+
+/* --- Largeur et gouttière ------------------------------------------------ */
+
+.wrapper {
+  width: min(100% - (var(--lowdit-page-gutter) * 2), var(--lowdit-content-default));
+  margin-inline: auto;
+}
+
+.wrapper[data-width="reading"] {
+  width: min(100% - (var(--lowdit-page-gutter) * 2), var(--lowdit-content-narrow));
+  max-width: var(--lowdit-measure);
+}
+.wrapper[data-width="wide"] {
+  width: min(100% - (var(--lowdit-page-gutter) * 2), var(--lowdit-content-wide));
+}
+.wrapper[data-width="full"] {
+  width: min(100% - (var(--lowdit-page-gutter) * 2), var(--lowdit-content-full));
+  max-width: none;
+}
+
+/* --- Colonne principale + colonne secondaire ----------------------------- */
+
+.with-sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lowdit-grid-gap-lg);
+  align-items: flex-start;
+}
+
+.with-sidebar > :first-child {
+  flex-basis: 16rem;
+  flex-grow: 1;
+}
+
+.with-sidebar > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-inline-size: 50%;
+}
+
+@media (max-width: 36rem) {
+  .with-sidebar > :last-child { min-inline-size: 100%; }
+}
+
+/* --- Région de page ------------------------------------------------------ */
+
+.region {
+  padding-block: var(--lowdit-space-7);
+}
+
+/* @scope est une amélioration de portée ; les sélecteurs classiques restent
+   la base pour les moteurs qui ne l'implémentent pas encore. */
+@supports selector(:scope) {
+  @scope (.stack) {
+    :scope > :where(*) { margin-block: 0; }
+  }
+}

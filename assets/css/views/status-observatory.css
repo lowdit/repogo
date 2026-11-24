@@ -1,7 +1,7 @@
 /* Vue observatoire (/status/) — cycle O · lignée Lowtus.
    Sobriété lowtech : lisibilité des tableaux, pas de skin Repogo publisher. */
 
-.minigo--view-catalog .status-observatory,
+.lowdit--view-catalog .status-observatory,
 .status-observatory {
   max-width: var(--lowdit-content-wide, 72rem);
   margin-inline: auto;
@@ -60,11 +60,11 @@
   border-top: 1px solid var(--lowdit-border-subtle, color-mix(in srgb, #161616 10%, transparent));
 }
 
-.status-observatory .minigo-hero__eyebrow {
+.status-observatory .lowdit-hero__eyebrow {
   letter-spacing: var(--lowdit-tracking-eyebrow, 0.06em);
 }
 
-.status-observatory .minigo-hero {
+.status-observatory .lowdit-hero {
   --lowdit-charte-accent: var(--lowdit-turquoise, #14c6b1);
   --lowdit-charte-gradient: linear-gradient(
     165deg,

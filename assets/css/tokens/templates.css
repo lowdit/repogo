@@ -1,0 +1,69 @@
+/* Gabarits de page et container queries (Brand Core v2-03)
+   Consommer les largeurs de layout.css ; pas de migration des vues ici. */
+
+:root {
+  --lowdit-cq-sm: 24rem;
+  --lowdit-cq-md: 36rem;
+  --lowdit-cq-lg: 48rem;
+  --lowdit-cq-xl: 64rem;
+}
+
+/* --- Compositions de largeur -------------------------------------------
+   Les anciennes classes `lowdit-layout-*` sont retirées : la posture se lit sur `data-layout` (`.lowdit-product[data-layout]`). Utiliser
+   `.wrapper` avec `data-width="reading|wide|full"`. *//* --- Container queries ------------------------------------------------ */
+
+.lowdit-cq {
+  container-type: inline-size;
+  container-name: lowdit;
+}
+
+/* Pile → ligne quand le conteneur dépasse le palier médium */
+.lowdit-cq-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--lowdit-grid-gap);
+}
+
+@container lowdit (min-width: 36rem) {
+  .lowdit-cq-stack {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .lowdit-cq-stack > * {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
+
+/* Grille adaptative interne (2 → 3 colonnes) */
+.lowdit-cq-grid {
+  display: grid;
+  gap: var(--lowdit-grid-gap);
+  grid-template-columns: 1fr;
+}
+
+@container lowdit (min-width: 24rem) {
+  .lowdit-cq-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@container lowdit (min-width: 48rem) {
+  .lowdit-cq-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Texte : resserrer la mesure sur conteneurs étroits */
+@container lowdit (max-width: 24rem) {
+  .lowdit-cq-measure {
+    max-width: none;
+  }
+}
+
+@container lowdit (min-width: 36rem) {
+  .lowdit-cq-measure {
+    max-width: var(--lowdit-measure);
+  }
+}

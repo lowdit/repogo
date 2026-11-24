@@ -21,24 +21,6 @@ body.courrier {
   margin: 16mm 18mm 26mm 18mm;
 }
 
-@media screen {
-  body.courrier {
-    background: #e7e9e9;
-  }
-
-  .pagedjs_pages {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12mm;
-    padding: 12mm 0;
-  }
-
-  .pagedjs_page {
-    background: #fff;
-    box-shadow: 0 0 0 1px #c7ccce, 0 5px 22px rgba(0, 0, 0, 0.12);
-  }
-}
 
 body.courrier h1,
 body.courrier h2,

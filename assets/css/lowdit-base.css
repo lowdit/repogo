@@ -1,0 +1,302 @@
+/* Couleurs : chargées par le partial lowdit/view-tokens.html (settings),
+   AVANT les elements — pas d'import ici (et chemin fiable quel que soit
+   l'empaquetage static/module). */
+:root {
+  /* Familles — politique « une seule famille » (webperf, 2026-10-21) :
+     — « Atkinson Hyperlegible » sert PARTOUT par défaut (corps, titres,
+       interface, titre du site) : zéro police d'affichage additionnelle,
+       un seul swap de police au chargement, et la police la plus lisible
+       (dessinée pour la basse vision) — cohérent pour une marque
+       accessibilité. Page typique : ~31 Ko de polices au lieu de ~59 Ko ;
+     — « Subjectivity » (police expressive de titrage, sans empattement) reste le rôle expressif :
+       activable par site via css/site-overrides.css (exampleSites des
+       moteurs repogo/sligo/fromago/resugo, slides) — jamais active par
+       défaut ;
+     — « Optician Sans » (111 glyphes ASCII, 0 accent) n'est plus utilisée
+       dans le rendu : le wordmark est un PNG. Voir brand/TYPOGRAPHIE.md. */
+  --lowdit-font-logo: "Atkinson Hyperlegible", ui-sans-serif, system-ui, sans-serif;
+  --lowdit-font-display: "Atkinson Hyperlegible", ui-sans-serif, system-ui, sans-serif;
+  --lowdit-font-expressive: "Subjectivity", ui-sans-serif, system-ui, sans-serif;
+  --lowdit-font-reading: "Atkinson Hyperlegible", ui-sans-serif, system-ui, sans-serif;
+  --lowdit-font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+html {
+  color: var(--lowdit-color-text, var(--lowdit-night));
+  background: var(--lowdit-color-background, var(--lowdit-cream));
+}
+
+body {
+  margin: 0;
+  font-family: var(--lowdit-font-reading);
+  line-height: var(--lowdit-line-body, 1.55);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--lowdit-font-display);
+  line-height: var(--lowdit-line-tight, 1.2);
+}
+
+a {
+  color: var(--lowdit-color-link, var(--lowdit-night));
+}
+
+/* ============================================================================
+   Prose — éléments de base du contenu riche (vues minigo, product, repogo).
+   Donne une rythmique commune aux titres, listes, paragraphes, code, tableaux.
+   Racine canon : `.doc-body` (layout produit) ou zone de prose Minigo.
+   ============================================================================ */
+.lowdit-body,
+.lowdit-intro,
+.doc-body,
+.lowdit-hero__intro,
+.pub-workspace__note {
+  font-family: var(--lowdit-font-reading);
+  line-height: 1.62;
+  color: var(--lowdit-color-text, var(--lowdit-night));
+}
+
+.lowdit-body > :first-child,
+.lowdit-intro > :first-child,
+.doc-body > :first-child {
+  margin-top: 0;
+}
+
+/* Prose — titres éditoriaux (:where = spécificité basse ; les blocs composant l'emportent). */
+.lowdit-body :where(h2, h3, h4, h5),
+.lowdit-intro :where(h2, h3, h4, h5),
+.doc-body :where(h2, h3, h4, h5) {
+  font-family: var(--lowdit-font-display);
+  line-height: 1.18;
+  color: var(--lowdit-color-text, var(--lowdit-night));
+}
+
+.lowdit-body :where(h2),
+.lowdit-intro :where(h2),
+.doc-body :where(h2) {
+  font-size: clamp(1.4rem, 2.4vw, 1.8rem);
+  margin: 2.4rem 0 0.75rem;
+}
+
+.lowdit-body :where(h3),
+.lowdit-intro :where(h3),
+.doc-body :where(h3) {
+  font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+  margin: 1.8rem 0 0.5rem;
+}
+
+.lowdit-body :where(h4),
+.lowdit-intro :where(h4),
+.doc-body :where(h4) {
+  font-size: 1.05rem;
+  margin: 1.4rem 0 0.4rem;
+}
+
+.lowdit-body p,
+.lowdit-intro p,
+.doc-body p {
+  margin: 0 0 1.1rem;
+  max-width: 68ch;
+}
+
+.lowdit-body :is(ul, ol),
+.lowdit-intro :is(ul, ol),
+.doc-body :is(ul, ol) {
+  margin: 0 0 1.1rem;
+  padding-left: 1.4rem;
+  max-width: 68ch;
+}
+
+.lowdit-body li,
+.lowdit-intro li,
+.doc-body li {
+  margin: 0.3rem 0;
+}
+
+.lowdit-body a,
+.lowdit-intro a,
+.doc-body a {
+  text-decoration: underline;
+  text-decoration-thickness: 0.06em;
+  text-underline-offset: 0.18em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lowdit-body a:not(.lowdit-btn),
+  .lowdit-intro a:not(.lowdit-btn),
+  .doc-body a:not(.lowdit-btn) {
+    transition:
+      color var(--lowdit-duration-micro, 120ms) ease-out,
+      text-decoration-color var(--lowdit-duration-micro, 120ms) ease-out,
+      text-decoration-thickness var(--lowdit-duration-micro, 120ms) ease-out,
+      text-underline-offset var(--lowdit-duration-micro, 120ms) ease-out;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lowdit-body a:not(.lowdit-btn):hover,
+  .lowdit-intro a:not(.lowdit-btn):hover,
+  .doc-body a:not(.lowdit-btn):hover {
+    color: var(--lowdit-role-accent-repogo-text, var(--lowdit-repogo-700));
+    text-decoration-thickness: 0.12em;
+    text-underline-offset: 0.23em;
+  }
+}
+
+/* Liens stylés en bouton : pas de soulignement prose ; couleur token (pas l’héritage `a`). */
+.lowdit-body a.lowdit-btn,
+.lowdit-body a.lowdit-btn,
+.lowdit-intro a.lowdit-btn,
+.doc-body a.lowdit-btn,
+.doc-body a.lowdit-btn {
+  text-decoration: none;
+}
+
+.doc-body a.lowdit-btn--primary,
+.doc-body a.lowdit-btn--primary,
+.lowdit-main a.lowdit-btn--primary,
+.lowdit-main a.lowdit-btn--primary,
+.lowdit-body a.lowdit-btn--primary {
+  color: var(--lowdit-color-action-foreground);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .doc-body a.lowdit-btn--primary:hover,
+  .doc-body a.lowdit-btn--primary:hover,
+  .lowdit-main a.lowdit-btn--primary:hover,
+  .lowdit-main a.lowdit-btn--primary:hover,
+  .lowdit-body a.lowdit-btn--primary:hover {
+    color: var(--lowdit-color-action);
+  }
+}
+
+.lowdit-body hr,
+.lowdit-intro hr,
+.doc-body hr {
+  border: 0;
+  border-top: 1px solid var(--lowdit-border-subtle, var(--lowdit-color-border, #d8d4ca));
+  margin: 2.5rem 0;
+}
+
+.lowdit-body :is(img, svg, video),
+.lowdit-intro :is(img, svg, video),
+.doc-body :is(img, svg, video) {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--lowdit-radius-md, 0.5rem);
+}
+
+.lowdit-body blockquote,
+.lowdit-intro blockquote,
+.doc-body blockquote {
+  margin: 1.4rem 0;
+  padding: 0.3rem 0 0.3rem 1.1rem;
+  border-left: 3px solid var(--lowdit-violet);
+  color: var(--lowdit-color-text-muted, var(--lowdit-muted));
+  max-width: 66ch;
+}
+
+.lowdit-body blockquote > :last-child,
+.lowdit-intro blockquote > :last-child,
+.doc-body blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* Tableaux */
+.lowdit-body table,
+.lowdit-intro table,
+.doc-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.4rem 0;
+  font-size: 0.95rem;
+}
+
+.lowdit-body :is(th, td),
+.lowdit-intro :is(th, td),
+.doc-body :is(th, td) {
+  border: 1px solid var(--lowdit-border-subtle, var(--lowdit-color-border, #d8d4ca));
+  padding: 0.5rem 0.7rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+.lowdit-body table thead th,
+.lowdit-intro table thead th,
+.doc-body table thead th {
+  background: color-mix(in srgb, var(--lowdit-color-text, var(--lowdit-night)) 5%, transparent);
+  font-weight: 700;
+}
+
+/* Légende de tableau : le HTML natif porte le caption, pas une classe. */
+.lowdit-body table caption,
+.lowdit-intro table caption,
+.doc-body table caption {
+  caption-side: top;
+  text-align: left;
+  font-weight: 700;
+  padding-block-end: var(--lowdit-space-2);
+  color: var(--lowdit-color-text, var(--lowdit-night));
+}
+
+/* Cellule d'en-tête de ligne : même poids que l'en-tête de colonne. */
+.lowdit-body th[scope="row"],
+.lowdit-intro th[scope="row"],
+.doc-body th[scope="row"] {
+  text-align: left;
+  font-weight: 700;
+}
+
+/* Code inline */
+.lowdit-body :not(pre) > code,
+.lowdit-intro :not(pre) > code,
+.doc-body :not(pre) > code {
+  font-family: var(--lowdit-font-mono);
+  font-size: 0.9em;
+  background: color-mix(in srgb, var(--lowdit-color-text, var(--lowdit-night)) 8%, transparent);
+  padding: 0.12em 0.4em;
+  border-radius: 0.3rem;
+}
+
+/* Blocs pré/Chroma : marge et réserve de défilement sur la zone code. */
+.lowdit-body pre,
+.lowdit-intro pre,
+.doc-body pre {
+  margin: 1.4rem 0;
+  padding: 1rem 1.25rem;
+  font-family: var(--lowdit-font-mono);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--lowdit-border-subtle, var(--lowdit-color-border, #d8d4ca));
+  border-radius: var(--lowdit-radius-md, 0.5rem);
+  background: color-mix(in srgb, var(--lowdit-color-text, var(--lowdit-night)) 5%, transparent);
+}
+
+.lowdit-body .highlight,
+.lowdit-intro .highlight,
+.doc-body .highlight {
+  margin: 1.4rem 0;
+  border: 1px solid var(--lowdit-border-strong, var(--lowdit-color-border, #d8d4ca));
+  border-radius: var(--lowdit-radius-md, 0.5rem);
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.lowdit-body .highlight pre,
+.lowdit-intro .highlight pre,
+.doc-body .highlight pre {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border: 0;
+  border-radius: 0;
+}
+
+.lowdit-body .highlight code,
+.lowdit-intro .highlight code,
+.doc-body .highlight code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}

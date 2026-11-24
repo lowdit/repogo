@@ -1,11 +1,11 @@
 /* Vue cv-vitrine — Resugo : recrutement, retenue, profils lisibles */
-.minigo--view-cv-vitrine {
+.lowdit--view-cv-vitrine {
   --view-accent: var(--lowdit-accent-sligo);
   --view-surface-page: var(--lowdit-cream);
   --lowdit-main-max: var(--lowdit-content-full);
 }
 
-.minigo--view-cv-vitrine .lowdit-page-bg {
+.lowdit--view-cv-vitrine .lowdit-page-bg {
   background: linear-gradient(
     135deg,
     var(--lowdit-white) 0%,
@@ -13,63 +13,63 @@
   );
 }
 
-.minigo--view-cv-vitrine .lowdit-page-bg::before {
+.lowdit--view-cv-vitrine .lowdit-page-bg::before {
   background: color-mix(in srgb, var(--lowdit-accent-sligo) 22%, transparent);
   opacity: 0.1;
 }
 
-.minigo--view-cv-vitrine .lowdit-page-bg::after {
+.lowdit--view-cv-vitrine .lowdit-page-bg::after {
   display: none;
 }
 
-.minigo--view-cv-vitrine .minigo-header {
+.lowdit--view-cv-vitrine .lowdit-header {
   background: transparent;
   border-bottom: 1px solid var(--lowdit-border-subtle);
 }
 
-.minigo--view-cv-vitrine .minigo-main {
+.lowdit--view-cv-vitrine .lowdit-main {
   max-width: var(--lowdit-content-full);
 }
 
-.minigo--view-cv-vitrine .minigo-hero {
+.lowdit--view-cv-vitrine .lowdit-hero {
   text-align: center;
   border: none;
   padding: var(--lowdit-space-8) var(--lowdit-space-4) var(--lowdit-space-5);
 }
 
-.minigo--view-cv-vitrine .minigo-hero h1,
-.minigo--view-cv-vitrine .minigo-hero__lead,
-.minigo--view-cv-vitrine .minigo-hero__intro {
+.lowdit--view-cv-vitrine .lowdit-hero h1,
+.lowdit--view-cv-vitrine .lowdit-hero__lead,
+.lowdit--view-cv-vitrine .lowdit-hero__intro {
   margin-inline: auto;
 }
 
-.minigo--view-cv-vitrine .minigo-hero h1 {
+.lowdit--view-cv-vitrine .lowdit-hero h1 {
   font-size: var(--lowdit-font-size-hero);
   max-width: 24ch;
   letter-spacing: -0.02em;
 }
 
-.minigo--view-cv-vitrine .minigo-hero__eyebrow {
+.lowdit--view-cv-vitrine .lowdit-hero__eyebrow {
   color: var(--lowdit-accent-sligo);
 }
 
-.minigo--view-cv-vitrine .catalog-grid {
+.lowdit--view-cv-vitrine .catalog-grid {
   grid-template-columns: repeat(auto-fill, minmax(14rem, 1fr));
   gap: var(--lowdit-grid-gap-lg);
 }
 
-.minigo--view-cv-vitrine .catalog-card {
+.lowdit--view-cv-vitrine .catalog-card {
   border-radius: var(--lowdit-radius-md);
   background: var(--lowdit-white);
   border: 1px solid var(--lowdit-border-subtle);
   transition: var(--lowdit-transition-hover);
 }
 
-.minigo--view-cv-vitrine .catalog-card:hover {
+.lowdit--view-cv-vitrine .catalog-card:hover {
   box-shadow: var(--lowdit-shadow-md);
   border-color: color-mix(in srgb, var(--lowdit-accent-sligo) 30%, var(--lowdit-border-subtle));
 }
 
-.minigo--view-cv-vitrine .catalog-card__visual {
+.lowdit--view-cv-vitrine .catalog-card__visual {
   aspect-ratio: 3 / 2;
 }

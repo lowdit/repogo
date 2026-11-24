@@ -1,0 +1,185 @@
+/* Navigation — aria-current non porté par la couleur seule (Core v2-04). */
+
+.lowdit-nav a,
+.doc-nav a {
+  transition: var(
+    --lowdit-transition-control,
+    color 120ms ease-out,
+    text-decoration-color 120ms ease-out,
+    text-decoration-thickness 120ms ease-out,
+    text-underline-offset 120ms ease-out
+  );
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lowdit-nav a:hover:not([aria-current="page"]):not([aria-current="location"]) {
+    text-decoration: underline;
+    text-decoration-thickness: 0.12em;
+    text-underline-offset: 0.2em;
+    text-decoration-color: currentColor;
+  }
+
+  .doc-nav a:hover:not([aria-current="page"]):not([aria-current="location"]) {
+    text-decoration-thickness: 0.12em;
+    text-underline-offset: 0.28em;
+  }
+}
+
+.lowdit-nav a:focus-visible,
+.doc-nav a:focus-visible {
+  transition: none;
+}
+
+.lowdit-nav a[aria-current="page"] {
+  color: var(--lowdit-color-link);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.25em;
+}
+
+.doc-nav a[aria-current="page"],
+.doc-nav a[aria-current="location"] {
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.2em;
+  text-decoration-color: currentColor;
+}
+
+/* Fil d’Ariane — composant « breadcrumb » (page fille de section uniquement) */
+.lowdit-breadcrumb {
+  font-size: var(--lowdit-type-sm, 0.875rem);
+  margin-block-end: var(--lowdit-space-3, 0.75rem);
+}
+
+.lowdit-breadcrumb__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--lowdit-color-text-muted, var(--lowdit-muted));
+}
+
+.lowdit-breadcrumb__item + .lowdit-breadcrumb__item::before {
+  content: "/";
+  margin-inline-end: 0.5rem;
+  color: var(--lowdit-color-border-component, var(--lowdit-neutral-600));
+}
+
+.lowdit-breadcrumb a {
+  color: var(--lowdit-color-link, var(--lowdit-night));
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.lowdit-breadcrumb a:focus-visible {
+  outline: 2px solid var(--lowdit-color-focus);
+  outline-offset: 2px;
+}
+
+/* Précédent / suivant — composant « previous-next-nav » */
+.lowdit-prev-next {
+  margin-block-start: var(--lowdit-space-7, 2.5rem);
+  padding-block-start: var(--lowdit-space-4, 1rem);
+  border-top: 1px solid var(--lowdit-border-subtle);
+}
+
+.lowdit-prev-next__list {
+  display: grid;
+  gap: var(--lowdit-space-3, 0.75rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 40rem) {
+  .lowdit-prev-next__list {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .lowdit-prev-next__item--next {
+    text-align: end;
+  }
+}
+
+.lowdit-prev-next a {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: var(--lowdit-space-3, 0.75rem) var(--lowdit-space-4, 1rem);
+  border: 1px solid var(--lowdit-color-border-component, var(--lowdit-neutral-600));
+  border-radius: var(--lowdit-radius-md, 8px);
+  color: var(--lowdit-color-text);
+  text-decoration: none;
+  transition: var(--lowdit-transition-control, background-color 150ms ease, border-color 150ms ease);
+}
+
+.lowdit-prev-next a:hover {
+  border-color: var(--lowdit-color-action);
+}
+
+.lowdit-prev-next a:focus-visible {
+  outline: 2px solid var(--lowdit-color-focus);
+  outline-offset: 2px;
+}
+
+.lowdit-prev-next__label {
+  font-size: var(--lowdit-type-xs, 0.75rem);
+  font-weight: 700;
+  letter-spacing: var(--lowdit-tracking-label, 0.04em);
+  text-transform: uppercase;
+  color: var(--lowdit-color-text-muted, var(--lowdit-muted));
+}
+
+.lowdit-prev-next__title {
+  font-weight: 600;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lowdit-prev-next a {
+    transition: none;
+  }
+}
+
+/* Pagination (markup Hugo `pagination-default` : ul.pagination > li.page-item > a.page-link) */
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--lowdit-space-2, 0.5rem);
+  list-style: none;
+  margin: var(--lowdit-space-6, 2rem) 0 0;
+  padding: 0;
+}
+.pagination .page-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  padding: 0 0.75rem;
+  border: 1px solid var(--lowdit-color-border-component, currentColor);
+  border-radius: var(--lowdit-radius-sm, 4px);
+  color: var(--lowdit-color-link, var(--lowdit-night));
+  text-decoration: none;
+}
+.pagination .page-link:hover {
+  border-color: var(--lowdit-color-action);
+}
+.pagination .page-item.active .page-link {
+  background: var(--lowdit-color-action);
+  border-color: var(--lowdit-color-action);
+  color: var(--lowdit-color-action-foreground);
+  font-weight: 700;
+}
+.pagination .page-item.disabled .page-link {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.pagination .page-link:focus-visible {
+  outline: 2px solid var(--lowdit-color-focus);
+  outline-offset: 2px;
+}

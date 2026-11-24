@@ -1,40 +1,40 @@
 /* Vue thinktank — publications institutionnelles, crédibilité par la typo */
-.minigo--view-thinktank {
+.lowdit--view-thinktank, .lowdit--view-thinktank {
   --view-accent: var(--lowdit-night);
   --view-surface-page: var(--lowdit-white);
 }
 
-.minigo--view-thinktank {
+.lowdit--view-thinktank, .lowdit--view-thinktank {
   background: var(--lowdit-white);
 }
 
-.minigo--view-thinktank .lowdit-page-bg {
+.lowdit--view-thinktank .lowdit-page-bg, .lowdit--view-thinktank .lowdit-page-bg {
   background: var(--lowdit-white);
 }
 
-.minigo--view-thinktank .lowdit-page-bg::before,
-.minigo--view-thinktank .lowdit-page-bg::after {
+.lowdit--view-thinktank .lowdit-page-bg::before,
+.lowdit--view-thinktank .lowdit-page-bg::after, .lowdit--view-thinktank .lowdit-page-bg::after {
   display: none;
 }
 
-.minigo--view-thinktank .minigo-header {
+.lowdit--view-thinktank .lowdit-header, .lowdit--view-thinktank .lowdit-header, .lowdit--view-thinktank .lowdit-header {
   border-bottom: 2px solid var(--lowdit-night);
   padding-block: var(--lowdit-space-4);
   background: var(--lowdit-white);
 }
 
-.minigo--view-thinktank .minigo-main {
+.lowdit--view-thinktank .lowdit-main, .lowdit--view-thinktank .lowdit-main, .lowdit--view-thinktank .lowdit-main {
   max-width: var(--lowdit-content-wide);
 }
 
-.minigo--view-thinktank .minigo-hero {
+.lowdit--view-thinktank .lowdit-hero, .lowdit--view-thinktank .lowdit-hero, .lowdit--view-thinktank .content-hero {
   border: none;
   padding: var(--lowdit-space-7) 0 var(--lowdit-space-5);
   border-bottom: 1px solid var(--lowdit-border-subtle);
   margin-bottom: var(--lowdit-space-6);
 }
 
-.minigo--view-thinktank .minigo-hero h1 {
+.lowdit--view-thinktank .lowdit-hero h1, .lowdit--view-thinktank .lowdit-hero h1, .lowdit--view-thinktank .content-hero h1 {
   font-size: var(--lowdit-font-size-display);
   letter-spacing: var(--lowdit-tracking-tight, -0.02em);
   line-height: var(--lowdit-line-tight);
@@ -42,52 +42,52 @@
   color: var(--lowdit-night);
 }
 
-.minigo--view-thinktank .minigo-hero__eyebrow {
+.lowdit--view-thinktank .lowdit-hero__eyebrow, .lowdit--view-thinktank .lowdit-hero__eyebrow, .lowdit--view-thinktank .content-hero__eyebrow {
   color: var(--lowdit-night);
 }
 
-.minigo--view-thinktank .minigo-timeline li {
+.lowdit--view-thinktank .lowdit-timeline li, .lowdit--view-thinktank .lowdit-timeline li, .lowdit--view-thinktank .lowdit-timeline li {
   padding: var(--lowdit-space-4) 0;
 }
 
-.minigo--view-thinktank .minigo-timeline time {
+.lowdit--view-thinktank .lowdit-timeline time, .lowdit--view-thinktank .lowdit-timeline time, .lowdit--view-thinktank .lowdit-timeline time {
   font-variant-numeric: tabular-nums;
   font-size: 0.8125rem;
   letter-spacing: var(--lowdit-tracking-label, 0.04em);
   text-transform: uppercase;
 }
 
-.minigo--view-thinktank .minigo-timeline a {
+.lowdit--view-thinktank .lowdit-timeline a, .lowdit--view-thinktank .lowdit-timeline a, .lowdit--view-thinktank .lowdit-timeline a {
   font-size: 1.0625rem;
   font-weight: 600;
   color: var(--lowdit-night);
   text-decoration: none;
 }
 
-.minigo--view-thinktank .minigo-timeline a:hover {
+.lowdit--view-thinktank .lowdit-timeline a:hover, .lowdit--view-thinktank .lowdit-timeline a:hover, .lowdit--view-thinktank .lowdit-timeline a:hover {
   color: var(--lowdit-violet);
 }
 
-.minigo--view-thinktank .minigo-card {
+.lowdit--view-thinktank .lowdit-card, .lowdit--view-thinktank .lowdit-card {
   border-radius: var(--lowdit-radius-sm);
   border: 1px solid var(--lowdit-border-subtle);
   border-left: 3px solid var(--lowdit-night);
   background: var(--lowdit-white);
 }
 
-.minigo--view-thinktank .repogo-article .minigo-page-header {
+.lowdit--view-thinktank .repogo-article .lowdit-page-header, .lowdit--view-thinktank .repogo-article .lowdit-page-header {
   border-bottom: 1px solid var(--lowdit-border-subtle);
   padding-bottom: var(--lowdit-space-5);
   margin-bottom: var(--lowdit-space-6);
 }
 
-.minigo--view-thinktank .repogo-article h1 {
+.lowdit--view-thinktank .repogo-article h1, .lowdit--view-thinktank .repogo-article h1 {
   font-size: clamp(1.85rem, 3.2vw, 2.5rem);
   letter-spacing: -0.02em;
   line-height: var(--lowdit-line-tight);
 }
 
-.minigo--view-thinktank .minigo-body {
+.lowdit--view-thinktank .lowdit-body, .lowdit--view-thinktank .lowdit-body {
   max-width: var(--lowdit-content-default);
   line-height: var(--lowdit-line-body);
 }

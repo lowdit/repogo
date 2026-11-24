@@ -1,0 +1,161 @@
+/* Extrait de gazette.css — écran uniquement, chargé en media=screen.
+   Paged.js 0.4.x retire les feuilles media=all et supprime @media screen
+   de son CSS de pagination : ces règles doivent rester hors de son périmètre. */
+
+@media screen {
+  body.gazette {
+    margin: 0;
+    padding: 10mm 12mm 30mm;
+    background: var(--repogo-surface);
+  }
+
+  .pagedjs_pages {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14mm;
+    padding: 0;
+  }
+
+  .pagedjs_page {
+    box-shadow: 0 0 0 1px #c7ccce, 0 5px 22px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Avant pagination (chargement en cours, javascript désactivé) : colonne
+     lisible centrée, sans décor. Aucun fond ni ombre ici : Paged.js recrée
+     la racine du contenu sur chaque page au moment de la coupure, une
+     décoration posée sur un id s'accrocherait aux répliques. */
+  body.gazette #content {
+    max-width: 48rem;
+    margin: 0 auto;
+  }
+}
+
+
+.repogo-mobile {
+  display: none;
+}
+
+
+@media screen and (max-width: 51.25rem) {
+  .pagedjs_pages.is-mobile-hidden {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: 100%;
+    overflow-x: clip;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  body.gazette #content {
+    max-width: 42rem;
+  }
+
+  .repogo-mobile {
+    display: block;
+    max-width: 42rem;
+    margin: 0 auto;
+    padding: 1rem 1rem 3rem;
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .repogo-mobile__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--paper);
+    padding: 0.75rem 1rem;
+  }
+
+  .repogo-mobile__bar p {
+    margin: 0;
+    color: var(--medium-grey);
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .repogo-mobile__bar button {
+    min-height: 44px;
+    border: 1px solid var(--navy);
+    border-radius: 4px;
+    background: var(--navy);
+    padding: 0.5rem 0.9rem;
+    color: var(--paper);
+    font: inherit;
+    font-family: var(--sans);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .repogo-mobile .gazette-masthead {
+    margin: 0 0 2.5rem;
+    padding: 0 0 2.5rem;
+    border-bottom: 1px solid var(--line);
+    box-shadow: none;
+  }
+
+  .repogo-mobile .gazette-masthead h1 {
+    font-size: 1.7rem;
+  }
+
+  .repogo-mobile .gazette-lede {
+    font-size: 1.05rem;
+  }
+
+  .repogo-mobile .gazette-body h2 {
+    margin: 2.5rem 0 1rem;
+    font-size: 1.05rem;
+  }
+
+  .repogo-mobile .gazette-body h2::before {
+    margin-bottom: 0.5rem;
+  }
+
+  .repogo-mobile .gazette-body h3 {
+    margin: 1.5rem 0 0.6rem;
+    font-size: 1rem;
+  }
+
+  .repogo-mobile .gazette-body > p:first-child {
+    font-size: 1.1rem;
+  }
+
+  .repogo-mobile .gazette-body p,
+  .repogo-mobile .gazette-body li {
+    font-size: 1rem;
+  }
+
+  .repogo-mobile .gazette-body blockquote {
+    margin: 1.5rem 0;
+    padding: 0 0 0 1rem;
+    font-size: 1.05rem;
+  }
+
+  .repogo-mobile .gazette-body img,
+  .repogo-mobile .gazette-body table {
+    max-width: 100%;
+  }
+}
+
+
+/* Extension accessibilité — retour de note et focus du sommaire */
+.footnote-backref {
+  margin-left: 0.35em;
+  font-size: 0.85em;
+  text-decoration: none;
+}
+
+.title-element:focus {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}

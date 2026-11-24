@@ -1,0 +1,411 @@
+/* ============================================================================
+   Lowdit shell — coque (ex-minigo.css, palier C)
+   ============================================================================
+   Rôle : composants de la coque commune (header, nav, hero, listes, grilles).
+   Ordre ITCSS des imports (baseof.html) :
+     tokens (settings) → reset (generic) → lowdit-base (elements)
+     → system + views → lowdit-shell.css (components coque) → utils (utilities)
+     → product-doc → site-overrides (site).
+   Les utilities (skip-links…) ont été extraites vers css/utils.css.
+   ============================================================================ */
+
+/* General */
+
+.lowdit-header, .lowdit-header {
+  border-bottom: 1px solid color-mix(in srgb, var(--lowdit-night) 12%, transparent);
+  padding: 1rem clamp(1rem, 4vw, 2rem);
+}
+
+.lowdit-header__inner, .lowdit-header__inner {
+  max-width: var(--lowdit-content-default, 64rem);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1rem;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+@media (min-width: 48rem) {
+.lowdit-header__inner, .lowdit-header__inner {
+    flex-wrap: nowrap;
+  }
+}
+
+/* L'en-tête suit la largeur du contenu (alignement gauche/droit). */
+body[class*="lowdit--view-"] .lowdit-header__inner, body[class*="lowdit--view-"] .lowdit-header__inner {
+  max-width: var(--lowdit-main-max, var(--lowdit-content-wide, 84rem));
+}
+
+.lowdit-nav, .lowdit-nav {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: flex-end;
+  min-width: 0;
+}
+
+.lowdit-nav__list, .lowdit-nav__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.35rem 0.85rem;
+  align-items: center;
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.875rem;
+  line-height: 1.35;
+}
+
+/* Petits écrans : la navigation occupe sa propre ligne sous le logo dès
+   40 rem, avant que les libellés ne se tassent contre la marque. */
+@media (max-width: 39.9375rem) {
+.lowdit-nav, .lowdit-nav {
+    flex: 1 1 100%;
+  }
+}
+
+@media (min-width: 48rem) {
+.lowdit-nav__list, .lowdit-nav__list {
+    flex-wrap: nowrap;
+    gap: 0.35rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+.lowdit-nav__list li, .lowdit-nav__list li {
+  margin: 0;
+  text-wrap: nowrap;
+}
+
+.lowdit-nav a, .lowdit-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.5rem;
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.lowdit-nav a:hover,
+.lowdit-nav a[aria-current="page"], .lowdit-nav a[aria-current="page"] {
+  color: var(--lowdit-violet);
+}
+
+/* Zones tactiles : sur téléphone et tablette, les entrées de menu visent
+   44 × 44 px (recommandation doigt), avec une typographie à 1 rem. */
+@media (max-width: 48rem) {
+.lowdit-nav__list, .lowdit-nav__list {
+    gap: 0 0.5rem;
+    font-size: 1rem;
+  }
+
+.lowdit-nav__list li, .lowdit-nav__list li {
+    display: flex;
+  }
+
+.lowdit-nav a, .lowdit-nav a {
+    min-height: 44px;
+    padding-inline: 0.5rem;
+  }
+
+.lowdit-logo, .lowdit-logo {
+    min-height: 44px;
+  }
+}
+
+.lowdit-logo, .lowdit-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--lowdit-font-logo, "Optician Sans", "Subjectivity", ui-sans-serif, system-ui, sans-serif);
+  font-weight: 700;
+  color: var(--lowdit-night);
+  text-decoration: none;
+}
+
+/* Marque de module (logo issu de la planche lowdit-brand) */
+.lowdit-logo__mark {
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.5rem;
+  vertical-align: middle;
+  flex: none;
+}
+
+/* Titre du site (texte issu du partial lowdit/logo.html) :
+   rôle TITRAGE (--lowdit-font-display), jamais --lowdit-font-logo.
+   « Optician Sans » (rôle logo) ne contient AUCUN accent (111 glyphes ASCII) :
+   un titre comme « Formations accessibilité » serait rendu caractère par
+   caractère en mélange avec le repli système. Subjectivity couvre le français
+   (accents, ç) — cf. brand/TYPOGRAPHIE.md. */
+.lowdit-logo__name {
+  display: inline-block;
+  font-family: var(--lowdit-font-display, "Subjectivity", ui-sans-serif, system-ui, sans-serif);
+}
+
+/* Liens de marque dans les thèmes dérivés (sligo, fromago, resugo) */
+.site-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--lowdit-font-logo, "Optician Sans", "Subjectivity", ui-sans-serif, system-ui, sans-serif);
+  font-weight: 700;
+}
+
+.lowdit-logo:hover, .lowdit-logo:hover {
+  color: var(--lowdit-violet);
+}
+
+.lowdit-search {
+  flex: 0 1 16rem;
+  width: 100%;
+  max-width: 20rem;
+  margin-inline-start: auto;
+}
+
+.lowdit-search input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--lowdit-muted);
+  border-radius: 4px;
+  font: inherit;
+}
+
+.lowdit-main, .lowdit-main {
+  max-width: var(--lowdit-content-default, 64rem);
+  margin: 0 auto;
+  padding: 0 clamp(1rem, 4vw, 2rem) 3rem;
+}
+
+.lowdit-main > h2, .lowdit-main > h2 {
+  margin-block: 2.25rem 1rem;
+}
+
+.lowdit-main > h2:first-of-type, .lowdit-main > h2:first-of-type {
+  margin-block-start: 1.75rem;
+}
+
+/* Grille + coque cartes : assets/css/components/card.css (Brand charge en tête).
+   Ici : repli minimal si card.css absent (moteurs hors Brand). */
+.lowdit-cards, .lowdit-card-grid {
+  list-style: none;
+  padding: 0;
+  margin-block: 0.75rem 2.75rem;
+}
+
+.lowdit-card, .lowdit-card {
+  min-block-size: 7.5rem;
+}
+
+.lowdit-card__kicker, .lowdit-card__kicker {
+  display: block;
+  margin-block-end: 0.4rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: var(--lowdit-tracking-label, 0.04em);
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--lowdit-night) 62%, var(--lowdit-muted));
+}
+
+.lowdit-timeline, .lowdit-timeline {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.lowdit-timeline li, .lowdit-timeline li {
+  padding: 1rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--lowdit-night) 8%, transparent);
+}
+
+.lowdit-timeline time, .lowdit-timeline time {
+  color: var(--lowdit-muted);
+  font-size: 0.9rem;
+}
+
+.lowdit-summary, .lowdit-summary {
+  margin: 0.35rem 0 0;
+  color: color-mix(in srgb, var(--lowdit-night) 78%, var(--lowdit-muted));
+  max-width: 68ch;
+  line-height: 1.5;
+  font-size: 0.9375rem;
+}
+
+/* Liens secondaires dans une tuile (au-dessus du ::after du titre). */
+.lowdit-card__body a, .lowdit-card__summary a {
+  position: relative;
+  z-index: 1;
+}
+
+.lowdit-exports, .lowdit-exports {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.lowdit-exports a, .lowdit-exports a {
+  display: inline-block;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--lowdit-radius-sm, 6px);
+  background: color-mix(in srgb, var(--lowdit-violet) 14%, var(--lowdit-cream));
+  border: 1px solid color-mix(in srgb, var(--lowdit-violet) 30%, transparent);
+  color: var(--lowdit-night);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.lowdit-exports a:hover, .lowdit-exports a:hover {
+  background: color-mix(in srgb, var(--lowdit-violet) 26%, var(--lowdit-cream));
+  border-color: var(--lowdit-violet);
+}
+
+.lowdit-page-header, .lowdit-page-header {
+  margin-bottom: 1.5rem;
+}
+
+.lowdit-page-header h1, .lowdit-page-header h1 {
+  margin: 0 0 0.5rem;
+}
+
+.lowdit-desc, .lowdit-desc {
+  color: var(--lowdit-muted);
+  margin: 0;
+}
+
+/* Largeur par vue : voir css/views/*.css (priorité sur cette coque) */
+body[class*="lowdit--view-"] .lowdit-main, body[class*="lowdit--view-"] .lowdit-main {
+  max-width: var(--lowdit-main-max, var(--lowdit-content-wide, 84rem));
+}
+
+/* Hero : panneau signature → charte-premium.css ; variante sans panneau : .lowdit-hero--bare */
+.lowdit-hero--bare, .lowdit-hero--bare {
+  margin: 0 0 2.5rem;
+  padding: 2rem 0 1.5rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--lowdit-night) 10%, transparent);
+}
+
+.lowdit-hero__eyebrow, .lowdit-hero__eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: var(--lowdit-tracking-eyebrow, 0.06em);
+  text-transform: uppercase;
+  color: var(--lowdit-violet);
+  margin: 0 0 0.75rem;
+}
+
+.lowdit-hero h1, .lowdit-hero h1 {
+  line-height: 1.15;
+  margin: 0 0 1rem;
+}
+
+.lowdit-hero__lead, .lowdit-hero__lead {
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: var(--lowdit-muted);
+  margin: 0 0 1rem;
+  max-width: 38em;
+}
+
+.lowdit-hero__intro, .lowdit-hero__intro {
+  max-width: 40em;
+  line-height: 1.55;
+}
+
+.lowdit-hero--slides .lowdit-hero__eyebrow { color: var(--lowdit-turquoise); }
+.lowdit-hero--publisher .lowdit-hero__eyebrow { color: var(--lowdit-night); }
+.lowdit-hero--cv .lowdit-hero__eyebrow { color: var(--lowdit-violet); }
+
+.lowdit-hero__actions, .lowdit-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--lowdit-space-3, 0.75rem);
+  margin: var(--lowdit-space-5, 1.5rem) 0 0;
+}
+
+.lowdit-home-section__head {
+  margin-bottom: 1.25rem;
+}
+
+.lowdit-home-section__head h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.25rem;
+}
+
+.lowdit-home-section__head p {
+  margin: 0;
+  color: var(--lowdit-muted);
+}
+
+.lowdit-home-section__more {
+  margin: 1.25rem 0 0;
+  font-weight: 600;
+}
+
+.lowdit-home-section__more a {
+  text-decoration: none;
+}
+
+.lowdit-home-section__more a:hover {
+  text-decoration: underline;
+}
+
+.lowdit-featured-book {
+  display: grid;
+  gap: 1.5rem;
+  margin: 0 0 2.5rem;
+  padding: 1.5rem;
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--lowdit-night) 4%, var(--lowdit-cream));
+  border: 1px solid color-mix(in srgb, var(--lowdit-night) 8%, transparent);
+}
+
+@media (min-width: 40rem) {
+.lowdit-featured-book {
+    grid-template-columns: 1fr min(14rem, 35%);
+    align-items: center;
+  }
+}
+
+.lowdit-featured-book__label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.5rem;
+  color: var(--lowdit-muted);
+}
+
+.lowdit-featured-book__desc {
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+
+.lowdit-featured-book__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.lowdit-featured-book__cover .catalog-card__visual {
+  border-radius: 6px;
+  aspect-ratio: 2 / 3;
+}
+
+/* Boutons : contrat v2 dans assets/css/components/buttons.css (chargé après lowdit-shell.css). */
+
+.repogo-toc {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid color-mix(in srgb, var(--lowdit-night) 10%, transparent);
+}
+
+.repogo-toc ol {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+  line-height: 1.6;
+}

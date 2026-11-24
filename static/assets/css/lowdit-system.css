@@ -16,8 +16,9 @@
 
 .lowdit-surface-raised {
   background: var(--lowdit-surface-raised);
-  border: 1px solid var(--lowdit-border-subtle);
-  border-radius: var(--lowdit-radius-md);
+  border: 1px solid var(--lowdit-color-border, var(--lowdit-neutral-300));
+  border-radius: var(--lowdit-radius-lg, 14px);
+  box-shadow: var(--lowdit-shadow-card);
 }
 
 .lowdit-eyebrow {
