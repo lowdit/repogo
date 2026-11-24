@@ -1,6 +1,6 @@
 ---
 title: "Lowdit Press"
-description: "Atelier de publication — rapports structurés, reprise de lecture et export print."
+description: "Maison d'édition numérique — une parution mise en avant, catalogue de rapports et export print."
 ---
 
-Espace éditorial Repogo (exampleSite) : catalogue à gauche, dossier ouvert à droite. Les contenus ci-dessous alimentent la démo.
+Espace éditorial Repogo (exampleSite) : parution récente en premier, catalogue à gauche sur grand écran. Les contenus ci-dessous alimentent la démo.

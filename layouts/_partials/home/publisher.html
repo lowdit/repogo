@@ -1,0 +1,135 @@
+{{/* Repogo — écran produit : catalogue + dossier ouvert (composition .with-sidebar). */}}
+{{- $sec := site.GetPage "reports" -}}
+{{- $books := slice -}}
+{{- with $sec -}}{{- $books = .RegularPages.ByDate.Reverse -}}{{- end -}}
+{{- $featured := site.Params.lowdit.featuredBook | default "" -}}
+{{- $featPage := false -}}
+{{- if ne $featured "" -}}
+  {{- $featPage = site.GetPage $featured -}}
+{{- else if $books -}}
+  {{- $featPage = index $books 0 -}}
+{{- end -}}
+
+<div class="pub-workspace">
+  <div class="wrapper" data-width="full">
+    <div class="pub-workspace__bar cluster">
+      <div class="pub-workspace__bar-inner stack" data-space="1">
+        <p class="pub-workspace__eyebrow">{{ site.Params.lowdit.homeEyebrow | default "Repogo" }}</p>
+        <h1 class="pub-workspace__title">{{ .Title }}</h1>
+        {{ with .Description }}<p class="pub-workspace__lead">{{ . }}</p>{{ end }}
+      </div>
+      {{- with $books -}}
+        <p class="pub-workspace__stat">{{ len $books }} {{ i18n "home-books-count" | default "publications" }}</p>
+      {{- end -}}
+    </div>
+  </div>
+
+  {{- $pinned := site.Params.lowdit.pinned | default slice -}}
+  <div class="wrapper" data-width="full">
+  <div class="with-sidebar">
+    <div class="pub-workspace__main stack">
+      {{- with $featPage -}}
+        <article class="pub-reader" aria-labelledby="pub-reader-title">
+          <header class="pub-reader__head">
+            <p class="pub-reader__label">{{ i18n "home-featured-label" | default "Ouvert maintenant" }}</p>
+            <h2 id="pub-reader-title">{{ .LinkTitle }}</h2>
+            {{- with .Params.authors -}}<p class="pub-reader__authors">{{ delimit . " · " }}</p>{{- end -}}
+            {{- with partial "lowdit/page-date.html" . -}}<p class="pub-reader__date">{{ . }}</p>{{- end -}}
+          </header>
+          {{- with .Description -}}<p class="pub-reader__summary">{{ . }}</p>{{- end -}}
+          <p class="pub-reader__actions cluster">
+            <a class="minigo-btn minigo-btn--primary" href="{{ .RelPermalink }}">{{ i18n "home-read-online" | default "Continuer la lecture" }}</a>
+            {{- with .OutputFormats.Get "print" -}}
+              <a class="minigo-btn minigo-btn--ghost" href="{{ .RelPermalink }}">{{ i18n "export-print" | default "Version imprimable" }}</a>
+            {{- end -}}
+          </p>
+          {{- $key := .RelPermalink -}}
+          {{- $motif := upper (substr (.File.ContentBaseName | default "DOC") 0 8) -}}
+          {{- $art := partial "catalog/visual-art.html" (dict "key" $key "index" 0 "accent" (.Params.accent | default "#2F6BFF")) -}}
+          <div class="pub-reader__cover" aria-hidden="true">
+            {{ partial "catalog/card-visual.html" (dict "art" $art "motif" $motif "label" "PDF" "thumbnail" .Params.thumbnail) }}
+          </div>
+        </article>
+      {{- else -}}
+        <p class="pub-workspace__empty">{{ i18n "list-empty" }}</p>
+      {{- end -}}
+      {{- with $pinned -}}
+      <section class="pub-pinned" aria-labelledby="pub-pinned-heading">
+        <h2 id="pub-pinned-heading" class="pub-pinned__heading">{{ i18n "home-pinned-heading" | default "Épinglés" }}</h2>
+        <ul class="pub-pinned__list">
+          {{- range . -}}
+            {{- with site.GetPage . -}}
+            <li class="pub-pinned__item">
+              <a class="pub-pinned__link" href="{{ .RelPermalink }}">
+                <span class="pub-pinned__name">{{ .LinkTitle }}</span>
+                {{- with .Description -}}<span class="pub-pinned__desc">{{ . | truncate 90 }}</span>{{- end -}}
+              </a>
+            </li>
+            {{- end -}}
+          {{- end -}}
+        </ul>
+      </section>
+      {{- end -}}
+      {{ with .Content }}<div class="doc-body pub-workspace__note">{{ . }}</div>{{ end }}
+    </div>
+
+    <aside class="pub-catalog" aria-labelledby="pub-catalog-heading">
+      <h2 id="pub-catalog-heading" class="pub-catalog__heading">{{ i18n "home-books-heading" | default "Catalogue" }}</h2>
+      {{- with $books -}}
+        <ol class="pub-catalog__list">
+          {{- range $books -}}
+            {{- $isCurrent := false -}}
+            {{- if $featPage -}}{{- $isCurrent = eq .RelPermalink $featPage.RelPermalink -}}{{- end -}}
+            <li class="pub-catalog__item{{ if $isCurrent }} pub-catalog__item--current{{ end }}">
+              <a class="pub-catalog__link" href="{{ .RelPermalink }}"{{ if $isCurrent }} aria-current="page"{{ end }}>
+                {{- $key := .RelPermalink -}}
+                {{- $art := partial "catalog/visual-art.html" (dict "key" $key "index" 0 "accent" (.Params.accent | default "#2F6BFF")) -}}
+                <span class="pub-catalog__thumb" style="--pub-accent: {{ .Params.accent | default "#2F6BFF" }};" aria-hidden="true"></span>
+                <span class="pub-catalog__text">
+                  <span class="pub-catalog__name">{{ .LinkTitle }}</span>
+                  {{- with partial "lowdit/page-date.html" . -}}<span class="pub-catalog__date">{{ . }}</span>{{- end -}}
+                  {{- with .Description -}}<span class="pub-catalog__desc">{{ . | truncate 88 }}</span>{{- end -}}
+                </span>
+              </a>
+            </li>
+          {{- end -}}
+        </ol>
+      {{- else -}}
+        <p class="pub-catalog__empty">{{ i18n "list-empty" }}</p>
+      {{- end -}}
+      <p class="pub-catalog__foot"><a href="{{ with $sec }}{{ .RelPermalink }}{{ else }}/reports/{{ end }}">{{ i18n "home-view-all" | default "Vue galerie" }}</a></p>
+    </aside>
+  </div>
+  </div>
+
+  {{/* Promotion compositions Premium (P-brand-ds-compositions-promotion-deux-univers-01) */}}
+  <div class="wrapper" data-width="full">
+    <section class="stack pub-compositions-promo" data-space="3" aria-labelledby="pub-compositions-promo-title">
+      <h2 id="pub-compositions-promo-title" class="pub-workspace__eyebrow">Compositions Premium</h2>
+      <div class="split-feature" data-density="calm">
+        <div class="stack" data-space="1">
+          <h3 class="pub-compositions-promo__heading">Édition numérique sobre</h3>
+          <p>La vue <code>publisher</code> consomme <code>split-feature</code> : texte éditorial et couverture sans gadget.</p>
+          <a class="minigo-btn minigo-btn--primary" href="{{ with $sec }}{{ .RelPermalink }}{{ else }}/reports/{{ end }}">Ouvrir le catalogue</a>
+        </div>
+        <figure class="image-with-caption">
+          <img src="/images/demo/demo-1.svg" width="480" height="300" alt="" loading="lazy" decoding="async">
+          <figcaption>Couverture type — ratio via <code>--lowdit-composition-media-ratio</code>.</figcaption>
+        </figure>
+      </div>
+      <div class="editorial" data-density="immersive">
+        <div class="split-feature">
+          <div class="stack" data-space="1">
+            <h3 class="pub-compositions-promo__heading">Récit en sections</h3>
+            <p>Composition <code>editorial</code> imbriquant <code>split-feature</code> pour une parution mise en avant.</p>
+          </div>
+          <figure class="image-with-caption">
+            <img src="/images/demo/demo-2.svg" width="480" height="300" alt="" loading="lazy" decoding="async">
+            <figcaption>Illustration statique — pas de carrousel.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+{{ partial "catalog/styles.html" . }}

@@ -5,6 +5,7 @@ Thème Hugo **print** (Paged.js) de l’écosystème Lowdit : rapports, comptes 
 | Doc | Contenu |
 |-----|---------|
 | [`docs/PRINT.md`](docs/PRINT.md) | Routage `document`, front matter, CSS, tests |
+| [`docs/CSS-UNIVERS.md`](docs/CSS-UNIVERS.md) | CSS Lowdit, compositions et exceptions locales |
 | [`docs/VISION.md`](docs/VISION.md) | Roadmap types (exam, Sligo, …) |
 | [`docs/EVOLUTION-EDITORIALE.md`](docs/EVOLUTION-EDITORIALE.md) | Livre/fascicule : site porteur vs moteur print |
 | [`docs/RESSOURCES-SITES-VENTE-LIVRE.md`](docs/RESSOURCES-SITES-VENTE-LIVRE.md) | Veille exemples sites vente/découverte livres (Shelf & Story, Mollat, …) |

@@ -1,7 +1,8 @@
 # Repogo — guide print (implémentation actuelle)
 
 > **Mode d’emploi** pour développeurs et auteurs. Vision long terme : [`VISION.md`](VISION.md).  
-> **Séparation des couches** (thème vs site org) : [`lowdit-brand/docs/COUCHES-SITE-PRINT.md`](../../lowdit-brand/docs/COUCHES-SITE-PRINT.md).
+> **Séparation des couches** (thème vs site org) : [`lowdit-brand/docs/COUCHES-SITE-PRINT.md`](../../lowdit-brand/docs/COUCHES-SITE-PRINT.md).  
+> **Mise à jour Paged.js :** état, POC et incrément proposé — [`REVUE-MAJ-PAGEDJS.md`](REVUE-MAJ-PAGEDJS.md) (0.1.43 → 0.4.3 ; piège `media="screen"`).
 
 ## Entrée
 
@@ -43,12 +44,12 @@ Alias recommandés aujourd’hui :
 
 ## Feuilles de style chargées
 
-| Type | CSS Repogo (thème) | CSS site (peau org) |
-|------|--------------------|---------------------|
-| Courrier | `courrier.css` | `assets/css/courrier/{org}.css` si présent |
-| Compte rendu | `courrier.css` + `record.css` | idem courrier |
-| Gazette | `gazette.css` | *(peau org non prévue pour le moment)* |
-| Rapport | `pagejs.css` (+ `pagejs-rs.css` si `abstract`) | `assets/css/print/{org}.css` si présent |
+| Type | CSS print (`media="all"`) | CSS écran (`media="screen"`) | CSS site (peau org) |
+|------|---------------------------|------------------------------|---------------------|
+| Courrier | `courrier.css` | `courrier-screen.css` | `assets/css/courrier/{org}.css` si présent |
+| Compte rendu | `courrier.css` + `record.css` | `courrier-screen.css` | idem courrier |
+| Gazette | `gazette.css` | `gazette-screen.css` | *(peau org non prévue pour le moment)* |
+| Rapport | `pagejs.css` (+ `pagejs-rs.css` si `abstract`) | `pagejs-screen.css` | `assets/css/print/{org}.css` si présent |
 
 `{org}` = `or .Params.org site.Params.org`.
 
@@ -59,6 +60,13 @@ Polices : le site expose `/assets/css/fonts.css` (copié depuis `lowdit-brand` v
 ---
 
 ## Aperçu écran, mobile et impression
+
+> **Version :** Paged.js **0.4.3** embarqué (2026-11-13). Deux familles de feuilles, à ne pas confondre :
+>
+> - **print** (`pagejs.css`, `gazette.css`, `courrier.css`, `record.css`) en **`media="all"`** : Paged.js 0.4.x ignore `media="screen"` et retomberait sur US Letter ;
+> - **écran** (`pagejs-screen.css`, `gazette-screen.css`, `courrier-screen.css`) en **`media="screen"`** : Paged.js 0.4.x retire les feuilles `media="all"` et **supprime `@media screen`** de son CSS de pagination. Sans cette séparation, l’aperçu perd son centrage et le lecteur mobile ne s’affiche plus.
+>
+> Voir [`REVUE-MAJ-PAGEDJS.md`](REVUE-MAJ-PAGEDJS.md).
 
 - **Écran large** : Paged.js affiche les pages A4 (`210 × 297 mm`) dans `.pagedjs_pages`.
 - **Écran ≤ 51,25 rem** (820 px) : `.pagedjs_pages` est masqué après le rendu et un
@@ -71,7 +79,13 @@ Polices : le site expose `/assets/css/fonts.css` (copié depuis `lowdit-brand` v
 
 Le clone mobile est créé **avant** le déplacement de `#content` par Paged.js. Ses
 identifiants sont préfixés par `m-` pour éviter les collisions avec les ancres des
-pages A4 conservées pour l'impression.
+pages A4 conservées pour l'impression. L’extension **`assets/js/pagejs/repogo-a11y.js`**
+réécrit aussi les références (`for`, `headers`, `aria-labelledby`, `aria-describedby`,
+etc.) et porte les améliorations ARIA : un seul `main`, marges en `aria-hidden`,
+`doc-pagebreak` par page, focus du sommaire et sémantique des notes.
+
+> Ces contrôles sont DOM/CSS, pas un audit NVDA/VoiceOver/JAWS. L’aperçu paginé
+> reste une vue visuelle ; il ne rend pas le PDF balisé.
 
 ---
 
@@ -195,8 +209,10 @@ Repogo fournit `i18n/fr.yaml` et `en.yaml` (`toc-title`). Empiler Higo + Repogo 
 
 1. `hugo --minify` sans erreur.
 2. Ouvrir `/…/print.html` pour un CR, un courrier, un rapport ou une gazette.
-3. Vérifier pied de page org (CSS courrier), couleurs rapport (`--repogo-*`), masthead gazette.
-4. Export PDF navigateur ou pipeline habituel.
+3. Vérifier la **taille de page** (A4 210 × 297 mm), pas seulement le nombre de pages.
+4. Vérifier pied de page org (CSS courrier), couleurs rapport (`--repogo-*`), masthead gazette.
+5. À **390 px** : le lecteur mobile s’affiche, l’aperçu A4 est masqué. À **1400 px** : l’inverse, pages centrées.
+6. Export PDF navigateur ou pipeline habituel ; vérifier que « Lecture mobile » n’apparaît pas dans le PDF.
 
 ### PDF fichier vs HTML print
 

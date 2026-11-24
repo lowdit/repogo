@@ -1,7 +1,8 @@
 {{ define "main" }}
 <article class="repogo-article">
+  <div class="with-sidebar">
   {{- with .Pages.ByWeight -}}
-  <nav class="repogo-toc" aria-labelledby="repogo-toc-heading">
+  <nav class="repogo-toc doc-nav" aria-labelledby="repogo-toc-heading">
     <h2 id="repogo-toc-heading">{{ i18n "repogo-chapters" | default "Chapitres" }}</h2>
     <ol>
       {{- range . -}}
@@ -20,8 +21,9 @@
     {{ end }}
   </header>
   {{ partial "exports/links.html" . }}
-  <div class="minigo-body">
+  <div class="doc-body">
     {{ .Content }}
+  </div>
   </div>
   </div>
 </article>

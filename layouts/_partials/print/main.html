@@ -28,15 +28,16 @@
   <meta name="DC.Format" content="text/html">
   <meta name="DC.Language" content="{{ .Lang }}">
   {{- if or $isLetter $isCompteRendu }}
-  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/courrier.css").RelPermalink }}" media="screen">
+  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/courrier.css").RelPermalink }}" media="all">
   {{- if $isCompteRendu }}
-  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/record.css").RelPermalink }}" media="screen">
+  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/record.css").RelPermalink }}" media="all">
   {{- end }}
   {{- with $printOrg }}
   {{- with resources.Get (printf "css/courrier/%s.css" .) }}
-  <link rel=stylesheet type=text/css href="{{ .RelPermalink }}" media="screen">
+  <link rel=stylesheet type=text/css href="{{ .RelPermalink }}" media="all">
   {{- end }}
   {{- end }}
+  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/courrier-screen.css").RelPermalink }}" media="screen">
   {{- else if $isGazette }}
   <link rel=stylesheet type=text/css href="{{ (resources.Get "css/gazette.css").RelPermalink }}" media="all">
   {{- with $printOrg }}
@@ -44,17 +45,23 @@
   <link rel=stylesheet type=text/css href="{{ .RelPermalink }}" media="all">
   {{- end }}
   {{- end }}
+  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/gazette-screen.css").RelPermalink }}" media="screen">
   {{- else if $isReport }}
-  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs.css").RelPermalink }}" media="screen">
+  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs.css").RelPermalink }}" media="all">
   {{- if eq $BaseName "abstract" }}
-  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs-rs.css").RelPermalink }}" media="screen">
+  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs-rs.css").RelPermalink }}" media="all">
   {{- end }}
   {{- with $printOrg }}
   {{- with resources.Get (printf "css/print/%s.css" .) }}
-  <link rel=stylesheet type=text/css href="{{ .RelPermalink }}" media="screen">
+  <link rel=stylesheet type=text/css href="{{ .RelPermalink }}" media="all">
   {{- end }}
   {{- end }}
+  <link rel=stylesheet type=text/css href="{{ (resources.Get "css/pagejs-screen.css").RelPermalink }}" media="screen">
   {{- end }}
+  <style media="print" data-pagedjs-ignore>
+    .repogo-mobile { display: none !important; }
+    .footnote-backref { display: none !important; }
+  </style>
   <link rel="preload" href="{{ "assets/css/fonts.css" | relURL }}" as="style">
   <link rel="stylesheet" href="{{ "assets/css/fonts.css" | relURL }}"/>
   {{- with resources.Get "sass/vendors/_admonitions.scss" }}
@@ -84,13 +91,17 @@
         mobile.className = "repogo-mobile";
         mobile.innerHTML = source.innerHTML;
 
-        mobile.querySelectorAll("[id]").forEach(function (el) {
-          el.id = "m-" + el.id;
-        });
-        mobile.querySelectorAll('a[href^="#"]').forEach(function (link) {
-          var href = link.getAttribute("href");
-          if (href.length > 1) link.setAttribute("href", "#m-" + href.slice(1));
-        });
+        if (window.RepogoA11y) {
+          window.RepogoA11y.prefixClone(mobile);
+        } else {
+          mobile.querySelectorAll("[id]").forEach(function (el) {
+            el.id = "m-" + el.id;
+          });
+          mobile.querySelectorAll('a[href^="#"]').forEach(function (link) {
+            var href = link.getAttribute("href");
+            if (href.length > 1) link.setAttribute("href", "#m-" + href.slice(1));
+          });
+        }
 
         var tocList = mobile.querySelector("#m-toc-list");
         if (tocList) {
@@ -209,51 +220,13 @@
 {{- end }}
 <script type=text/javascript src="{{ (resources.Get "js/pagejs/main.js").RelPermalink }}"></script>
 <script>
-const appendPageNumberToAnchor = (el, pageNum) => {
-  const span = document.createElement("span");
-  span.textContent = pageNum;
-  el.append(span);
+window.RepogoPrintConfig = {
+  type: {{ if $isLetter }}"letter"{{ else if $isCompteRendu }}"record"{{ else if $isGazette }}"gazette"{{ else }}"report"{{ end }},
+  toc: {{ if and $isReport (ne $BaseName "abstract") }}true{{ else }}false{{ end }}
 };
-class handlers extends Paged.Handler {
-  beforeParsed(content) {
-    {{- if or $isLetter $isCompteRendu }}
-    const root = content.querySelector(".courrier-body") || content;
-    root.querySelectorAll("h2, h3, h4").forEach((h) => {
-      const next = h.nextElementSibling;
-      if (!next || next.classList.contains("keep-with-next")) return;
-      const wrap = document.createElement("div");
-      wrap.className = "keep-with-next";
-      h.parentNode.insertBefore(wrap, h);
-      wrap.appendChild(h);
-      wrap.appendChild(next);
-    });
-    {{- else if $isReport }}
-    {{- if ne $BaseName "abstract" }}
-    createToc({ content, tocElement: "#toc-list", titleElements: [".chapter h2", ".chapter h3"] });
-    {{- end }}
-    {{- end }}
-  }
-  {{- if and $isReport (ne $BaseName "abstract") }}
-  afterPageLayout(pageEl) {
-    const pageNum = pageEl.dataset.pageNumber;
-    pageEl.querySelectorAll(".title-element").forEach((titleEl) => {
-      document.querySelectorAll(`.toc-element a[href="#${titleEl.id}"]`).forEach((link) => {
-        appendPageNumberToAnchor(link, pageNum);
-      });
-    });
-  }
-  afterRendered() {
-    const preview = document.querySelector(".pagedjs_pages");
-    if (!preview) return;
-    preview.tabIndex = 0;
-    preview.setAttribute("role", "region");
-    preview.setAttribute("aria-label", "Aperçu du document A4");
-    preview.scrollLeft = 0;
-  }
-  {{- end }}
-}
-Paged.registerHandlers(handlers);
-
+</script>
+<script type=text/javascript src="{{ (resources.Get "js/pagejs/repogo-a11y.js").RelPermalink }}"></script>
+<script>
 (function startRepogoPagedPreview() {
   function run() {
     if (window.__repogoPagedStarted) return;

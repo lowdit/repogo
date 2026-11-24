@@ -3,6 +3,8 @@
 > **Statut : PROPOSÉ** (2026-10-16). Document de décision technique — ne remplace pas un `NEXT` approuvé pour intégrer du code en production.  
 > Complète [`PRINT.md`](PRINT.md), [`ACCESSIBILITE-PDF.md`](ACCESSIBILITE-PDF.md), [`POC-PDF-CORPUS.md`](POC-PDF-CORPUS.md).
 
+> **Lecture ≠ génération (2026-11-12) :** un viewer PDF (EmbedPDF) ne remplace ni Paged.js ni l’export Resugo — voir la revue [`REVUE-PDF-LECTURE-VS-GENERATION.md`](../../lowtech-dev-method/docs/REVUE-PDF-LECTURE-VS-GENERATION.md).
+
 ## Contexte Lowdit
 
 - **Repogo** produit aujourd’hui du **HTML print** (`outputFormats.print`) paginé avec **Paged.js** dans le navigateur — pas de fichier PDF versionné dans le dépôt ([`PRINT.md`](PRINT.md)).
@@ -34,7 +36,7 @@ La page [dompdfjs.lisky.com.cn](https://dompdfjs.lisky.com.cn/) et la doc affirm
 
 **Vérifié comme capacités *déclarées* du produit**, pas comme garanties pour :
 
-- HTML issu de **Paged.js** (pages `.pagedjs_page`, notes renumérotées par `main.js`) ;
+- HTML issu de **Paged.js** (pages `.pagedjs_page` ; les helpers `footnotesOrder()` / `footnotesAside()` de `main.js` sont présents mais **jamais appelés** — code mort, voir [`REVUE-MAJ-PAGEDJS.md`](REVUE-MAJ-PAGEDJS.md)) ;
 - CSS **`@page`** Repogo (`pagejs.css`) ;
 - **Livres** vendus ou soumis à exigence PDF/UA.
 

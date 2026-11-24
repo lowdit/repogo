@@ -27,4 +27,8 @@
   <div class="gazette-body">
     {{ .Content }}
   </div>
+  <footer class="gazette-colophon">
+    <p>{{ $brand }}{{ with .Params.numero }} · n° {{ . }}{{ end }}{{ if not .PublishDate.IsZero }} · {{ .PublishDate | time.Format ":date_long" }}{{ end }}</p>
+    <p>Relecture humaine · synthèse assistée par l’IA · licence et sources dans le corps.</p>
+  </footer>
 </article>
