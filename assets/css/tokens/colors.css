@@ -3,7 +3,10 @@
   --lowdit-night: #0B2545;
   --lowdit-turquoise: #14C6B1;
   --lowdit-coral: #FF5B5B;
-  --lowdit-cream: #F1EFEB; /* White Chalk — plus chaud que l’ancien #F7F6F2 (veille MP260) */
+  --lowdit-cream: #F7F6F2; /* Sage / sable P2★ — validation 2026-11-16 */
+  --lowdit-sage: #66999B; /* Action marque (planche 500) */
+  --lowdit-gold: #E3B505; /* Signal édito — rare */
+  --lowdit-ember: #95190C; /* Erreur / destructif — rare */
   --lowdit-violet: #5B3DF5;
   --lowdit-repogo: #2F6BFF;
   --lowdit-white: #ffffff;
@@ -31,6 +34,17 @@
   --lowdit-turquoise-700: #0d9488;
   --lowdit-turquoise-800: #0d7f72;
   --lowdit-turquoise-900: #076b5f;
+
+  --lowdit-sage-50: color-mix(in oklch, var(--lowdit-sage) 12%, white);
+  --lowdit-sage-100: color-mix(in oklch, var(--lowdit-sage) 22%, white);
+  --lowdit-sage-200: color-mix(in oklch, var(--lowdit-sage) 36%, white);
+  --lowdit-sage-300: color-mix(in oklch, var(--lowdit-sage) 52%, white);
+  --lowdit-sage-400: color-mix(in oklch, var(--lowdit-sage) 72%, white);
+  --lowdit-sage-500: var(--lowdit-sage);
+  --lowdit-sage-600: #5a8a8c;
+  --lowdit-sage-700: #4f7b7e;
+  --lowdit-sage-800: #4a7578; /* fond bouton — contraste texte clair ≥ 4.5:1 */
+  --lowdit-sage-900: #3f6b6e;
 
   --lowdit-coral-50: color-mix(in oklch, var(--lowdit-coral) 14%, white);
   --lowdit-coral-100: color-mix(in oklch, var(--lowdit-coral) 28%, white);
@@ -84,20 +98,20 @@
 
   --lowdit-role-accent-repogo-text: var(--lowdit-repogo-700);
   --lowdit-role-accent-violet-text: var(--lowdit-violet-600);
-  --lowdit-role-accent-turquoise-text: var(--lowdit-turquoise-900);
+  --lowdit-role-accent-turquoise-text: var(--lowdit-sage-900); /* marque sage — turquoise planche = modules */
 
-  --lowdit-role-action: var(--lowdit-turquoise-900);
+  --lowdit-role-action: var(--lowdit-sage-800);
   --lowdit-role-action-foreground: var(--lowdit-white);
-  --lowdit-role-action-hover: var(--lowdit-turquoise-800);
-  --lowdit-role-focus-ring: var(--lowdit-turquoise-700);
+  --lowdit-role-action-hover: var(--lowdit-sage-900);
+  --lowdit-role-focus-ring: var(--lowdit-sage-700);
   --lowdit-role-border-component: var(--lowdit-neutral-600);
 
   --lowdit-role-status-success-text: #1a7a52;
   --lowdit-role-status-success-border: #239159; /* Botanic Jade — veille MP260, proche turquoise marque */
   --lowdit-role-status-warning-text: #8a5a00;
   --lowdit-role-status-warning-border: #c47f00;
-  --lowdit-role-status-error-text: #b42318;
-  --lowdit-role-status-error-border: #d04a3a;
+  --lowdit-role-status-error-text: var(--lowdit-ember);
+  --lowdit-role-status-error-border: var(--lowdit-ember);
   --lowdit-role-status-info-text: #1d5bb8;
   --lowdit-role-status-info-border: #3b7fdb;
 

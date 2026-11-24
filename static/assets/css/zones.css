@@ -134,13 +134,17 @@
 }
 
 /* Hero asymétrique (titre + lead vs zone visuelle optionnelle) */
+/* Le hero porte déjà son filet (product-doc) : pas de seconde bordure. */
 .hub-shell__hero--asymmetric {
   display: grid;
   gap: var(--lowdit-space-4, 1.5rem);
   align-items: end;
   padding-block-end: var(--lowdit-space-5, 2rem);
-  border-bottom: 1px solid var(--lowdit-color-border, #dfe3ea);
-  margin-block-end: var(--lowdit-space-4, 1.5rem);
+}
+
+/* Le fil d’Ariane traverse les deux colonnes du hero asymétrique. */
+.hub-shell__hero--asymmetric > .lowdit-breadcrumb {
+  grid-column: 1 / -1;
 }
 
 @media (min-width: 48rem) {
@@ -157,10 +161,25 @@
   display: none;
 }
 
+/* Zone visuelle du hero : une surface assumée, pas un rectangle nu collé au
+   texte. Le Markdown reçoit un vrai rembourrage et un filet discret. */
 .hub-shell__hero-visual {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   min-height: 8rem;
+  padding: var(--lowdit-space-5, 1.5rem);
+  border: 1px solid color-mix(in srgb, var(--lowdit-charte-accent, var(--lowdit-repogo)) 26%, transparent);
   border-radius: var(--lowdit-radius-md, 8px);
-  background: color-mix(in srgb, var(--lowdit-charte-accent, var(--lowdit-repogo)) 18%, var(--lowdit-surface-page, #f1efeb));
+  background: color-mix(in srgb, var(--lowdit-charte-accent, var(--lowdit-repogo)) 12%, var(--lowdit-surface-page, #f1efeb));
+}
+
+.hub-shell__hero-visual > :first-child { margin-block-start: 0; }
+.hub-shell__hero-visual > :last-child { margin-block-end: 0; }
+
+/* Hub-shell : le hero ne touche jamais la grille de slots. */
+.hub-shell > .content-hero {
+  margin-block-end: var(--lowdit-space-6, 2rem);
 }
 
 /* 3 colonnes : 2 slots remplis → 2 col ; 1 seul → 1 col (règles existantes + feature) */

@@ -12,6 +12,7 @@
   --lowdit-accent-repogo: var(--lowdit-repogo);
   --lowdit-accent-frago: var(--lowdit-coral);
   --lowdit-accent-marque: var(--lowdit-turquoise);
+  --lowdit-accent-quizago: var(--lowdit-violet);
 }
 
 .lowdit-surface-raised {

@@ -70,6 +70,10 @@
 }
 
 .lowdit-breadcrumb a {
+  /* Cible ≥ 24 px de haut (WCAG 2.5.8) malgré le petit corps du fil. */
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 24px;
   color: var(--lowdit-color-link, var(--lowdit-night));
   text-decoration: underline;
   text-underline-offset: 0.2em;
@@ -101,6 +105,7 @@
   }
 
   .lowdit-prev-next__item--next {
+    grid-column: 2;
     text-align: end;
   }
 }

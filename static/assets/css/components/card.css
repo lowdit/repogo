@@ -1,7 +1,6 @@
 /* Carte éditoriale — canon Brand (banc polices + tuiles Minigo).
    .lowdit-card = coque ; .lowdit-card = même coque + lien titre étendu (::after). */
 
-.lowdit-cards,
 .lowdit-cards {
   display: grid;
   gap: var(--lowdit-grid-gap-lg, 1.375rem);
@@ -37,12 +36,10 @@
   }
 }
 
-.lowdit-cards > li,
 .lowdit-cards > li {
   margin: 0;
 }
 
-.lowdit-card,
 .lowdit-card {
   position: relative;
   box-sizing: border-box;
@@ -89,14 +86,12 @@
   border-radius: inherit;
 }
 
-.lowdit-card__meta,
 .lowdit-card__meta {
   margin: 0;
   font-size: var(--lowdit-type-sm, 0.8rem);
   color: var(--lowdit-color-text-muted);
 }
 
-.lowdit-card__body,
 .lowdit-card__body {
   margin: 0;
   font-size: var(--lowdit-type-base);
@@ -110,7 +105,6 @@
 }
 
 .lowdit-card--ref,
-.lowdit-card[data-spotlight],
 .lowdit-card[data-spotlight] {
   border-color: var(--lowdit-turquoise);
   box-shadow:

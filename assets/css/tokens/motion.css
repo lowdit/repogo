@@ -1,5 +1,7 @@
 /* Lowdit — mouvement (respect prefers-reduced-motion)
-   Spéc : docs/MOTION-MICRO-INTERACTIONS.md · prompt IA : context/PROMPT-MOTION-IA.md */
+   Cadrage : docs/MICROINTERACTIONS-CADRAGE.md
+   Spéc : docs/MOTION-MICRO-INTERACTIONS.md · prompt IA : context/PROMPT-MOTION-IA.md
+   Familles : actions, navigation, saisie, disclosure, feedback (lot 1) */
 :root {
   --lowdit-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --lowdit-ease-control: cubic-bezier(0.2, 0, 0, 1);

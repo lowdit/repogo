@@ -1,8 +1,9 @@
-/* Boutons — contrat Brand Core v2-04.
-   Vocabulaire canonique lowdit-btn ; lowdit-btn reste alias (palier C).
-   Centrage : min-height + flex, line-height 1. */
+/* Boutons — composant `lowdit-btn` (Brand Core v2-04).
+   Variantes : --primary, --ghost, --icon-only. États : survol (pointeur fin),
+   appui, focus clavier, désactivé. Centrage : min-height + flex, line-height 1.
+   La prose (lowdit-base.css) ne stylise que les liens sans classe : un lien
+   bouton n'a besoin d'aucune compensation. */
 
-.lowdit-btn,
 .lowdit-btn {
   box-sizing: border-box;
   display: inline-flex;
@@ -18,63 +19,69 @@
   text-align: center;
   text-decoration: none;
   border: 2px solid transparent;
-  transition: var(--lowdit-transition-control, background-color 150ms ease, color 150ms ease,
-    border-color 150ms ease, box-shadow 150ms ease);
+  transition: var(
+    --lowdit-transition-control,
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease,
+    box-shadow 150ms ease,
+    transform 150ms ease
+  );
 }
 
 @supports (text-box-trim: trim-both) {
-  .lowdit-btn,
   .lowdit-btn {
     text-box-trim: trim-both;
     text-box-edge: cap alphabetic;
   }
 }
 
-.doc-body .lowdit-btn,
-.doc-body .lowdit-btn,
-.lowdit-main .lowdit-btn,
-.lowdit-main .lowdit-btn {
-  line-height: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-a.lowdit-btn--primary,
-a.lowdit-btn--primary,
-.lowdit-btn--primary,
 .lowdit-btn--primary {
   background: var(--lowdit-color-action);
   color: var(--lowdit-color-action-foreground);
   border-color: var(--lowdit-color-action);
 }
 
-.lowdit-btn--ghost,
 .lowdit-btn--ghost {
   border-color: var(--lowdit-color-border-component);
   color: var(--lowdit-color-text);
   background: var(--lowdit-color-surface);
 }
 
+.lowdit-btn--icon-only {
+  width: 2.75rem;
+  min-width: 2.75rem;
+  padding: 0;
+}
+
+/* --- Survol (pointeur fin uniquement) ----------------------------------- */
+
 @media (hover: hover) and (pointer: fine) {
-  .lowdit-btn--primary:hover,
   .lowdit-btn--primary:hover {
     background: var(--lowdit-color-surface);
     color: var(--lowdit-color-action);
     border-color: var(--lowdit-color-action);
     box-shadow: inset 0 0 0 1px var(--lowdit-color-action);
+    transform: scale(1.03);
   }
 
-  .lowdit-btn--ghost:hover,
   .lowdit-btn--ghost:hover {
     border-color: var(--lowdit-color-action);
     background: color-mix(in srgb, var(--lowdit-color-action) 14%, var(--lowdit-color-surface));
     color: var(--lowdit-color-text);
     box-shadow: 0 0 0 1px var(--lowdit-color-action);
+    transform: scale(1.03);
   }
 }
 
-.lowdit-btn--primary:active,
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: reduce) {
+  .lowdit-btn:hover {
+    transform: none;
+  }
+}
+
+/* --- Appui -------------------------------------------------------------- */
+
 .lowdit-btn--primary:active {
   background: color-mix(in srgb, var(--lowdit-color-action) 88%, var(--lowdit-night));
   color: var(--lowdit-color-action-foreground);
@@ -82,44 +89,30 @@ a.lowdit-btn--primary,
   box-shadow: none;
 }
 
-.lowdit-btn--ghost:active,
 .lowdit-btn--ghost:active {
   background: color-mix(in srgb, var(--lowdit-color-text) 10%, var(--lowdit-color-surface));
   box-shadow: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .lowdit-btn:active:not(:disabled):not([aria-disabled="true"]),
-  .lowdit-btn:active:not(:disabled):not([aria-disabled="true"]) {
+  .lowdit-btn:active:not(:disabled, [aria-disabled="true"]) {
     transform: translateY(1px);
   }
 }
 
-.lowdit-btn:focus-visible,
+/* --- Focus clavier et désactivé ------------------------------------------ */
+
 .lowdit-btn:focus-visible {
   outline: 2px solid var(--lowdit-color-focus);
   outline-offset: 2px;
 }
 
-.lowdit-btn:disabled,
-.lowdit-btn[aria-disabled="true"],
-.lowdit-btn:disabled,
-.lowdit-btn[aria-disabled="true"] {
+.lowdit-btn:is(:disabled, [aria-disabled="true"]) {
   opacity: 0.55;
   cursor: not-allowed;
 }
 
-.lowdit-btn:disabled:hover,
-.lowdit-btn[aria-disabled="true"]:hover,
-.lowdit-btn:disabled:hover,
-.lowdit-btn[aria-disabled="true"]:hover {
+.lowdit-btn:is(:disabled, [aria-disabled="true"]):hover {
   box-shadow: none;
-}
-
-.lowdit-btn--icon-only,
-.lowdit-btn--icon-only {
-  padding-inline: 0;
-  width: 2.75rem;
-  min-width: 2.75rem;
-  padding-block: 0;
+  transform: none;
 }

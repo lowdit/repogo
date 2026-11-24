@@ -127,3 +127,147 @@
 .doc-body :is(h2, h3):not(:where(.lowdit-accordion *, .lowdit-disclosure *, .lowdit-demo *)) {
   margin-top: var(--lowdit-space-6, 2rem);
 }
+/* Pages `layout: composition` — même sommaire de section que les pages doc.
+   La carte hub-shell reste dans la colonne de droite ; la nav est sticky. */
+.lowdit-composition-layout {
+  display: grid;
+  gap: var(--lowdit-space-6, 2rem);
+  align-items: start;
+  padding: var(--lowdit-space-6) var(--lowdit-space-5);
+  background: var(--lowdit-color-surface, var(--lowdit-white));
+  border: 1px solid var(--lowdit-color-border, var(--lowdit-neutral-300));
+  border-radius: var(--lowdit-radius-lg, 14px);
+  box-shadow: var(--lowdit-shadow-card);
+}
+
+@media (min-width: 48rem) {
+  .lowdit-composition-layout {
+    padding: var(--lowdit-space-7) var(--lowdit-space-6);
+  }
+}
+
+/* La carte hub-shell devient le contenu de la carte de section : pas de
+   double bordure ni de double rembourrage. */
+.lowdit-composition-layout__main > .lowdit-product {
+  width: 100%;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.lowdit-composition-layout > * {
+  min-inline-size: 0;
+}
+
+@media (min-width: 52rem) {
+  .lowdit-composition-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--lowdit-grid-gap-lg, 1.75rem);
+  }
+}
+
+/* S3 — menu de familles horizontal : remplace le sommaire latéral des pages
+   `layout: composition`. Il traverse toute la largeur de la carte. */
+.lowdit-composition-layout > .family-menu,
+.family-menu {
+  grid-column: 1 / -1;
+  min-inline-size: 0;
+}
+
+.family-menu__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin: 0;
+  padding: 0 0 0.35rem;
+  border-block-end: 1px solid color-mix(in srgb, var(--lowdit-night) 10%, transparent);
+  list-style: none;
+}
+
+.family-menu__list > li {
+  margin: 0;
+}
+
+.family-menu__list a {
+  display: inline-block;
+  padding: 0.4rem 0.6rem;
+  border-block-end: 2px solid transparent;
+  color: var(--lowdit-color-text);
+  font-size: 0.86rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.family-menu__list a:hover,
+.family-menu__list a:focus-visible {
+  border-block-end-color: var(--lowdit-sage, var(--lowdit-turquoise));
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.family-menu__list a[aria-current="true"] {
+  border-block-end-color: var(--lowdit-sage, var(--lowdit-turquoise));
+}
+
+.family-menu__list .family-menu__home {
+  font-weight: 700;
+}
+
+/* Pages `layout: product` d’une section à familles : même filet que les pages
+   `layout: composition`, aligné sur le corps. */
+.hub-shell__menu {
+  margin-block: var(--lowdit-space-4, 1rem) var(--lowdit-space-5, 1.5rem);
+}
+
+.product-family-menu {
+  margin-block: var(--lowdit-space-4, 1rem) 0;
+  padding-inline: max(3px, var(--lowdit-space-1, 0.25rem));
+}
+
+/* Sommaire de section sur mobile : une rangée qui défile horizontalement,
+   plutôt que 15 entrées empilées avant le titre de la page. */
+@media (max-width: 51.99rem) {
+  .doc-nav {
+    min-inline-size: 0;
+    max-inline-size: 100%;
+  }
+
+  .doc-nav > ul {
+    display: flex;
+    gap: 0.25rem;
+    overflow-x: auto;
+    padding-block-end: 0.35rem;
+    border-left: 0;
+    scrollbar-width: thin;
+  }
+
+  .doc-nav > ul > li {
+    flex: 0 0 auto;
+  }
+
+  .doc-nav > ul > li > a {
+    margin-left: 0;
+    padding: 0.4rem 0.6rem;
+    border-left: 0;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+
+  .doc-nav > ul > li > a:hover,
+  .doc-nav > ul > li > a[aria-current="page"] {
+    border-left-color: transparent;
+    border-bottom-color: var(--lowdit-turquoise);
+  }
+
+  .doc-nav ul ul {
+    display: none;
+  }
+}
+
+.lowdit-composition-layout > .lowdit-prev-next {
+  grid-column: 1 / -1;
+}

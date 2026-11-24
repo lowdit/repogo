@@ -3,7 +3,7 @@
 .lowdit-form {
   display: grid;
   gap: var(--lowdit-space-4);
-  max-width: var(--lowdit-content-narrow);
+  max-width: min(100%, 42rem);
 }
 
 /* Groupe sémantique — même rythme vertical que les champs racine du form. */
@@ -164,13 +164,34 @@
   color: var(--lowdit-color-text-muted);
 }
 
+/* Base des champs texte — largeur utile, bordure de composant tokenisée,
+   typographie héritée. Sans ce bloc, les contrôles natifs reprennent la
+   largeur du navigateur et cassent la colonne de formulaire. */
 .lowdit-input,
-.lowdit-field > input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]),
+.lowdit-field > input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
 .lowdit-field > textarea,
 .lowdit-field > select,
-.lowdit-form input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+.lowdit-form input:not([type="hidden"]):not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
 .lowdit-form textarea,
-.lowdit-form select,
+.lowdit-form select {
+  inline-size: 100%;
+  max-inline-size: 100%;
+  box-sizing: border-box;
+  min-block-size: 2.75rem;
+  padding: 0.6rem 0.7rem;
+  font: inherit;
+  line-height: 1.35;
+  color: var(--lowdit-color-text);
+  background: var(--lowdit-color-surface, #fff);
+  border: 1px solid var(--lowdit-color-border-component);
+  border-radius: var(--lowdit-radius-md, 8px);
+}
+
+.lowdit-form textarea,
+.lowdit-field > textarea {
+  min-block-size: 7rem;
+  resize: vertical;
+}
 
 .lowdit-input:disabled,
 .lowdit-form input:disabled,

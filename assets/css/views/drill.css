@@ -1,0 +1,52 @@
+/* Vue drill — Quizago : révision QCM, colonne étroite, confiance pédago */
+.lowdit--view-drill {
+  --view-accent: var(--lowdit-accent-quizago, var(--lowdit-violet));
+  --view-surface-page: var(--lowdit-cream);
+  --lowdit-main-max: 44rem;
+  --lowdit-quiz-max: 42rem;
+  background: var(--lowdit-cream);
+}
+
+.lowdit--view-drill .lowdit-page-bg {
+  background: var(--lowdit-cream);
+}
+
+.lowdit--view-drill .lowdit-page-bg::before {
+  opacity: 0.06;
+}
+
+.lowdit--view-drill .lowdit-page-bg::after {
+  display: none;
+}
+
+.lowdit--view-drill .lowdit-header {
+  border-bottom: 1px solid var(--lowdit-border-subtle);
+  background: var(--lowdit-white);
+}
+
+.lowdit--view-drill .lowdit-main {
+  max-width: var(--lowdit-main-max);
+}
+
+.lowdit--view-drill .lowdit-btn--primary {
+  background: var(--lowdit-night);
+  color: var(--lowdit-white);
+}
+
+.lowdit--view-drill .lowdit-btn--ghost {
+  border-color: var(--lowdit-accent-quizago, var(--lowdit-violet));
+  color: var(--lowdit-accent-quizago, var(--lowdit-violet));
+}
+
+/* Hors coque Minigo : page drill seule */
+body.quizago-standalone {
+  margin: 0;
+  font-family: var(--lowdit-font-body, system-ui, sans-serif);
+  line-height: var(--lowdit-line-body, 1.5);
+  background: var(--lowdit-cream, #f6f4ef);
+  color: var(--lowdit-night, #151d34);
+}
+
+body.quizago-standalone .lowdit-quiz-app {
+  padding: clamp(1rem, 4vw, 2.5rem);
+}

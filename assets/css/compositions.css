@@ -95,6 +95,87 @@
   padding-block: var(--lowdit-space-7);
 }
 
+/* --- Compositions Premium ----------------------------------------------- */
+
+.split-feature {
+  --lowdit-composition-gap: var(--lowdit-grid-gap-lg);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--lowdit-composition-gap);
+  align-items: center;
+}
+
+.split-feature[data-media="start"] > :first-child { order: 2; }
+.split-feature[data-media="start"] > :last-child { order: 1; }
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--lowdit-composition-columns, 3), minmax(0, 1fr));
+  gap: var(--lowdit-composition-gap, var(--lowdit-grid-gap));
+}
+
+.metric-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+  gap: var(--lowdit-composition-gap, var(--lowdit-grid-gap));
+  border-block: 1px solid var(--lowdit-composition-border, var(--lowdit-color-border));
+  padding-block: var(--lowdit-space-4);
+}
+
+.image-with-caption {
+  display: grid;
+  gap: var(--lowdit-space-2);
+}
+
+.image-with-caption img {
+  inline-size: 100%;
+  aspect-ratio: var(--lowdit-composition-media-ratio, 4 / 3);
+  object-fit: cover;
+  border-radius: var(--lowdit-composition-radius, var(--lowdit-radius-lg));
+}
+
+.comparison-board {
+  display: grid;
+  grid-template-columns: repeat(var(--lowdit-composition-columns, 3), minmax(0, 1fr));
+  gap: var(--lowdit-composition-gap, var(--lowdit-grid-gap));
+  align-items: start;
+}
+
+.editorial {
+  --lowdit-composition-gap: var(--lowdit-composition-gap-calm);
+  display: grid;
+  gap: var(--lowdit-composition-gap);
+}
+
+.split-feature[data-density="calm"],
+.feature-grid[data-density="calm"],
+.comparison-board[data-density="calm"] {
+  --lowdit-composition-gap: var(--lowdit-composition-gap-calm);
+}
+
+.split-feature[data-density="dense"],
+.feature-grid[data-density="dense"],
+.comparison-board[data-density="dense"] {
+  --lowdit-composition-gap: var(--lowdit-composition-gap-dense);
+}
+
+.editorial[data-density="immersive"] {
+  --lowdit-composition-gap: var(--lowdit-composition-gap-immersive);
+}
+
+@media (max-width: 48rem) {
+  .split-feature,
+  .feature-grid,
+  .comparison-board {
+    grid-template-columns: 1fr;
+  }
+
+  .split-feature[data-media="start"] > :first-child,
+  .split-feature[data-media="start"] > :last-child {
+    order: initial;
+  }
+}
+
 /* @scope est une amélioration de portée ; les sélecteurs classiques restent
    la base pour les moteurs qui ne l'implémentent pas encore. */
 @supports selector(:scope) {

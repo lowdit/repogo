@@ -24,7 +24,7 @@
   --lowdit-content-narrow: clamp(20rem, 16rem + 10vw, 42rem);
   --lowdit-content-default: clamp(36rem, 28rem + 18vw, 64rem);
   --lowdit-content-wide: clamp(48rem, 36rem + 24vw, 84rem);
-  --lowdit-content-full: clamp(56rem, 40rem + 28vw, 96rem);
+  --lowdit-content-full: clamp(60rem, 44rem + 30vw, 104rem);
 
   /* Alias historiques → échelle fluide (typography.css) */
   --lowdit-font-size-sm: var(--lowdit-type-sm);
@@ -40,6 +40,14 @@
   --lowdit-tracking-display: -0.015em;
   --lowdit-tracking-eyebrow: 0.06em;
   --lowdit-tracking-label: 0.04em;
+
+  /* Grammaire Premium : la densité varie par composition, jamais par valeur
+     magique dans un composant. « Calm » reste aéré sans trouer la grille :
+     space-8 (≈ 70 px) séparait trop les cartes dans une colonne de doc. */
+  --lowdit-composition-gap-calm: var(--lowdit-space-5);
+  --lowdit-composition-gap-balanced: var(--lowdit-space-4);
+  --lowdit-composition-gap-dense: var(--lowdit-space-3);
+  --lowdit-composition-gap-immersive: var(--lowdit-space-7);
 }
 
 .lowdit-grid-12 {
