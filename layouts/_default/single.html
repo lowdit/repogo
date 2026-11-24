@@ -12,12 +12,12 @@
   </nav>
   {{- end -}}
   <div class="repogo-article__body">
-  <header class="minigo-page-header">
-    <p class="minigo-hero__eyebrow">{{ with .Params.authors }}{{ delimit . " · " }}{{ end }}</p>
+  <header class="lowdit-page-header">
+    <p class="lowdit-hero__eyebrow">{{ with .Params.authors }}{{ delimit . " · " }}{{ end }}</p>
     <h1>{{ .Title }}</h1>
-    {{ with .Description }}<p class="minigo-desc">{{ . }}</p>{{ end }}
+    {{ with .Description }}<p class="lowdit-desc">{{ . }}</p>{{ end }}
     {{ if site.Params.lowdit.showDate | default true }}
-      {{- with partial "lowdit/page-date.html" . -}}<p class="minigo-desc">{{ . }}</p>{{- end -}}
+      {{- with partial "lowdit/page-date.html" . -}}<p class="lowdit-desc">{{ . }}</p>{{- end -}}
     {{ end }}
   </header>
   {{ partial "exports/links.html" . }}

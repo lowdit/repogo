@@ -1,9 +1,9 @@
 {{/* Galerie Repogo — dates récentes en premier (override Minigo ByTitle). */}}
-<div class="minigo-page-header pub-gallery__header">
+<div class="lowdit-page-header pub-gallery__header">
   <h1>{{ .Title }}</h1>
-  {{ with .Description }}<p class="minigo-desc">{{ . }}</p>{{ end }}
+  {{ with .Description }}<p class="lowdit-desc">{{ . }}</p>{{ end }}
 </div>
-{{ with .Content }}<div class="minigo-intro doc-body">{{ . }}</div>{{ end }}
+{{ with .Content }}<div class="lowdit-intro doc-body">{{ . }}</div>{{ end }}
 {{- $pages := .RegularPages.ByDate.Reverse -}}
 <section class="catalog-grid pub-gallery" aria-label="{{ .Title }}">
   {{- range $i, $p := $pages -}}

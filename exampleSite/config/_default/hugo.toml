@@ -2,11 +2,11 @@ baseURL = ""
 title = "Lowdit Press"
 defaultContentLanguage = "fr"
 
-# Dev/`hugo server` : thèmes résolus en local via `themes/` (symlinks).
-# La prod utilise `config/production/hugo.toml` (modules GitHub).
+# Modules résolus sur les dépôts locaux par bin/hugo.work (aussi pour hugo server).
+# La prod (config/production) garde les versions épinglées par go.mod.
 # Repogo d'abord : ses gabarits écran (TOC + corps d'article) priment,
 # Minigo fournit la coque et le reste des layouts.
-theme = ["repogo", "minigo"]
+theme = ["github.com/lowdit/repogo", "github.com/lowdit/minigo"]
 
 [outputs]
   home = ["HTML"]
@@ -39,3 +39,7 @@ theme = ["repogo", "minigo"]
 
 [markup.goldmark.renderer]
   unsafe = true
+
+[module]
+  # Espace de travail local : minigo, lowdit-kit et les modules du disque.
+  workspace = "../../bin/hugo.work"

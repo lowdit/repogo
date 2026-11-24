@@ -1,2 +1,4 @@
-# Production / CI : thèmes tirés comme modules Hugo depuis GitHub.
-theme = ["github.com/lowdit/repogo", "github.com/lowdit/minigo"]
+# Production / CI : mêmes modules que config/_default, versions épinglées par
+# go.mod (pas d'espace de travail local).
+[module]
+  workspace = "off"

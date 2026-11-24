@@ -38,9 +38,9 @@
           </header>
           {{- with .Description -}}<p class="pub-reader__summary">{{ . }}</p>{{- end -}}
           <p class="pub-reader__actions cluster">
-            <a class="minigo-btn minigo-btn--primary" href="{{ .RelPermalink }}">{{ i18n "home-read-online" | default "Continuer la lecture" }}</a>
+            <a class="lowdit-btn lowdit-btn--primary" href="{{ .RelPermalink }}">{{ i18n "home-read-online" | default "Continuer la lecture" }}</a>
             {{- with .OutputFormats.Get "print" -}}
-              <a class="minigo-btn minigo-btn--ghost" href="{{ .RelPermalink }}">{{ i18n "export-print" | default "Version imprimable" }}</a>
+              <a class="lowdit-btn lowdit-btn--ghost" href="{{ .RelPermalink }}">{{ i18n "export-print" | default "Version imprimable" }}</a>
             {{- end -}}
           </p>
           {{- $key := .RelPermalink -}}
@@ -110,7 +110,7 @@
         <div class="stack" data-space="1">
           <h3 class="pub-compositions-promo__heading">Édition numérique sobre</h3>
           <p>La vue <code>publisher</code> consomme <code>split-feature</code> : texte éditorial et couverture sans gadget.</p>
-          <a class="minigo-btn minigo-btn--primary" href="{{ with $sec }}{{ .RelPermalink }}{{ else }}/reports/{{ end }}">Ouvrir le catalogue</a>
+          <a class="lowdit-btn lowdit-btn--primary" href="{{ with $sec }}{{ .RelPermalink }}{{ else }}/reports/{{ end }}">Ouvrir le catalogue</a>
         </div>
         <figure class="image-with-caption">
           <img src="/images/demo/demo-1.svg" width="480" height="300" alt="" loading="lazy" decoding="async">
