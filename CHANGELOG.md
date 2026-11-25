@@ -9,6 +9,12 @@ reçoivent les sites qui suivent `main`. Politique :
 
 ### Cassé
 
+- **Retiré : `content/`** (`_index.md`). Hugo monte le contenu d'un
+  thème chez chaque site qui l'importe : ces pages arrivaient chez tous les
+  consommateurs ; il déclarait une sortie `pagejs` qui n'existe plus.
+  Où : un site qui comptait sur l'accueil ou la page d'erreur du module.
+  Migrer : écrire `content/_index.md` dans le site ; la page introuvable vient
+  désormais du kit (`404.html`).
 - **Plus de copies de la marque dans repogo** (jetons, base, composants, vues,
   partials de coque) : elles sont servies par `lowdit-kit`.
   Où : un site qui charge repogo **sans** `lowdit-kit` ni minigo.
