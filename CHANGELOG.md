@@ -23,6 +23,8 @@ reçoivent les sites qui suivent `main`. Politique :
 
 ### Ajouté
 
+- `layouts/index.html` : l'accueil éditorial (`home/publisher`) s'affiche
+  aussi sans minigo.
 - `exampleSite` fonctionne sans minigo : `theme = ["github.com/lowdit/repogo", "github.com/lowdit/lowdit-kit"]`.
 
 ## v0.5.1
