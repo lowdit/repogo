@@ -42,7 +42,9 @@ if [ -f "$SITE_DIR/go.mod" ]; then
   # garde les versions du go.mod (politique : lowtech-dev-method/docs/TAGS-MODULES-HUGO.md).
   if [ "${LOWDIT_MODULES:-follow}" = "follow" ]; then
     replaced="$(sed -n 's/^replace \([^ ]*\) =>.*/\1/p' "$SITE_DIR/go.mod")"
-    for mod in $(grep -oE 'github\.com/lowdit/[a-z0-9-]+' "$SITE_DIR/go.mod" | sort -u); do
+    # Tous les modules Lowdit du graphe, y compris ceux importés par un module
+    # (ex. lowdit-kit via minigo) : sinon Go retient leur dernier tag.
+    for mod in $( (cd "$SITE_DIR" && hugo mod graph 2>/dev/null; cat go.mod) | grep -oE 'github\.com/lowdit/[a-z0-9-]+' | sort -u); do
       printf '%s\n' "$replaced" | grep -qx "$mod" && continue
       echo "→ $mod@HEAD"
       (cd "$SITE_DIR" && hugo mod get "$mod@HEAD")
