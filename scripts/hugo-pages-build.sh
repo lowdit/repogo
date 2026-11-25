@@ -37,6 +37,17 @@ fi
 echo "→ Hugo site directory: $SITE_DIR"
 
 if [ -f "$SITE_DIR/go.mod" ]; then
+  # Nos sites suivent la dernière version des modules Lowdit (branche par
+  # défaut) : ils sont le test de compatibilité permanent. LOWDIT_MODULES=pinned
+  # garde les versions du go.mod (politique : lowtech-dev-method/docs/TAGS-MODULES-HUGO.md).
+  if [ "${LOWDIT_MODULES:-follow}" = "follow" ]; then
+    replaced="$(sed -n 's/^replace \([^ ]*\) =>.*/\1/p' "$SITE_DIR/go.mod")"
+    for mod in $(grep -oE 'github\.com/lowdit/[a-z0-9-]+' "$SITE_DIR/go.mod" | sort -u); do
+      printf '%s\n' "$replaced" | grep -qx "$mod" && continue
+      echo "→ $mod@HEAD"
+      (cd "$SITE_DIR" && hugo mod get "$mod@HEAD")
+    done
+  fi
   (cd "$SITE_DIR" && hugo mod get ./...)
 fi
 
