@@ -29,6 +29,8 @@ reçoivent les sites qui suivent `main`. Politique :
 
 ### Ajouté
 
+- Feuille du modèle `assets/css/views/publisher.css`, venue de `lowdit-kit` (même
+  chemin : transparent).
 - `layouts/index.html` : l'accueil éditorial (`home/publisher`) s'affiche
   aussi sans minigo.
 - `exampleSite` fonctionne sans minigo : `theme = ["github.com/lowdit/repogo", "github.com/lowdit/lowdit-kit"]`.
