@@ -1,7 +1,7 @@
 /* Vue publisher — UI produit Repogo (catalogue + lecteur, flat éditorial) */
 .lowdit--view-publisher {
   --view-accent: var(--lowdit-accent-repogo);
-  --view-surface-page: var(--lowdit-surface-page, var(--lowdit-cream));
+  --view-surface-page: var(--lowdit-surface-page);
   --catalog-accent: var(--lowdit-accent-repogo);
   --lowdit-main-max: var(--lowdit-content-wide);
   --lowdit-surface-page: var(--view-surface-page);
@@ -17,16 +17,16 @@
 }
 
 body.lowdit--view-publisher[data-surface="cream"] {
-  --view-surface-page: var(--lowdit-cream);
+  --view-surface-page: var(--lowdit-color-background);
 }
 
 body.lowdit--view-publisher[data-surface="white"] {
-  --view-surface-page: var(--lowdit-white);
+  --view-surface-page: var(--lowdit-color-surface);
 }
 
 body.lowdit--view-publisher[data-surface="night"] {
-  --view-surface-page: var(--lowdit-night);
-  --lowdit-color-link: var(--lowdit-cream);
+  --view-surface-page: var(--lowdit-color-text);
+  --lowdit-color-link: var(--lowdit-color-background);
 }
 
 .lowdit--view-publisher .lowdit-product .zone-slots {
@@ -35,24 +35,24 @@ body.lowdit--view-publisher[data-surface="night"] {
 
 .lowdit--view-publisher .lowdit-product .zone-slot--aside {
   font-size: var(--lowdit-text-sm, 0.9375rem);
-  border-inline-start: 3px solid var(--lowdit-charte-accent, var(--lowdit-repogo));
+  border-inline-start: 3px solid var(--lowdit-charte-accent);
   padding-inline-start: var(--lowdit-space-3, 1rem);
 }
 
 .lowdit--view-publisher .lowdit-header {
-  background: var(--lowdit-night);
+  background: var(--lowdit-color-text);
   border-bottom: none;
   box-shadow: none;
 }
 
 .lowdit--view-publisher .lowdit-logo,
 .lowdit--view-publisher .lowdit-nav a {
-  color: var(--lowdit-cream);
+  color: var(--lowdit-color-background);
 }
 
 .lowdit--view-publisher .lowdit-nav a:hover,
 .lowdit--view-publisher .lowdit-nav a[aria-current="page"] {
-  color: var(--lowdit-white);
+  color: var(--lowdit-color-surface);
   text-decoration: underline;
   text-underline-offset: 0.2em;
 }
@@ -97,10 +97,10 @@ body:has(.repogo-article) {
   margin-bottom: var(--lowdit-space-6);
   background: linear-gradient(
     145deg,
-    var(--lowdit-white) 0%,
-    color-mix(in srgb, var(--lowdit-repogo) 8%, var(--lowdit-white)) 100%
+    var(--lowdit-color-surface) 0%,
+    color-mix(in srgb, var(--lowdit-accent-repogo) 8%, var(--lowdit-color-surface)) 100%
   );
-  box-shadow: 0 1.25rem 2.75rem color-mix(in srgb, var(--lowdit-night) 10%, transparent);
+  box-shadow: 0 1.25rem 2.75rem color-mix(in srgb, var(--lowdit-color-text) 10%, transparent);
   border: 1px solid var(--lowdit-border-strong);
   border-radius: var(--lowdit-radius-lg);
 }
@@ -118,13 +118,13 @@ body:has(.repogo-article) {
   font-size: clamp(1.35rem, 2.5vw, 1.75rem);
   line-height: var(--lowdit-line-tight);
   margin: 0;
-  color: var(--lowdit-night);
+  color: var(--lowdit-color-text);
   max-width: 28ch;
 }
 
 .pub-workspace__lead {
   margin: var(--lowdit-space-2) 0 0;
-  color: var(--lowdit-muted);
+  color: var(--lowdit-color-text-subtle);
   max-width: 42em;
   font-size: var(--lowdit-font-size-lead);
 }
@@ -135,9 +135,9 @@ body:has(.repogo-article) {
   font-weight: 700;
   letter-spacing: var(--lowdit-tracking-label, 0.04em);
   text-transform: uppercase;
-  color: var(--lowdit-night);
+  color: var(--lowdit-color-text);
   padding: var(--lowdit-space-2) var(--lowdit-space-4);
-  background: color-mix(in srgb, var(--lowdit-accent-repogo) 14%, var(--lowdit-white));
+  background: color-mix(in srgb, var(--lowdit-accent-repogo) 14%, var(--lowdit-color-surface));
   border: 1px solid color-mix(in srgb, var(--lowdit-accent-repogo) 28%, transparent);
   border-radius: var(--lowdit-radius-xl, 22px);
 }
@@ -156,7 +156,7 @@ body:has(.repogo-article) {
 
 /* ——— Catalogue (liste dense) ——— */
 .pub-catalog {
-  background: var(--lowdit-white);
+  background: var(--lowdit-color-surface);
   border: 1px solid var(--lowdit-border-subtle);
   border-radius: var(--lowdit-radius-md);
   padding: var(--lowdit-space-4);
@@ -167,7 +167,7 @@ body:has(.repogo-article) {
   text-transform: uppercase;
   letter-spacing: var(--lowdit-tracking-label, 0.04em);
   margin: 0 0 var(--lowdit-space-3);
-  color: var(--lowdit-night);
+  color: var(--lowdit-color-text);
 }
 
 .pub-catalog__list {
@@ -181,7 +181,7 @@ body:has(.repogo-article) {
 }
 
 .pub-catalog__item--current .pub-catalog__link {
-  background: color-mix(in srgb, var(--lowdit-accent-repogo) 8%, var(--lowdit-white));
+  background: color-mix(in srgb, var(--lowdit-accent-repogo) 8%, var(--lowdit-color-surface));
   border-left: 3px solid var(--lowdit-accent-repogo);
 }
 
@@ -195,7 +195,7 @@ body:has(.repogo-article) {
 }
 
 .pub-catalog__link:hover {
-  background: color-mix(in srgb, var(--lowdit-night) 4%, var(--lowdit-white));
+  background: color-mix(in srgb, var(--lowdit-color-text) 4%, var(--lowdit-color-surface));
 }
 
 .pub-catalog__link:focus-visible {
@@ -210,8 +210,8 @@ body:has(.repogo-article) {
   border-radius: var(--lowdit-radius-sm);
   background: linear-gradient(
     145deg,
-    color-mix(in srgb, var(--pub-accent, var(--lowdit-accent-repogo)) 70%, var(--lowdit-night)),
-    var(--lowdit-night)
+    color-mix(in srgb, var(--pub-accent, var(--lowdit-accent-repogo)) 70%, var(--lowdit-color-text)),
+    var(--lowdit-color-text)
   );
   border: 1px solid var(--lowdit-border-subtle);
 }
@@ -226,12 +226,12 @@ body:has(.repogo-article) {
 .pub-catalog__name {
   font-weight: 600;
   font-size: 0.95rem;
-  color: var(--lowdit-night);
+  color: var(--lowdit-color-text);
 }
 
 .pub-catalog__date {
   font-size: 0.8rem;
-  color: var(--lowdit-muted);
+  color: var(--lowdit-color-text-subtle);
 }
 
 .pub-catalog__date time {
@@ -240,7 +240,7 @@ body:has(.repogo-article) {
 
 .pub-catalog__desc {
   font-size: 0.8rem;
-  color: var(--lowdit-muted);
+  color: var(--lowdit-color-text-subtle);
   line-height: 1.35;
 }
 
@@ -257,7 +257,7 @@ body:has(.repogo-article) {
 /* ——— Lecteur (dossier ouvert) ——— */
 .pub-reader {
   position: relative;
-  background: var(--lowdit-white);
+  background: var(--lowdit-color-surface);
   border: 1px solid var(--lowdit-border-strong);
   border-radius: var(--lowdit-radius-lg);
   padding: var(--lowdit-space-6);
@@ -288,14 +288,14 @@ body:has(.repogo-article) {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: var(--lowdit-tracking-label, 0.04em);
-  color: var(--lowdit-muted);
+  color: var(--lowdit-color-text-subtle);
   margin: 0 0 var(--lowdit-space-2);
 }
 
 .pub-reader__head h2 {
   font-size: clamp(1.25rem, 2.2vw, 1.65rem);
   margin: 0 0 var(--lowdit-space-2);
-  color: var(--lowdit-night);
+  color: var(--lowdit-color-text);
   max-width: 22ch;
 }
 
@@ -303,7 +303,7 @@ body:has(.repogo-article) {
 .pub-reader__date {
   margin: 0 0 var(--lowdit-space-1);
   font-size: var(--lowdit-font-size-sm);
-  color: var(--lowdit-muted);
+  color: var(--lowdit-color-text-subtle);
 }
 
 .pub-reader__summary {
@@ -320,13 +320,13 @@ body:has(.repogo-article) {
 }
 
 .lowdit--view-publisher .lowdit-btn--primary {
-  background: var(--lowdit-night);
-  color: var(--lowdit-white);
-  border-color: var(--lowdit-night);
+  background: var(--lowdit-color-text);
+  color: var(--lowdit-color-surface);
+  border-color: var(--lowdit-color-text);
 }
 
 .lowdit--view-publisher .lowdit-btn--primary:hover {
-  background: var(--lowdit-color-surface, var(--lowdit-white));
+  background: var(--lowdit-color-surface);
   color: var(--lowdit-accent-repogo);
   border-color: var(--lowdit-accent-repogo);
   box-shadow: inset 0 0 0 1px var(--lowdit-accent-repogo);
@@ -340,14 +340,14 @@ body:has(.repogo-article) {
 /* ——— Boutons d'export (« version imprimable »…) bien visibles ——— */
 .lowdit--view-publisher .lowdit-exports a {
   padding: 0.55rem 1rem;
-  background: var(--lowdit-white);
+  background: var(--lowdit-color-surface);
   border: 1px solid var(--lowdit-accent-repogo);
   color: var(--lowdit-accent-repogo);
   font-weight: 600;
 }
 
 .lowdit--view-publisher .lowdit-exports a:hover {
-  background: color-mix(in srgb, var(--lowdit-accent-repogo) 12%, var(--lowdit-white));
+  background: color-mix(in srgb, var(--lowdit-accent-repogo) 12%, var(--lowdit-color-surface));
   border-color: var(--lowdit-accent-repogo);
 }
 
@@ -355,12 +355,12 @@ body:has(.repogo-article) {
 .lowdit--view-publisher .lowdit-exports a:first-child {
   background: var(--lowdit-accent-repogo);
   border-color: var(--lowdit-accent-repogo);
-  color: var(--lowdit-white);
+  color: var(--lowdit-color-surface);
 }
 
 .lowdit--view-publisher .lowdit-exports a:first-child:hover {
-  background: var(--lowdit-night);
-  border-color: var(--lowdit-night);
+  background: var(--lowdit-color-text);
+  border-color: var(--lowdit-color-text);
 }
 
 /* ——— Lecture rapport (Repogo single) ——— */
@@ -380,7 +380,7 @@ body:has(.repogo-article) {
     top: var(--lowdit-space-4);
     margin: 0;
     padding: var(--lowdit-space-4);
-    background: var(--lowdit-white);
+    background: var(--lowdit-color-surface);
     border: 1px solid var(--lowdit-border-subtle);
     border-radius: var(--lowdit-radius-md);
   }
@@ -394,7 +394,7 @@ body:has(.repogo-article) {
 
 /* Lecture d'un rapport : corps sur une surface distincte de la page. */
 .lowdit--view-publisher .repogo-article__body {
-  background: var(--lowdit-white);
+  background: var(--lowdit-color-surface);
   border: 1px solid var(--lowdit-border-subtle);
   border-radius: var(--lowdit-radius-lg);
   padding: var(--lowdit-space-6);
@@ -411,14 +411,14 @@ body:has(.repogo-article) {
 .pub-workspace__note {
   margin-top: var(--lowdit-space-4);
   font-size: var(--lowdit-font-size-sm);
-  color: var(--lowdit-muted);
+  color: var(--lowdit-color-text-subtle);
 }
 
 /* ——— Épinglés : sélection dans la zone centrale (pas une liste à part) ——— */
 .pub-pinned {
   margin-top: var(--lowdit-space-5);
   padding: var(--lowdit-space-4);
-  background: color-mix(in srgb, var(--lowdit-accent-repogo) 6%, var(--lowdit-white));
+  background: color-mix(in srgb, var(--lowdit-accent-repogo) 6%, var(--lowdit-color-surface));
   border: 1px solid var(--lowdit-border-subtle);
   border-radius: var(--lowdit-radius-md);
 }
@@ -428,7 +428,7 @@ body:has(.repogo-article) {
   text-transform: uppercase;
   letter-spacing: var(--lowdit-tracking-label, 0.04em);
   margin: 0 0 var(--lowdit-space-3);
-  color: var(--lowdit-night);
+  color: var(--lowdit-color-text);
 }
 
 .pub-pinned__list {
@@ -449,19 +449,19 @@ body:has(.repogo-article) {
 }
 
 .pub-pinned__link:hover {
-  background: color-mix(in srgb, var(--lowdit-night) 4%, var(--lowdit-white));
+  background: color-mix(in srgb, var(--lowdit-color-text) 4%, var(--lowdit-color-surface));
   border-left-color: var(--lowdit-accent-repogo);
 }
 
 .pub-pinned__name {
   font-weight: 600;
-  color: var(--lowdit-night);
+  color: var(--lowdit-color-text);
 }
 
 .pub-pinned__desc {
   display: block;
   font-size: 0.8rem;
-  color: var(--lowdit-muted);
+  color: var(--lowdit-color-text-subtle);
   line-height: 1.35;
 }
 
@@ -490,17 +490,17 @@ body:has(.repogo-article) {
 }
 
 .lowdit--view-publisher .lowdit-logo__mark {
-  background: color-mix(in srgb, var(--lowdit-white) 12%, transparent);
-  border-color: color-mix(in srgb, var(--lowdit-cream) 35%, transparent);
+  background: color-mix(in srgb, var(--lowdit-color-surface) 12%, transparent);
+  border-color: color-mix(in srgb, var(--lowdit-color-background) 35%, transparent);
   box-shadow: none;
 }
 
 /* Accents par vue */
 .lowdit--view-publisher {
-  --lowdit-charte-accent: var(--lowdit-repogo, #2f6bff);
+  --lowdit-charte-accent: var(--lowdit-accent-repogo);
   --lowdit-charte-gradient: linear-gradient(
     165deg,
-    var(--lowdit-repogo) 0%,
-    var(--lowdit-night) 100%
+    var(--lowdit-accent-repogo) 0%,
+    var(--lowdit-color-text) 100%
   );
 }

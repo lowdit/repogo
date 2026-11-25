@@ -36,6 +36,11 @@ reçoivent les sites qui suivent `main`. Politique :
   aussi sans minigo.
 - `exampleSite` fonctionne sans minigo : `theme = ["github.com/lowdit/repogo", "github.com/lowdit/lowdit-kit"]`.
 
+### Corrigé
+
+- `publisher.css` lit les rôles du kit (`--lowdit-color-*`) au lieu de la palette
+  Lowdit : une marque déclinée s'y applique. Même rendu pour Lowdit.
+
 ## v0.5.1
 
 Dernière version distribuée avec des copies de la marque Brand. Historique antérieur : `git log`.
