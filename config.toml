@@ -22,3 +22,8 @@
   notAlternative = false
   permalinkable = true
   isHTML = true
+
+# Modèle servi par repogo : accueil éditorial et feuille du lecteur/catalogue.
+[params.lowdit.models.publisher]
+  home = "home/publisher.html"
+  sheet = "publisher"

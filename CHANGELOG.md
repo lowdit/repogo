@@ -29,6 +29,7 @@ reçoivent les sites qui suivent `main`. Politique :
 
 ### Ajouté
 
+- Modèle `publisher` déclaré (`[params.lowdit.models.publisher]`).
 - Feuille du modèle `assets/css/views/publisher.css`, venue de `lowdit-kit` (même
   chemin : transparent).
 - `layouts/index.html` : l'accueil éditorial (`home/publisher`) s'affiche
