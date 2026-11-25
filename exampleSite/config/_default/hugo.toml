@@ -6,7 +6,7 @@ defaultContentLanguage = "fr"
 # La prod (config/production) garde les versions épinglées par go.mod.
 # Repogo d'abord : ses gabarits écran (TOC + corps d'article) priment,
 # Minigo fournit la coque et le reste des layouts.
-theme = ["github.com/lowdit/repogo", "github.com/lowdit/minigo"]
+theme = ["github.com/lowdit/repogo", "github.com/lowdit/lowdit-kit"]
 
 [outputs]
   home = ["HTML"]
@@ -41,5 +41,5 @@ theme = ["github.com/lowdit/repogo", "github.com/lowdit/minigo"]
   unsafe = true
 
 [module]
-  # Espace de travail local : minigo, lowdit-kit et les modules du disque.
+  # Espace de travail local : lowdit-kit et les modules du disque.
   workspace = "../../bin/hugo.work"
